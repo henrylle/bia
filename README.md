@@ -2,5 +2,5 @@
 
 ### Período do evento: 04 a 07 de Outubro/2021 (Online e ao vivo às 20h)
 
-[>> Página de Inscriação do evento](https://pages.oregonead.com.br/bootcamp-imersao-aws)
+[>> Página de Inscrição do evento](https://pages.oregonead.com.br/bootcamp-imersao-aws)
 

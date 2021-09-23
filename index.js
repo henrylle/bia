@@ -11,7 +11,7 @@ var app = express();
 app.set("view engine", "ejs");
 
 // set views for error and 404 pages
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "app", "views"));
 
 // define a custom res.message() method
 // which stores messages in the session
@@ -28,7 +28,7 @@ app.response.message = function (msg) {
 app.use(logger("dev"));
 
 // serve static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "app", "public")));
 
 // session support
 app.use(

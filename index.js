@@ -6,13 +6,6 @@ var methodOverride = require("method-override");
 
 var app = express();
 
-// set our default template engine to "ejs"
-// which prevents the need for using file extensions
-app.set("view engine", "ejs");
-
-// set views for error and 404 pages
-app.set("views", path.join(__dirname, "app", "views"));
-
 // define a custom res.message() method
 // which stores messages in the session
 app.response.message = function (msg) {
@@ -29,6 +22,7 @@ app.use(logger("dev"));
 
 // serve static files
 app.use(express.static(path.join(__dirname, "app", "public")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 // session support
 app.use(

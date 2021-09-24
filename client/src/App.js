@@ -21,7 +21,7 @@ function App() {
 
   //Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:5000/tasks");
+    const res = await fetch("api/tarefas");
     const data = await res.json();
     return data;
   };

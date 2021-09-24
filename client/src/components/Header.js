@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import Button from "./Button";
 
@@ -19,7 +18,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "Meu titulo bacana",
+  title: "BIA 2022",
 };
 
 export default Header;

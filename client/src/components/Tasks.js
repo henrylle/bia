@@ -5,7 +5,7 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
     <>
       {tasks.map((task) => (
         <Task
-          key={task.id}
+          key={task.uuid}
           task={task}
           onDelete={onDelete}
           onToggle={onToggle}

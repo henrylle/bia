@@ -19,43 +19,50 @@ function App() {
     getTasks();
   }, []);
 
-  //Fetch Tasks
+  //Listar Tarefas
   const fetchTasks = async () => {
-    const res = await fetch("api/tarefas");
+    const res = await fetch("http://localhost:8080/api/tarefas");
+    console.log(res);
     const data = await res.json();
     return data;
   };
 
-  //Fetch Task
-  const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+  //Listar Tarefa
+  const fetchTask = async (uuid) => {
+    const res = await fetch(`http://localhost:8080/api/tarefas/${uuid}`);
     const data = await res.json();
     return data;
   };
 
-  //Toggle Reminder
-  const toggleReminder = async (id) => {
-    const taskToToggle = await fetchTask(id);
-    const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+  //Alternar Importante
+  const toggleReminder = async (uuid) => {
+    const taskToToggle = await fetchTask(uuid);
+    const updatedTask = {
+      ...taskToToggle,
+      importante: !taskToToggle.importante,
+    };
 
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(updatedTask),
-    });
+    const res = await fetch(
+      `http://localhost:8080/api/tarefas/update_priority/${uuid}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      }
+    );
     const data = await res.json();
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
+        task.uuid === uuid ? { ...task, importante: data.importante } : task
       )
     );
   };
 
-  //Add Task
+  //Adicionar Tarefa
   const addTask = async (task) => {
-    const res = await fetch("http://localhost:5000/tasks", {
+    const res = await fetch("http://localhost:8080/api/tarefas", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -64,16 +71,14 @@ function App() {
     });
     const data = await res.json();
     setTasks([...tasks, data]);
-
-    // const id = Math.floor(Math.random() * 10000) + 1;
-    // const newTask = { id, ...task };
-    // setTasks([...tasks, newTask]);
   };
 
-  //Delete Task
-  const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
-    setTasks(tasks.filter((task) => task.id !== id));
+  //Remove tarefa
+  const deleteTask = async (uuid) => {
+    await fetch(`http://localhost:8080/api/tarefas/${uuid}`, {
+      method: "DELETE",
+    });
+    setTasks(tasks.filter((task) => task.uuid !== uuid));
   };
 
   return (
@@ -97,7 +102,7 @@ function App() {
                   onToggle={toggleReminder}
                 />
               ) : (
-                "No Tasks to Show"
+                "Nenhuma tarefa por aqui"
               )}
             </>
           )}

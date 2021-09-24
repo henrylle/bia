@@ -13,9 +13,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      data_atividade: {
+      dia_atividade: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       importante: {
         allowNull: true,

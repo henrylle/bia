@@ -1,55 +1,55 @@
 import { useState } from "react";
 
 const AddTask = ({ onAdd }) => {
-  const [title, setTitle] = useState("");
-  const [day, setDay] = useState("");
-  const [reminder, setReminder] = useState(false);
+  const [titulo, setTitulo] = useState("");
+  const [dia, setDia] = useState("");
+  const [importante, setImportante] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (!title) {
-      alert("Please add a task");
+    if (!titulo) {
+      alert("Por favor, adicione uma tarefa");
       return;
     }
 
-    onAdd({ title, day, reminder });
+    onAdd({ titulo, dia, importante });
 
-    setTitle("");
-    setDay("");
-    setReminder(false);
+    setTitulo("");
+    setDia("");
+    setImportante(false);
   };
 
   return (
     <form className="add-form" onSubmit={onSubmit}>
       <div className="form-control">
-        <label>Task</label>
+        <label>Tarefa</label>
         <input
           type="text"
-          placeholder="Add task"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Adicionar Tarefa"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
         />
       </div>
       <div className="form-control">
-        <label>Day & Time</label>
+        <label>Dia</label>
         <input
           type="text"
-          placeholder="Add Day & Time"
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
+          placeholder="Adicione o Dia"
+          value={dia}
+          onChange={(e) => setDia(e.target.value)}
         />
       </div>
       <div className="form-control form-control-check">
-        <label>Set Reminder</label>
+        <label>Importante?</label>
         <input
           type="checkbox"
-          checked={reminder}
-          value={reminder}
-          onChange={(e) => setReminder(e.currentTarget.checked)}
+          checked={importante}
+          value={importante}
+          onChange={(e) => setImportante(e.currentTarget.checked)}
         />
       </div>
-      <input type="submit" value="Save Task" className="btn btn-block" />
+      <input type="submit" value="Salvar Tarefa" className="btn btn-block" />
     </form>
   );
 };

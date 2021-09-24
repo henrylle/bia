@@ -1,7 +1,9 @@
 const express = require("express");
+var cors = require("cors");
 var path = require("path");
 var logger = require("morgan");
 const config = require("config");
+var bodyParser = require("body-parser");
 
 module.exports = () => {
   const app = express();
@@ -14,6 +16,9 @@ module.exports = () => {
 
   // parse request bodies (req.body)
   app.use(express.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+
+  app.use(cors());
 
   require("../api/routes/tarefas")(app);
 

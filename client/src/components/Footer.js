@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer>
       <p>Copyright Oregon EAD 2021</p>
-      <Link to="/about">About</Link>
+      <Link to="/about">Sobre o BIA</Link>
     </footer>
   );
 };

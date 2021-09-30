@@ -9,6 +9,7 @@ import About from "./components/About";
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
   useEffect(() => {
     const getTasks = async () => {
@@ -21,7 +22,7 @@ function App() {
 
   //Listar Tarefas
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:8080/api/tarefas");
+    const res = await fetch(`${apiUrl}/api/tarefas`);
     console.log(res);
     const data = await res.json();
     return data;
@@ -29,7 +30,7 @@ function App() {
 
   //Listar Tarefa
   const fetchTask = async (uuid) => {
-    const res = await fetch(`http://localhost:8080/api/tarefas/${uuid}`);
+    const res = await fetch(`${apiUrl}/api/tarefas/${uuid}`);
     const data = await res.json();
     return data;
   };
@@ -42,16 +43,13 @@ function App() {
       importante: !taskToToggle.importante,
     };
 
-    const res = await fetch(
-      `http://localhost:8080/api/tarefas/update_priority/${uuid}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(updatedTask),
-      }
-    );
+    const res = await fetch(`${apiUrl}/api/tarefas/update_priority/${uuid}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(updatedTask),
+    });
     const data = await res.json();
     setTasks(
       tasks.map((task) =>
@@ -62,7 +60,7 @@ function App() {
 
   //Adicionar Tarefa
   const addTask = async (task) => {
-    const res = await fetch("http://localhost:8080/api/tarefas", {
+    const res = await fetch(`${apiUrl}/api/tarefas`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -73,9 +71,9 @@ function App() {
     setTasks([...tasks, data]);
   };
 
-  //Remove tarefa
+  //Remover tarefa
   const deleteTask = async (uuid) => {
-    await fetch(`http://localhost:8080/api/tarefas/${uuid}`, {
+    await fetch(`${apiUrl}/api/tarefas/${uuid}`, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task.uuid !== uuid));

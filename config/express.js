@@ -1,7 +1,6 @@
 const express = require("express");
 var cors = require("cors");
 var path = require("path");
-var logger = require("morgan");
 const config = require("config");
 var bodyParser = require("body-parser");
 

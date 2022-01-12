@@ -1,7 +1,7 @@
 {
   "name": "bia",
-  "version": "1.0.0",
-  "description": "### Período do evento: 04 a 07 de Outubro/2021 (Online e ao vivo às 20h)",
+  "version": "1.0.1",
+  "description": "### Período do evento: 17 a 20 de Janeiro/2022 (Online e ao vivo às 20h)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

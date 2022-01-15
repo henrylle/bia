@@ -10,11 +10,7 @@ RUN npm install
 
 COPY . .
 
-WORKDIR /usr/src/app/client
-
-RUN REACT_APP_API_URL=http://localhost:3001 npm run build
-
-WORKDIR /usr/src/app
+RUN REACT_APP_API_URL=http://localhost:3001 npm run build --prefix client
 
 RUN mv client/build build
 

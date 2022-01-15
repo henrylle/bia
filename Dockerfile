@@ -1,12 +1,11 @@
 FROM node:14
 
-RUN npm install -g npm@latest
-
+RUN npm install -g npm@latest --loglevel=error
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --loglevel=error
 
 COPY . .
 

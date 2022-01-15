@@ -11,6 +11,7 @@ services:
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
+      EMAIL_ALUNO: "henryllemaia@gmail.com"
   database:
     image: postgres:10.17
     environment:

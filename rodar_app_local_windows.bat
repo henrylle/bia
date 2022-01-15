@@ -1,7 +1,5 @@
 docker-compose up -d database
-npm install
-cd client
-npm run build
-cd ..
-npx sequelize db:migrate
+call npm install --loglevel=error
+call npm run build --prefix client --loglevel=error
+call npx sequelize db:migrate
 npm start

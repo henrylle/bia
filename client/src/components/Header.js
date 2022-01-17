@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Button from "./Button";
 
-const Header = ({ title, onAdd, showAdd }) => {
+const Header = ({ title, onAdd, showAdd, emailAluno }) => {
   const location = useLocation();
   return (
     <header className="header">

@@ -20,6 +20,8 @@ module.exports = () => {
   app.use(cors());
 
   require("../api/routes/tarefas")(app);
+  require("../api/routes/eco")(app);
+  require("../api/routes/aluno")(app);
 
   return app;
 };

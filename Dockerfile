@@ -1,6 +1,7 @@
 FROM node:14
 
 RUN npm install -g npm@latest --loglevel=error
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./

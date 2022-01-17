@@ -20,6 +20,12 @@ function App() {
     getTasks();
   }, []);
 
+  const emailAluno = async () => {
+    const res = await fetch(`${apiUrl}/api/aluno`);
+    console.log(res);
+    const data = await res.json();
+    return data;
+  };
   //Listar Tarefas
   const fetchTasks = async () => {
     const res = await fetch(`${apiUrl}/api/tarefas`);
@@ -85,6 +91,7 @@ function App() {
         <Header
           onAdd={() => setShowAddTask(!showAddTask)}
           showAdd={showAddTask}
+          emailAluno={emailAluno}
         />
 
         <Route

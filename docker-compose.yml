@@ -20,3 +20,7 @@ services:
       - "POSTGRES_DB=bia"
     ports:
       - 5433:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:

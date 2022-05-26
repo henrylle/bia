@@ -1,7 +1,7 @@
 {
   "name": "bia",
   "version": "1.0.1",
-  "description": "### Período do evento: 17 a 20 de Janeiro/2022 (Online e ao vivo às 20h)",
+  "description": "### Período do evento: 02 a 05 de Maio/2022 (Online e ao vivo às 20h)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -37,7 +37,8 @@
     "react-icons": "^4.2.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "sequelize": "^6.6.5"
   },
   "eslintConfig": {
     "extends": [
@@ -45,7 +46,6 @@
     ]
   },
   "devDependencies": {
-    "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0"
   }
 }

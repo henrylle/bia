@@ -1,0 +1,25 @@
+version: "3"
+services:
+  server:
+    build: .
+    ports:
+      - 3001:8080
+    links:
+      - database
+    environment:
+      DB_USER: postgres
+      DB_PWD: postgres
+      DB_HOST: database
+      DB_PORT: 5432
+  database:
+    image: postgres:10.17
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_DB=bia"
+    ports:
+      - 5433:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+volumes:
+  db:

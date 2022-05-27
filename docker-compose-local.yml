@@ -10,7 +10,7 @@ services:
       DB_USER: postgres
       DB_PWD: postgres
       DB_HOST: database
-      DB_PORT: 5432
+      DB_PORT: 5433
   database:
     image: postgres:10.17
     environment:

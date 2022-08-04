@@ -1,6 +1,6 @@
 FROM node:14-slim
 
-RUN npm install --location=global npm@latest --loglevel=error
+RUN npm install -g npm@latest --loglevel=error
 WORKDIR /usr/src/app
 
 COPY package*.json ./

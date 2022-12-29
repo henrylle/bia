@@ -2,8 +2,7 @@
 
 ### Período do evento: 16 a 22 de Janeiro/2023 (Online e ao vivo às 20h)
 
-[>> Página de Inscrição do evento](https://inscricao.imersaoaws.com.br)
-
+[>> Página de Inscrição do evento](https://org.imersaoaws.com.br/github/link/readme)
 
 #### Para rodar as migrations no container ####
 ```

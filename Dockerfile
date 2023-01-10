@@ -1,4 +1,4 @@
-FROM node:16-slim
+FROM node:18-slim
 
 RUN npm install -g npm@latest --loglevel=error
 WORKDIR /usr/src/app

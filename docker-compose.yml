@@ -12,7 +12,7 @@ services:
       DB_HOST: database
       DB_PORT: 5432
   database:
-    image: postgres:10.17
+    image: postgres:13.7
     environment:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=postgres"

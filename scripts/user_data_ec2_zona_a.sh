@@ -1,10 +1,12 @@
+#!/bin/bash
+
 #Instalar Docker e Git
 sudo yum update -y
 sudo yum install git -y
 sudo yum install docker -y
 sudo usermod -a -G docker ec2-user
 id ec2-user
-newgrp docker
+sudo newgrp docker
 
 
 #Instalar docker-compose

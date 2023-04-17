@@ -1,4 +1,4 @@
-role_name="role-acess-ssm"
+role_name="role-acesso-ssm"
 policy_name="AmazonSSMManagedInstanceCore"
 
 aws iam create-role --role-name $role_name --assume-role-policy-document \

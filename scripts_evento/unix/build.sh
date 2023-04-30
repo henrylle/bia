@@ -1,4 +1,5 @@
-aws ecr get-login-password --region us-east-1 --profile [SEU_PROFILE] | docker login --username AWS --password-stdin [SEU_ECR]
+ECR_REPOSITORY="SEU_REPOSITORIO"
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REPOSITORY
 docker build -t bia .
-docker tag bia:latest [SEU_ECR]/bia:latest
-docker push [SEU_ECR]/bia:latest
+docker tag bia:latest $ECR_REPOSITORY/bia:latest
+docker push $ECR_REPOSITORY/bia:latest

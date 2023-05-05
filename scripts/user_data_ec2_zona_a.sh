@@ -6,6 +6,7 @@ sudo yum install git -y
 sudo yum install docker -y
 sudo usermod -a -G docker ec2-user
 sudo usermod -a -G docker ssm-user
+id ec2-user ssm-user
 sudo newgrp docker
 
 

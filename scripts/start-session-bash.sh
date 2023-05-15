@@ -1,0 +1,1 @@
+aws ssm start-session --target INSTANCE_ID --document-name AWS-StartInteractiveCommand --parameters command="bash -l"

@@ -1,4 +1,4 @@
-## Projeto base para o evento Bootcamp Imersão AWS com Docker que irei realizar.
+## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
 
 ### Período do evento: 14 a 20 de Agosto/2023 (Online e ao Vivo às 20h)
 

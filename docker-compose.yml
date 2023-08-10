@@ -2,6 +2,7 @@ version: "3"
 services:
   server:
     build: .
+    container_name: bia
     ports:
       - 3001:8080
     links:
@@ -13,6 +14,7 @@ services:
       DB_PORT: 5432
   database:
     image: postgres:13.7
+    container_name: database
     environment:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=postgres"

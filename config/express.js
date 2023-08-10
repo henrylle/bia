@@ -20,6 +20,7 @@ module.exports = () => {
   app.use(cors());
 
   require("../api/routes/tarefas")(app);
+  require("../api/routes/versao")(app);
 
   return app;
 };

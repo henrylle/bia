@@ -5,5 +5,5 @@ security_group_id=$(aws ec2 describe-security-groups --group-names "bia-dev" --q
 aws ec2 run-instances --image-id ami-02f3f602d23f1659d --count 1 --instance-type t3.micro \
 --security-group-ids $security_group_id --subnet-id $subnet_id \
 --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":15,"VolumeType":"gp2"}}]' \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=bia-local}]' \
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=bia-dev}]' \
 --iam-instance-profile Name=role-acesso-ssm --user-data file://user_data_ec2_zona_a.sh

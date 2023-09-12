@@ -2,16 +2,36 @@ version: "3"
 services:
   server:
     build: .
+    depends_on:
+      - xray_daemon
     container_name: bia
     ports:
       - 3001:8080
     links:
       - database
+      - xray_daemon
     environment:
       DB_USER: postgres
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
+      AWS_XRAY_DAEMON_ADDRESS: xray_daemon:2000
+      AWS_REGION: us-east-1
+    volumes:
+      - ~/.aws/:/root/.aws/:ro
+  xray_daemon:
+    build:
+      dockerfile: Dockerfile_xray_daemon
+      context: .
+    container_name: xray
+    environment:
+      AWS_REGION: us-east-1
+    command: --local-mode
+    ports:
+      - 2000:2000/udp
+      - 2000:2000
+    volumes:
+      - ~/.aws/:/root/.aws/:ro
   database:
     image: postgres:13.7
     container_name: database

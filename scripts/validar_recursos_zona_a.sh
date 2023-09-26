@@ -22,5 +22,5 @@ fi
 if aws iam get-role --role-name role-acesso-ssm &>/dev/null; then
     echo "[OK] Tudo certo com a role 'role-acesso-ssm'"
 else
-    echo "[ERRO] A role 'role-acesso-ssm' não existe."
+    echo "[ERRO] A role 'role-acesso-ssm' não existe"
 fi

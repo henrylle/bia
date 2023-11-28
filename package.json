@@ -1,7 +1,7 @@
 {
   "name": "bia",
   "version": "1.0.1",
-  "description": "### Período do evento: 08 a 14 de Maio/2023 (Online e ao vivo às 20h)",
+  "description": "### Período do evento: 15 a 21 de Janeiro/2024 (Online e ao vivo às 20h)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -13,7 +13,7 @@ services:
       DB_HOST: database
       DB_PORT: 5432
   database:
-    image: postgres:13.7
+    image: postgres:16.1
     container_name: database
     environment:
       - "POSTGRES_USER=postgres"

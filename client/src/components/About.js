@@ -3,7 +3,7 @@ const About = () => {
   return (
     <div>
       <h4>Versão 2.0.0</h4>
-      <h5>BIA 02 a 08 de Outubro/2023</h5>
+      <h5>BIA 15 a 21 de Janeiro/2024</h5>
       <Link to="/">Voltar</Link>
     </div>
   );

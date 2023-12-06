@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import About from "./components/About";
+const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
   useEffect(() => {
     const getTasks = async () => {
@@ -17,16 +17,16 @@ function App() {
       setTasks(tasksFromServer);
     };
 
+    //Listar Tarefas
+    const fetchTasks = async () => {
+      const res = await fetch(`${apiUrl}/api/tarefas`);
+      console.log(res);
+      const data = await res.json();
+      return data;
+    };
+
     getTasks();
   }, []);
-
-  //Listar Tarefas
-  const fetchTasks = async () => {
-    const res = await fetch(`${apiUrl}/api/tarefas`);
-    console.log(res);
-    const data = await res.json();
-    return data;
-  };
 
   //Listar Tarefa
   const fetchTask = async (uuid) => {

@@ -9,15 +9,15 @@ sudo usermod -a -G docker ssm-user
 id ec2-user ssm-user
 sudo newgrp docker
 
+#Ativar docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
 
 #Instalar docker compose 2
 sudo mkdir -p /usr/local/lib/docker/cli-plugins
 sudo curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose -o /usr/local/lib/docker/cli-plugins/docker-compose
 sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-#Ativar docker
-sudo systemctl enable docker.service
-sudo systemctl start docker.service
 
 #Adicionar swap
 sudo dd if=/dev/zero of=/swapfile bs=128M count=32

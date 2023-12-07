@@ -1,0 +1,1 @@
+O conteudo daqui foi movido para scripts/ecs

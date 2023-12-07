@@ -6,5 +6,5 @@
 
 #### Para rodar as migrations no container ####
 ```
-docker-compose exec server bash -c 'npx sequelize db:migrate'
+docker compose exec server bash -c 'npx sequelize db:migrate'
 ```

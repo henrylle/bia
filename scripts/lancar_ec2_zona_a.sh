@@ -5,6 +5,7 @@ security_group_id=$(aws ec2 describe-security-groups --group-names "bia-dev" --q
 if [ -z "$security_group_id" ]; then
     echo ">[ERRO] Security group bia-dev não foi criado na VPC $vpc_id"
     exit 1
+fi
 
 aws ec2 run-instances --image-id ami-02f3f602d23f1659d --count 1 --instance-type t3.micro \
 --security-group-ids $security_group_id --subnet-id $subnet_id --associate-public-ip-address \

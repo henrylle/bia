@@ -20,9 +20,9 @@ if [ $? -eq 0 ]; then
   inbound_rule=$(aws ec2 describe-security-groups --group-ids $security_group_id --query "SecurityGroups[0].IpPermissions[?ToPort=='3001' && IpProtocol=='tcp' && IpRanges[0].CidrIp=='0.0.0.0/0']" --output text)
   
   if [ -n "$inbound_rule" ]; then
-    echo " [OK] Regra de entrada para porta 3001 está aberta para o mundo todo."
+    echo " [OK] Regra de entrada para a porta 3001 está aberta para o mundo todo."
   else
-    echo " >[ERRO] Regra de entrada para porta 3001 não encontrada ou não está aberta para o mundo todo. Reveja a aula do Henrylle."
+    echo " >[ERRO] Regra de entrada para a porta 3001 não encontrada ou não está aberta para o mundo todo. Reveja a aula do Henrylle."
   fi
 
   # Validar outbound rule para o security group 'bia-dev'

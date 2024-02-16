@@ -4,7 +4,7 @@
   "description": "### Período do evento: 18 a 24 de Março/2024 (Online e ao vivo às 20h)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest tests/unit",
     "start": "node server"
   },
   "repository": {
@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "sequelize-cli": "^6.2.0"
   }
 }

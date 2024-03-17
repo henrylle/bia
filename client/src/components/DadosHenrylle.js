@@ -34,6 +34,15 @@ const DadosHenrylle = () => {
             Instagram do Henrylle Maia
           </a>
         </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/henrylle/recent-activity/all/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Desafio Labs de AWS dos alunos no Linkedin
+          </a>
+        </li>
       </ul>
     </div>
   );

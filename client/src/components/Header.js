@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA 2024 - PREPARE-SE PARA HOJE",
+  title: "BIA 2024",
 };
 
 export default Header;

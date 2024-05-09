@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Fazendo login no ECR...
+      - echo Fazendo login no ECR....
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 590183756378.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=590183756378.dkr.ecr.us-east-1.amazonaws.com/lab

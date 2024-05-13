@@ -7,7 +7,7 @@ phases:
       - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
       - sudo yum install -y nodejs
   build: 
-    comands:
+    commands:
       - npm install --loglevel=error
       - REACT_APP_API_URL=http://lab-alb-1117998480.us-east-1.elb.amazonaws.com SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
       - echo Rodando testes unitarios!!

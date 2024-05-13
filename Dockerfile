@@ -9,8 +9,8 @@ RUN npm install --loglevel=error
 
 COPY . .
 
-# RUN REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
-RUN REACT_APP_API_URL=http://bia-env.eba-iyn2pq6w.us-east-1.elasticbeanstalk.com SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+RUN REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+# RUN REACT_APP_API_URL=http://bia-env.eba-iyn2pq6w.us-east-1.elasticbeanstalk.com SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
 
 
 RUN mv client/build build

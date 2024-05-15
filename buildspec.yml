@@ -1,5 +1,5 @@
 version: 0.2
-
+#fases 
 phases:
   pre_build:
     commands:

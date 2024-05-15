@@ -20,4 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA 2024 - AWS ELASTIKBEANSTALK"
+  title: "BIA 2024 - AWS ELastik Beanstalk ",
+};
+
+export default Header;

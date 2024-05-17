@@ -1,0 +1,10 @@
+version: "3"
+services:
+  server:
+    image: 351501490876.dkr.ecr.us-east-1.amazonaws.com/bia:${TAG}
+    ports:
+      - 80:8080
+    environment:
+      DB_USER: postgres
+      DB_PWD: postgres
+      DB_PORT: 5432

@@ -5,3 +5,4 @@ services:
     container_name: bia
     ports:
       - 80:8080
+  

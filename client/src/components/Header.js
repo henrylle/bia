@@ -10,8 +10,8 @@ const Header = ({ title, onAdd, showAdd }) => {
       {/* <h3>process.env.EMAIL_ALUNO</h3> */}
       {location.pathname === "/" && (
         <Button
-          color={showAdd ? "red" : "black"}
-          text={showAdd ? "Close" : "Add"}
+          color={showAdd ? "yellow" : "green"}
+          text={showAdd ? "Fechar" : "Adicionar"}
           onClick={onAdd}
         />
       )}
@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA 2024 - PREPARA-SE PARA HOJE",
+  title: "BIA 2024 - AWS ELastik Beanstalk ",
 };
 
 export default Header;

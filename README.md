@@ -1,6 +1,4 @@
-## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
-
-### Período do evento: 03 a 09 de Junho/2024 (Online e ao Vivo às 20h)
+## Projeto base para o evento Bootcamp Imersão AWS.
 
 [>> Página de Inscrição do evento](https://org.imersaoaws.com.br/github/readme)
 

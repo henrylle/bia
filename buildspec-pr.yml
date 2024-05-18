@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+   commands:
+    - echo install node 21 and npm ...
+    - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
+    - sudo yum install -y nodejs
+  build:
+    commands:
+    - echo build started on `date`...
+    - echo compiling node.js code ...
+    - npm install --loglevel=error
+    - REACT_APP_API_URL=http://asg-lb-1701103379.us-east-1.elb.amazonaws.com SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+    - Rodando echo run unit tests para dar error ...
+    - npm test
+  post_build:

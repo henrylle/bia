@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    DB_TEST: "teste"
+    DB_USER: "teste"
 phases:
   pre_build:
     commands:

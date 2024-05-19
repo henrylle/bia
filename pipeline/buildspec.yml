@@ -22,7 +22,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Gerando artefato da imagem para o ECS
-      - printf '[{"name":"bia","imageUri":"%s"},"environment":[{"name":"DB_PWD","value":"teste"}]]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"bia","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - codebuild-breakpoint
 artifacts:
   files: imagedefinitions.json

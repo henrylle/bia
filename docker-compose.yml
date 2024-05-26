@@ -12,6 +12,13 @@ services:
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
+      ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
+      DB_SECRET_NAME: 
+      DB_REGION: 
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY:
+      DEBUG_SECRET: 
+      IS_LOCAL: true      
   database:
     image: postgres:16.1
     container_name: database

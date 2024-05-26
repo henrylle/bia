@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest tests/unit",
-    "start": "node server"
+    "start": "node server",
+    "start_db": "node config/database.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,9 @@
   },
   "homepage": "https://github.com/henrylle/bia#readme",
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.583.0",
+    "@aws-sdk/client-sts": "^3.583.0",
+    "@aws-sdk/credential-providers": "^3.583.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

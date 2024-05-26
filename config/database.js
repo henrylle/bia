@@ -30,7 +30,7 @@ async function getConfig(){
     host: process.env.DB_HOST || "127.0.0.1",
     port: process.env.DB_PORT || 5433,
     dialect: "postgres",
-    dialectOptions: isLocalConnection() ? {} : await getRemoteDialectOptions(),
+    dialectOptions: await isLocalConnection() ? {} : await getRemoteDialectOptions(),
   };
 
   if(process.env.DB_SECRET_NAME){
@@ -50,7 +50,8 @@ async function getConfig(){
 async function createSecretsManagerClient() {
   // Verifica se a variável de ambiente está definida e não está vazia
   let credentials;
-  if (await isLocalConnection()) {
+  
+  if (process.env.IS_LOCAL === "true") {
     credentials = fromEnv();
     //credentials = fromIni({ profile: "SEU_PROFILE" });
   }
@@ -109,5 +110,5 @@ async function getSecrets(secretsManagerClient) {
   }
 }
 
-module.exports = getConfig();
+module.exports = getConfig;
 

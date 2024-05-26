@@ -33,7 +33,7 @@ async function getConfig(){
     dialectOptions: await isLocalConnection() ? {} : await getRemoteDialectOptions(),
   };
 
-  if(process.env.DB_SECRET_NAME){
+  if(process.env.DB_SECRET_NAME && process.env.DB_SECRET_NAME.trim() !== '' ){
     const secretsManagerClient = await createSecretsManagerClient();
     const secrets = await getSecrets(secretsManagerClient);
 
@@ -43,8 +43,8 @@ async function getConfig(){
 
       await imprimirSecrets(secrets);
     }
-    return dbConfig;
   }
+  return dbConfig;
 }
 
 async function createSecretsManagerClient() {

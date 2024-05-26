@@ -13,12 +13,11 @@
             "type": "node",
             "env": {
                 "DB_SECRET_NAME": "",
-                "DB_REGION": "",
+                "DB_REGION": "us-east-1",
                 "AWS_ACCESS_KEY_ID": "",
                 "AWS_SECRET_ACCESS_KEY": "",
                 "DEBUG_SECRET": "true"
             },
-            // "program": "${workspaceFolder}/server.js"
             "program": "${workspaceFolder}/config/database.js"
         },
         {
@@ -30,7 +29,7 @@
             "type": "node",
             "env": {
                 "DB_SECRET_NAME": "",
-                "DB_REGION": "",
+                "DB_REGION": "us-east-1",
                 "AWS_ACCESS_KEY_ID": "",
                 "AWS_SECRET_ACCESS_KEY": "",
                 "DEBUG_SECRET": "true"

@@ -1,16 +1,18 @@
 "use strict";
 
-const fs = require("fs/promises");
+const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
+const getConfig = require("../../config/database.js");
 
 const db = {};
-const initializeModels = async () => {
-  const config = require("../../config/database.js");
-  const sequelize = new Sequelize(config);
+
+const initializeModels = async () => {  
+  const resolvedConfig = await getConfig();
+  const sequelize = new Sequelize(resolvedConfig);
   try {
-    const files = await fs.readdir(__dirname);
+    const files = await fs.promises.readdir(__dirname);
 
     for (const file of files) {
       if (file !== basename && file.slice(-3) === ".js") {

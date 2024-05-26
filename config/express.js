@@ -1,26 +1,33 @@
 const express = require("express");
-var cors = require("cors");
-var path = require("path");
+const cors = require("cors");
+const path = require("path");
 const config = require("config");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
-module.exports = () => {
-  const app = express();
+const initializeExpress = async () => {
+  try {
+    const app = express();
 
-  // SETANDO VARIÁVEIS DA APLICAÇÃO
-  app.set("port", process.env.PORT || config.get("server.port"));
+    // SETANDO VARIÁVEIS DA APLICAÇÃO
+    app.set("port", process.env.PORT || config.get("server.port"));
 
-  //Setando react
-  app.use(express.static(path.join(__dirname, "../", "client", "build")));
+    // Setando react
+    app.use(express.static(path.join(__dirname, "../", "client", "build")));
 
-  // parse request bodies (req.body)
-  app.use(express.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+    // parse request bodies (req.body)
+    app.use(express.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
-  app.use(cors());
+    app.use(cors());
 
-  require("../api/routes/tarefas")(app);
-  require("../api/routes/versao")(app);
+    require("../api/routes/versao")(app);
+    require("../api/routes/tarefas")(app);    
 
-  return app;
+    return app;
+  } catch (error) {
+    console.error("Erro ao inicializar o Express:", error);
+    throw error;
+  }
 };
+
+module.exports = initializeExpress;

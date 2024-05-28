@@ -4,32 +4,37 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const config = require("../../config/database.js");
+const getConfig = require("../../config/database.js");
 
 const db = {};
-const sequelize = new Sequelize(config);
 
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
+const initializeModels = async () => {  
+  const resolvedConfig = await getConfig();
+  const sequelize = new Sequelize(resolvedConfig);
+  try {
+    const files = await fs.promises.readdir(__dirname);
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+    for (const file of files) {
+      if (file !== basename && file.slice(-3) === ".js") {
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
+      }
+    }
+
+    Object.keys(db).forEach(modelName => {
+      if (db[modelName].associate) {
+        db[modelName].associate(db);
+      }
+    });
+
+    db.sequelize = sequelize;
+    db.Sequelize = Sequelize;
+
+    return db;
+  } catch (error) {
+    console.error("Erro ao inicializar os modelos:", error);
+    throw error;
   }
-});
+};
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+module.exports = initializeModels;

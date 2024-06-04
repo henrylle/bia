@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing Node 21 e npm...novo teste 2024
+      - echo Installing Node 21 e npm...novo teste 1000
       - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
       - sudo yum install -y nodejs
   build:

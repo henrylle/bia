@@ -1,23 +1,18 @@
 ﻿version: "3.4"
-networks:
-  dev:
-    driver: bridge
 
 services:
   server:
-    depends_on:
-     - "database"
     container_name: bia
     ports:
-      - 8080:80
+      - 3001:8080
+    links:
+      - database
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=database;Port=5432;Database=bia; Pooling=true;
-      - ASPNETCORE_URLS=http://+:80
-    networks:
-      - dev
+      - ASPNETCORE_URLS=http://+:8080
 
   database:
      image: postgres:latest
@@ -31,8 +26,6 @@ services:
      restart: always
      volumes:
        - db:/var/lib/postgresql/data
-     networks:
-       - dev
 
 volumes:
   db:

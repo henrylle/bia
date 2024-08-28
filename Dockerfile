@@ -1,22 +1,30 @@
-FROM public.ecr.aws/docker/library/node:21-slim
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-RUN npm install -g npm@latest --loglevel=error
-WORKDIR /usr/src/app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 443
 
-COPY package*.json ./
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["Bia.csproj", "."]
 
-RUN npm install --loglevel=error
 
+RUN dotnet restore "./Bia.csproj"
 COPY . .
 
-RUN REACT_APP_API_URL=http://34.239.240.133 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+WORKDIR "/src/."
+RUN dotnet build "./Bia.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-RUN mv client/build build
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Bia.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-RUN rm  -rf client/*
+FROM base AS final
+WORKDIR /app
 
-RUN mv build client/
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Bia.dll"]
 
-EXPOSE 8080
-
-CMD [ "npm", "start" ]

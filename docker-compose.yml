@@ -1,34 +1,32 @@
-version: "3"
+﻿version: "3.4"
+
 services:
   server:
-    build: .
     container_name: bia
     ports:
       - 3001:8080
     links:
       - database
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      DB_USER: postgres
-      DB_PWD: postgres
-      DB_HOST: database
-      DB_PORT: 5432
-      ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
-      # DB_SECRET_NAME: 
-      # DB_REGION: 
-      # AWS_ACCESS_KEY_ID: 
-      # AWS_SECRET_ACCESS_KEY:
-      # DEBUG_SECRET: 
-      # IS_LOCAL: true      
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=postgres;Server=database;Port=5432;Database=bia; Pooling=true;
+      - ASPNETCORE_URLS=http://+:8080
+
   database:
-    image: postgres:16.1
-    container_name: database
-    environment:
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=postgres"
-      - "POSTGRES_DB=bia"
-    ports:
-      - 5433:5432
-    volumes:
-      - db:/var/lib/postgresql/data
+     image: postgres:latest
+     container_name: database
+     environment:
+       - POSTGRES_USER=postgres
+       - POSTGRES_PASSWORD=postgres
+       - POSTGRES_DB=bia
+     ports:
+       - "5433:5432"
+     restart: always
+     volumes:
+       - db:/var/lib/postgresql/data
+
 volumes:
   db:
+    

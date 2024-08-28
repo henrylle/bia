@@ -1,0 +1,131 @@
+﻿<div id="root">
+    <div class="text-center">
+        <div className="container">
+            <header class="header">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+                <h1>BIA ASPNET 2024</h1>
+                <button id="toggleButton" class="btn" style="background-color: blue;">Adicionar</button>
+            </header>
+            <div id="toggleDiv" style="display:none">
+                <form id="tarefaForm" class="add-form">
+                    <div class="form-control">
+                        <label>Tarefa</label>
+                        <input type="text" placeholder="Adicionar Tarefa" value="" required name="Titulo" id="Titulo">
+                    </div>
+                    <div class="form-control">
+                        <label>Dia</label>
+                        <input type="text" placeholder="Adicione o Dia" value="" required name="Dia_atividade" id="Dia_atividade">
+                    </div>
+                    <div class="form-control form-control-check">
+                        <label>Importante?</label>
+                        <input type="checkbox" value="false" name="Importante" id="Importante">
+                    </div>
+                    <input id="commitButton" type="submit" class="btn btn-block" value="Salvar Tarefa">
+                </form>
+            </div>
+            <div id="tarefaList"></div>
+            
+        </div>
+        <footer>
+            <div id="resultMessage">Carregando...</div>
+            <br />
+            <p>Copyright BIA ASPNET CORE 2024</p><a href="/home/about">Sobre o BIA</a>
+        </footer>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#toggleButton').click(function () {
+            var $div = $('#toggleDiv');
+            if ($div.is(':visible')) {
+                $div.hide();
+                $(this).text('Adicionar');
+            } else {
+                $div.show();
+                $(this).text('Fechar');
+            }
+        });
+
+        $('#tarefaForm').submit(function (event) {
+            $('#resultMessage').html('').fadeOut(1000);
+            event.preventDefault();
+
+            var formData = {
+                Titulo: $('#Titulo').val(),
+                Dia_atividade: $('#Dia_atividade').val(),
+                Importante: $('#Importante').is(':checked')
+            };
+
+            $.ajax({
+                url: '@Url.Action("Create", "Home")',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        $('#resultMessage').html('<div class="alert alert-success" style="color:green">' + response.message + '</div>').fadeIn(1000).fadeOut(1000);
+                        loadTarefas();
+                        document.getElementById('tarefaForm').reset();
+                    } else {
+                        $('#resultMessage').html('<div class="alert alert-danger" style="color:red">' + response.message + '</div>').fadeIn(1000);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#resultMessage').html('<div class="alert alert-danger" style="color:red">An error occurred: ' + error + '</div>').fadeIn(1000);
+                }
+            });
+        });
+
+        loadTarefas();
+
+    });
+   
+    function deleteHandleClick(element) {
+        $('#resultMessage').html('').fadeOut(1000);
+        var name = element.getAttribute('name');
+        $.ajax({
+            url: '@Url.Action("Delete", "Home")',
+            type: 'POST',
+            data: { id: name },
+            success: function (response) {
+                if (response.success) {
+                    $('#resultMessage').html('<div class="alert alert-success" style="color:green">' + response.message + '</div>').fadeIn(1000).fadeOut(1000);
+                    loadTarefas();
+                } else {
+                    $('#resultMessage').html('<div class="alert alert-danger" style="color:red">' + response.message + '</div>').fadeIn(1000);
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#resultMessage').html('<div class="alert alert-danger" style="color:red">Algum erro ocorreu: ' + error.message + '</div>').fadeIn(1000);;
+            }
+        });
+    }
+    function loadTarefas() {
+        $.ajax({
+            url: '@Url.Action("List", "Home")',
+            type: 'GET',
+            success: function (data) {
+                if (data.errors) {
+                    $('#resultMessage').html('<div class="alert alert-danger" style="color:red">' + data.errors + '</div>').fadeIn(1000);
+                } else {
+                    if (data.length > 0) {
+                        var tarefaList = '';
+                        $.each(data, function (index, tarefa) {
+                            var taskClass = tarefa.importante ? "reminder" : "";
+                            tarefaList += '<div  class="task ' + taskClass + '" onToggle=toggleReminder><h3>' + tarefa.titulo + '<svg onclick="deleteHandleClick(this)"  name="' + tarefa.id + '" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 352 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="color: red; cursor: pointer;"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></h3><p>' + tarefa.dia_atividade + '</p></div>'
+                        });
+                        $('#tarefaList').html(tarefaList);
+                        $('#resultMessage').html('');
+                    } else {
+                        $('#tarefaList').html('')
+                        $('#resultMessage').html('<div class="alert alert-danger" style="color:black">Nenhuma tarefa nesse momento.</div>').fadeIn(1000);;
+                    }
+                }
+
+            },
+            error: function (xhr, status, error) {
+                $('#resultMessage').html('<div class="alert alert-danger" style="color:red">Algum erro ocorreu: ' + error.message + '</div>').fadeIn(1000);;
+            }
+        });
+    }
+</script>

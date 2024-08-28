@@ -1,0 +1,6 @@
+@Bia_HostAddress = http://localhost:5091
+
+GET {{Bia_HostAddress}}/Home/
+Accept: application/json
+
+###

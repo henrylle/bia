@@ -13,7 +13,7 @@ RUN REACT_APP_API_URL=http://34.239.240.133 SKIP_PREFLIGHT_CHECK=true npm run bu
 
 RUN mv client/build build
 
-RUN rm  -rf client/*
+RUN rm -rf client/*
 
 RUN mv build client/
 

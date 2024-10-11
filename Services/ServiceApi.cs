@@ -64,5 +64,29 @@ namespace BIA.Services
                 throw;
             }
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<Tarefa> AlternarImportante(Guid id)
+        {
+            try
+            {
+                var tarefa = await _context.Tarefas.FindAsync(id);
+
+                if (tarefa != null)
+                {
+                    tarefa.Importante = !tarefa.Importante;
+                    _context.Tarefas.Update(tarefa);
+                    await _context.SaveChangesAsync();
+                    
+                }
+                return tarefa;
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

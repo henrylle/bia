@@ -1,4 +1,7 @@
 ﻿using BIA.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BIA.Services
 {
@@ -7,5 +10,6 @@ namespace BIA.Services
         Task<List<Tarefa>> GetAllAsync();
         Task PostTarefa(Tarefa tarefa);
         Task DeleteTarefa(Guid id);
+        Task<Tarefa> AlternarImportante(Guid id);
     }
 }

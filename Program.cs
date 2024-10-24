@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MeuDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IServiceApi, ServiceApi>();
 var app = builder.Build();
-await MigrationExtensions.AplicarMigrationsAsync(app);
+//await MigrationExtensions.AplicarMigrationsAsync(app);
 
 if (!app.Environment.IsDevelopment())
 {

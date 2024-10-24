@@ -14,6 +14,11 @@ Npgsql.EntityFrameworkCore.PostgreSQL
 
 docker-compose up -d
 
-#### Migrations ####
+#### Migrations Create ####
 
-Migration é criado ao iniciar/start container
+docker exec -it id_container dotnet ef migrations add InitilCreate
+
+#### Migrations Update ####
+
+docker exec -it id_container dotnet ef database update
+

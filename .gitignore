@@ -3,7 +3,8 @@
 # dependencies
 /node_modules
 
-
+#aws-sam
+**/.aws-sam
 
 #React node_modules
 /client/node_modules

@@ -1,5 +1,7 @@
 services:
   server:
+    networks:
+      - serverless
     build: .
     container_name: bia
     ports:
@@ -25,6 +27,8 @@ services:
     #   retries: 3
     #   start_period: 5s     
   database:
+    networks:
+      - serverless
     image: postgres:16.1
     container_name: database
     environment:
@@ -35,5 +39,7 @@ services:
       - 5433:5432
     volumes:
       - db:/var/lib/postgresql/data
+networks:
+  serverless:
 volumes:
   db:

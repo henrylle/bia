@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0", 
+    "configurations": [
+        {
+            "name": "Testar DB com secrets",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "env": {
+                "DB_SECRET_NAME": "",
+                "DB_REGION": "us-east-1",
+                "AWS_ACCESS_KEY_ID": "",
+                "AWS_SECRET_ACCESS_KEY": "",
+                "DEBUG_SECRET": "true"
+            },
+            "program": "${workspaceFolder}/config/database.js"
+        },
+        {
+            "name": "Debug Server",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "env": {
+                "DB_SECRET_NAME": "",
+                "DB_REGION": "us-east-1",
+                "AWS_ACCESS_KEY_ID": "",
+                "AWS_SECRET_ACCESS_KEY": "",
+                "DEBUG_SECRET": "true"
+            },
+            // "program": "${workspaceFolder}/server.js"
+            "program": "${workspaceFolder}/server.js"
+        }
+    ]
+}

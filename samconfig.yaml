@@ -1,0 +1,44 @@
+# More information about the configuration file can be found here:
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-config.html
+version: 0.1
+
+default:
+  global:
+    parameters:
+      stack_name: "bia-serverless"
+
+  build:
+    parameters:
+      cached: true
+      parallel: true
+
+  validate:
+    parameters:
+      lint: true
+
+  deploy:
+    parameters:
+      capabilities: "CAPABILITY_IAM"
+      confirm_changeset: true
+      resolve_s3: true
+      s3_prefix: "bia-serverless"
+      region: "us-east-1"
+      profile: "bia-serverless"
+      disable_rollback: true
+      image_repositories: []
+
+  package:
+    parameters:
+      resolve_s3: true
+
+  sync:
+    parameters:
+      watch: true
+
+  local_start_api:
+    parameters:
+      warm_containers: "EAGER"
+
+  local_start_lambda:
+    parameters:
+      warm_containers: "EAGER"

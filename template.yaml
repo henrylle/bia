@@ -4,25 +4,46 @@ Description: >
   bia-serverless
 
   Projeto da bia com sam da Formacao AWS
-  
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Parameters:
-  Environment:
+  SecurityGroup:
     Type: String
-    Default: dev
-    AllowedValues:
-      - hom
-      - prd
-    Description: Informe hom ou prd
+    Description: ID do security group
+  DBName:
+    Type: String
+    Description: Nome da base de dados
+  DBUser:
+    Type: String
+    Description: Nome do usuario da base de dados
+  DBPassword:
+    Type: String
+    Description: Senha do usuario da base de dados
+    NoEcho: true
+  DBHost:
+    Type: String
+    Description: Host da base de dados
 Globals:
   Function:
     Timeout: 3   
-    MemorySize: 512 
+    MemorySize: 512
+    VpcConfig:
+      SecurityGroupIds:
+      - !Ref SecurityGroup
+      SubnetIds:
+      - subnet-0ac54050e4ce3f454
+      - subnet-06a2d3aa108305b7f  
+    Environment:
+      Variables:
+        DB_USER: !Ref DBUser
+        DB_NAME: !Ref DBName
+        DB_PWD: !Ref DBPassword
+        DB_HOST: !Ref DBHost
+        DB_PORT: 5432  
   Api:
     Cors:
       AllowMethods: "'GET, PUT, POST, DELETE, OPTIONS'"
       AllowOrigin: "'*'"
-      AllowHeaders: "'Content-type, x-api-key'"     
+      AllowHeaders: "'Content-type, x-api-key'"  
 Resources:  
   TarefasFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -68,19 +89,6 @@ Resources:
           Properties:
             Path: /api/tarefas/{uuid}
             Method: delete
-      Environment:
-        Variables:
-          DB_USER: postgres
-          DB_PWD: postgres
-          DB_HOST: database
-          DB_PORT: 5432
-      VpcConfig:
-        SecurityGroupIds:
-          - SEU_SG
-        SubnetIds:
-          - SUA_SUBNET_1
-          - SUA_SUBNET_2
-    
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

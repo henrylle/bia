@@ -9,24 +9,15 @@ Description: >
 Parameters:
   Environment:
     Type: String
-    Default: hom
+    Default: dev
     AllowedValues:
       - hom
       - prd
     Description: Informe hom ou prd
-  SecurityGroup:
-    Type: String
-    Description: meu sg
 Globals:
   Function:
     Timeout: 3   
     MemorySize: 512 
-    VpcConfig:
-        SecurityGroupIds:
-          - !Ref SecurityGroup
-        SubnetIds:
-          - subnet-0ac54050e4ce3f454
-          - subnet-06a2d3aa108305b7f
   Api:
     Cors:
       AllowMethods: "'GET, PUT, POST, DELETE, OPTIONS'"
@@ -83,6 +74,12 @@ Resources:
           DB_PWD: postgres
           DB_HOST: database
           DB_PORT: 5432
+      VpcConfig:
+        SecurityGroupIds:
+          - SEU_SG
+        SubnetIds:
+          - SUA_SUBNET_1
+          - SUA_SUBNET_2
     
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

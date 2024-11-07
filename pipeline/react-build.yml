@@ -1,0 +1,13 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+  build:
+    commands:
+      - echo "Iniciando build do react..."
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=$REPOSITORY_URI SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+artifacts:
+  files:
+    - '**/*'
+  base-directory: cliente/build

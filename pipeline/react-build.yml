@@ -10,4 +10,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: cliente/build
+  base-directory: client/build

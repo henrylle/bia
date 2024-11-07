@@ -7,7 +7,8 @@ phases:
     commands:
       - echo "Iniciando build do react..."
       - cd client
-      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=$REPOSITORY_URI SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - npm install
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=$REPOSITORY_URI SKIP_PREFLIGHT_CHECK=true npm run build
 artifacts:
   files:
     - '**/*'

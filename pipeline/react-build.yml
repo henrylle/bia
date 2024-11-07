@@ -8,7 +8,7 @@ phases:
       - echo "Iniciando build do react..."
       - cd client
       - npm install
-      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=https://0a5tqkpyyg.execute-api.us-east-1.amazonaws.com/Prod SKIP_PREFLIGHT_CHECK=true npm run build
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=$ENDPOINT_API SKIP_PREFLIGHT_CHECK=true npm run build
 artifacts:
   files:
     - '**/*'

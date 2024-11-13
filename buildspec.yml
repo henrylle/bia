@@ -4,8 +4,8 @@ phases:
   pre_build:
     commands:
       - echo Fazendo login no ECR...      
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418381762.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=905418381762.dkr.ecr.us-east-1.amazonaws.com/bia
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 322095785990.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=322095785990.dkr.ecr.us-east-1.amazonaws.com/bia
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:

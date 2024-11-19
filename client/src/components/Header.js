@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA Code-pipeline-ECS",
+  title: "BIA Code-pipeline-ecs",
 };
 
 export default Header;

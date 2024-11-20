@@ -7,7 +7,7 @@ services:
     links:
       - database
     environment:
-      DB_USER: postgres
+      DB_USER: postgres 
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432

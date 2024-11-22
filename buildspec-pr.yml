@@ -1,26 +1,15 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
     commands:
-      - echo Fazendo login no ECR...      
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 108782099139.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=108782099139.dkr.ecr.us-east-1.amazonaws.com/bia
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Installing Node 21 e npm...      
+      - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
+      - sudo yum install -y nodejs
   build:
     commands:
-      - echo Build iniciado em `date`
-      - echo Gerando imagem da BIA...
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-  post_build:
-    commands:
-      - echo Build finalizado com sucesso em `date`
-      - echo Fazendo push da imagem para o ECR...
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Gerando artefato da imagem para o ECS
-      - printf '[{"name":"bia","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-artifacts:
-  files: imagedefinitions.json
+      - echo Instalando o NPM
+      - npm install --loglevel=error
+      - REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - echo Rodando testes unitários
+      - npm test

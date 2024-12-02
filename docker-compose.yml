@@ -3,11 +3,11 @@ services:
     build: .
     container_name: bia
     ports:
-      - 3001:8080
+      - 80:8080
     links:
       - database
     environment:
-      DB_USER: postgres
+      DB_USER: postgres 
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
@@ -36,4 +36,4 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 volumes:
-  db:
+  db: 

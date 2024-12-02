@@ -4,8 +4,10 @@ phases:
   pre_build:
     commands:
       - echo Fazendo login no ECR...      
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418381762.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=905418381762.dkr.ecr.us-east-1.amazonaws.com/bia
+ #     - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418381762.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 515966535476.dkr.ecr.us-east-1.amazonaws.com
+ #     - REPOSITORY_URI=905418381762.dkr.ecr.us-east-1.amazonaws.com/bia
+      - REPOSITORY_URI=515966535476.dkr.ecr.us-east-1.amazonaws.com/bia
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
@@ -23,4 +25,4 @@ phases:
       - echo Gerando artefato da imagem para o ECS
       - printf '[{"name":"bia","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-  files: imagedefinitions.json
+  files: imagedefinitions.json 

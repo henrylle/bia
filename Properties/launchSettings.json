@@ -7,16 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5001"
-    },
-    "https": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7009;http://localhost:5001"
+      "applicationUrl": "http://localhost:5189"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -30,11 +21,9 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "443",
         "ASPNETCORE_HTTP_PORTS": "8080"
       },
-      "publishAllPorts": true,
-      "useSSL": true
+      "publishAllPorts": true
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -42,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:35684",
-      "sslPort": 44394
+      "applicationUrl": "http://localhost:2655",
+      "sslPort": 0
     }
   }
 }

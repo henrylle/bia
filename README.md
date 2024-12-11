@@ -1,4 +1,4 @@
-﻿## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
+﻿﻿## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
 
 ### Período do evento: 05 a 11 de Agosto/2024 (Online e ao Vivo às 20h)
 
@@ -21,4 +21,3 @@ docker exec -it id_container dotnet ef migrations add InitilCreate
 #### Migrations Update ####
 
 docker exec -it id_container dotnet ef database update
-

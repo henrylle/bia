@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Leonardo\\Desktop\\bia\\bia-fork\\bia\\Bia.csproj": {}
+    "C:\\Users\\Leonardo\\Desktop\\bia_dotnet8_git\\bia\\Bia.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Leonardo\\Desktop\\bia\\bia-fork\\bia\\Bia.csproj": {
+    "C:\\Users\\Leonardo\\Desktop\\bia_dotnet8_git\\bia\\Bia.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Leonardo\\Desktop\\bia\\bia-fork\\bia\\Bia.csproj",
+        "projectUniqueName": "C:\\Users\\Leonardo\\Desktop\\bia_dotnet8_git\\bia\\Bia.csproj",
         "projectName": "Bia",
-        "projectPath": "C:\\Users\\Leonardo\\Desktop\\bia\\bia-fork\\bia\\Bia.csproj",
+        "projectPath": "C:\\Users\\Leonardo\\Desktop\\bia_dotnet8_git\\bia\\Bia.csproj",
         "packagesPath": "C:\\Users\\Leonardo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Leonardo\\Desktop\\bia\\bia-fork\\bia\\obj\\",
+        "outputPath": "C:\\Users\\Leonardo\\Desktop\\bia_dotnet8_git\\bia\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Leonardo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -47,13 +47,13 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.4, )"
             },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",

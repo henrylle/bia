@@ -9,39 +9,39 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Bia
 build_property.RootNamespace = Bia
-build_property.ProjectDir = C:\Users\Leonardo\Desktop\bia\bia-fork\bia\
+build_property.ProjectDir = C:\Users\Leonardo\Desktop\bia_dotnet8_git\bia\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Leonardo\Desktop\bia\bia-fork\bia
+build_property.MSBuildProjectDirectory = C:\Users\Leonardo\Desktop\bia_dotnet8_git\bia
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/Home/About.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/Home/Index.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/Shared/Error.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/_ViewImports.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/_ViewStart.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Leonardo/Desktop/bia/bia-fork/bia/Views/Shared/_Layout.cshtml]
+[C:/Users/Leonardo/Desktop/bia_dotnet8_git/bia/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-o7vl8hty1q

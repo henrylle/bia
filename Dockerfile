@@ -23,3 +23,8 @@ RUN mv build client/
 EXPOSE 8080
 
 CMD [ "npm", "start" ]
+
+RUN npm install -g sequelize-cli
+
+RUN npm install sequelize
+

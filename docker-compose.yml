@@ -8,3 +8,5 @@ services:
       DB_PWD: c3yb1g58W2K2MyE9dYcl
       DB_HOST: database.cd2owuoacfg0.us-east-1.rds.amazonaws.com
       DB_PORT: 5433
+
+#  database:

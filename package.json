@@ -1,7 +1,7 @@
 {
   "name": "bia",
   "version": "3.2.0",
-  "description": "### Período do evento: 14 a 20 de Outubro/2024 (Online e ao vivo às 20h)",
+  "description": "### Período do evento: 27/01 a 02/02/2025 (Online e ao vivo às 20h)",
   "main": "index.js",
   "scripts": {
     "test": "jest tests/unit",

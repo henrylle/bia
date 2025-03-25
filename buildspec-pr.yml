@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Atualizando repositórios..."
+      - yum clean all
+      - yum makecache
+      - echo "Instalando Node.js v20 e npm..."
+      - curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+      - yum install -y nodejs
+      - echo "Versões instaladas:"
+      - node -v
+      - npm -v
+      - echo "Instalando dependências no projeto..."
+
+  build:
+    commands:
+      - echo "Configurando Node.js com opções de compatibilidade..."
+      - export NODE_OPTIONS=--openssl-legacy-provider
+      - echo "Instalando dependências no cliente..."
+      - npm install --prefix client
+      - echo "Instalando dependências do projeto..."
+      - npm install  # Certifique-se de que as dependências da raiz também sejam instaladas
+      - echo "Executando build do React..."
+      - REACT_APP_API_URL=http://34.239.240.133 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - echo "Executando testes unitários..."
+      - npm test -- --runInBand  # Executando os testes de forma sequencial para evitar conflitos
+
+artifacts:
+  files:
+    - 'client/build/**/*'
+    - '!client/node_modules/**/*'

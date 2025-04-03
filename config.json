@@ -1,0 +1,24 @@
+{
+    "development": {
+      "username": "root",
+      "password": "8sTN123AJTIeNcufRSPa",
+      "database": "postgres",
+      "host": "database.cd2owuoacfg0.us-east-1.rds.amazonaws.com",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "seu_usuario_teste",
+      "password": "sua_senha_teste",
+      "database": "nome_do_banco_teste",
+      "host": "host_do_banco_teste",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "seu_usuario_producao",
+      "password": "sua_senha_producao",
+      "database": "nome_do_banco_producao",
+      "host": "host_do_banco_producao",
+      "dialect": "postgres"
+    }
+  }
+  

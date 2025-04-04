@@ -1,4 +1,16 @@
 FROM alpine
+
+# Define o fuso horário como São Paulo
+ENV TZ=America/Sao_Paulo
 ENV URL=https://www.google.com.br
-RUN apk add --no-cache curl
-ENTRYPOINT echo "Checando Site: $URL";while sleep 5; do curl -o /dev/null -s -w "Status: %{http_code} - Hora: $(date +%H:%M:%S)\n" $URL; done
+
+# Instala curl e configura timezone
+RUN apk add --no-cache curl tzdata \
+    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo "$TZ" > /etc/timezone
+
+# Script de monitoramento
+ENTRYPOINT echo "Checando Site: $URL"; \
+    while sleep 5; do \
+        curl -o /dev/null -s -w "Status: %{http_code} - Hora: $(date +%H:%M:%S)\n" $URL; \
+    done

@@ -2,6 +2,8 @@ FROM alpine
 
 # Define o fuso horário como São Paulo
 ENV TZ=America/Sao_Paulo
+
+# Endereço para teste
 ENV URL=https://www.google.com.br
 
 # Instala curl e configura timezone

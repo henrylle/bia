@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 
-
+*.zip
 
 #React node_modules
 /client/node_modules
@@ -29,3 +29,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Arquivo zip
+

@@ -3,4 +3,4 @@ services:
     build: .
 
     ports:
-      - 800:8080
+      - 80:8080

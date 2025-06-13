@@ -4,9 +4,3 @@ services:
 
     ports:
       - 80:8080
-    
-    environment:
-      DB_USER: postgres
-      DB_PWD: ailson
-      DB_HOST: 
-      DB_PORT: 5432

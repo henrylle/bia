@@ -11,7 +11,7 @@ const Header = ({ title, onAdd, showAdd }) => {
       {location.pathname === "/" && (
         <Button
           color={showAdd ? "black" : "green"}
-          text={showAdd ? "Fechar" : "Adicionar"}
+          text={showAdd ? "FECHAR" : "ADICIONARr"}
           onClick={onAdd}
         />
       )}
@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA 2025",
+  title: "BIA 2025 ",
 };
 
 export default Header;

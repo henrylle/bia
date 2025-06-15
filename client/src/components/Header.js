@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "APP no ECS",
+  title: "APP no Beanstalk",
 };
 
 export default Header;

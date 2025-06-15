@@ -24,18 +24,20 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Criando Dockerrun.aws.json para o Elastic Beanstalk...
       - |
-        echo "{" > Dockerrun.aws.json
-        echo "  \"AWSEBDockerrunVersion\": 1," >> Dockerrun.aws.json
-        echo "  \"Image\": {" >> Dockerrun.aws.json
-        echo "    \"Name\": \"${REPOSITORY_URI}:${IMAGE_TAG}\"," >> Dockerrun.aws.json
-        echo "    \"Update\": true" >> Dockerrun.aws.json
-        echo "  }," >> Dockerrun.aws.json
-        echo "  \"Ports\": [" >> Dockerrun.aws.json
-        echo "    {" >> Dockerrun.aws.json
-        echo "      \"ContainerPort\": 3000" >> Dockerrun.aws.json
-        echo "    }" >> Dockerrun.aws.json
-        echo "  ]" >> Dockerrun.aws.json
-        echo "}" >> Dockerrun.aws.json
+        cat > Dockerrun.aws.json <<EOF
+        {
+          "AWSEBDockerrunVersion": 1,
+          "Image": {
+            "Name": "${REPOSITORY_URI}:${IMAGE_TAG}",
+            "Update": "true"
+          },
+          "Ports": [
+            {
+              "ContainerPort": 3000
+            }
+          ]
+        }
+        EOF
       - echo Compactando o artefato final...
       - zip -r output.zip Dockerrun.aws.json
 

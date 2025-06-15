@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Fazendo login no Amazon ECR...
+      - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 568658500942.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=568658500942.dkr.ecr.us-east-1.amazonaws.com/bia
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
@@ -11,34 +11,28 @@ phases:
 
   build:
     commands:
-      - echo Build iniciado em `date`
-      - echo Gerando a imagem Docker...
+      - echo Build started on `date`
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Build finalizado com sucesso em `date`
-      - echo Fazendo push da imagem para o ECR...
+      - echo Build completed on `date`
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Criando Dockerrun.aws.json para o Elastic Beanstalk...
       - |
-        cat > Dockerrun.aws.json <<EOF
-        {
-          "AWSEBDockerrunVersion": 1,
-          "Image": {
-            "Name": "${REPOSITORY_URI}:${IMAGE_TAG}",
-            "Update": "true"
+        echo "{
+          \"AWSEBDockerrunVersion\": 1,
+          \"Image\": {
+            \"Name\": \"$REPOSITORY_URI:$IMAGE_TAG\",
+            \"Update\": true
           },
-          "Ports": [
+          \"Ports\": [
             {
-              "ContainerPort": 3000
+              \"ContainerPort\": 3000
             }
           ]
-        }
-        EOF
-      - echo Compactando o artefato final...
+        }" > Dockerrun.aws.json
       - zip -r output.zip Dockerrun.aws.json
 
 artifacts:

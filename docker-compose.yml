@@ -3,7 +3,7 @@ services:
     build: .
     container_name: bia
     ports:
-      - 3001:8080
+      - 80:8080
     links:
       - database
     environment:

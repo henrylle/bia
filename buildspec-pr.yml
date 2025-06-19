@@ -9,6 +9,6 @@ phases:
   build:
     commands:
       - npm install --loglevel=error
-      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=http:///localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
       - Rodando testes unitários
       - npm run test

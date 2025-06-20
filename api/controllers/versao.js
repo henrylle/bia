@@ -8,5 +8,3 @@ module.exports = () => {
 
   return controller;
 };
-
-///

@@ -10,5 +10,9 @@ phases:
     commands:
       - npm install --loglevel=error
       - REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+<<<<<<< HEAD
       - echo Rodando testes unitários....
+=======
+      - echo Rodando testes unitários...
+>>>>>>> origin/dev1-cicd
       - npm test

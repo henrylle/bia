@@ -17,7 +17,7 @@ describe('Versao Controller', () => {
     // Chama o método get do objeto controller
     get(req, res);
 
-    expect(res.send).toHaveBeenCalledWith('Bia 2.0.0');
+    expect(res.send).toHaveBeenCalledWith('Bia 3.2.0');
   });
 
   test('get deve retornar a string de resposta correta quando VERSAO_API não está definido', () => {
@@ -29,7 +29,7 @@ describe('Versao Controller', () => {
     // Chama o método get do objeto controller
     get(req, res);
 
-    expect(res.send).toHaveBeenCalledWith('Bia 2.0.0');
+    expect(res.send).toHaveBeenCalledWith('Bia 3.2.0');
   });
 
   test('get deve retornar a string de resposta correta quando VERSAO_API está definido', () => {

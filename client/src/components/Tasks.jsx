@@ -1,5 +1,5 @@
 import React from "react";
-import Task from "./Task";
+import Task from "./Task.jsx";
 
 const Tasks = ({ tasks, onDelete, onToggle }) => {
   return (

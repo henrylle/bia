@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Button from "./Button";
+import Button from "./Button.jsx";
 
 const Header = ({ title, onAdd, showAdd }) => {
   const location = useLocation();
@@ -20,7 +20,7 @@ const Header = ({ title, onAdd, showAdd }) => {
 };
 
 Header.defaultProps = {
-  title: "BIA 2025",
+  title: "BIA 2026",
 };
 
 export default Header;

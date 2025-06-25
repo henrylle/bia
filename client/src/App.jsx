@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
-import About from "./components/About";
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+import Tasks from "./components/Tasks.jsx";
+import AddTask from "./components/AddTask.jsx";
+import About from "./components/About.jsx";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -79,6 +79,22 @@ function App() {
     setTasks(tasks.filter((task) => task.uuid !== uuid));
   };
 
+  // Componente para página principal
+  const HomePage = () => (
+    <>
+      {showAddTask && <AddTask onAdd={addTask} />}
+      {tasks.length > 0 ? (
+        <Tasks
+          tasks={tasks}
+          onDelete={deleteTask}
+          onToggle={toggleReminder}
+        />
+      ) : (
+        "Nenhuma tarefa nesse momento"
+      )}
+    </>
+  );
+
   return (
     <Router>
       <div className="container">
@@ -87,25 +103,10 @@ function App() {
           showAdd={showAddTask}
         />
 
-        <Route
-          path="/"
-          exact
-          render={(props) => (
-            <>
-              {showAddTask && <AddTask onAdd={addTask} />}
-              {tasks.length > 0 ? (
-                <Tasks
-                  tasks={tasks}
-                  onDelete={deleteTask}
-                  onToggle={toggleReminder}
-                />
-              ) : (
-                "Nenhuma tarefa nesse momento"
-              )}
-            </>
-          )}
-        />
-        <Route path="/about" component={About} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
         <Footer />
       </div>
     </Router>

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
+import Modal from "./Modal";
 
 const AddTask = ({ onAdd }) => {
   const [titulo, setTitulo] = useState("");
   const [dia, setDia] = useState("");
   const [importante, setImportante] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     if (!titulo.trim()) {
-      alert("Por favor, adicione uma tarefa");
+      setShowModal(true);
       return;
     }
 
@@ -59,6 +61,14 @@ const AddTask = ({ onAdd }) => {
       <button type="submit" className="btn btn-block success">
         Adicionar Tarefa
       </button>
+      
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="Campo obrigatório"
+        message="Por favor, adicione uma descrição para a tarefa"
+        type="warning"
+      />
     </form>
   );
 };

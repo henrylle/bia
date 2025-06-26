@@ -8,7 +8,7 @@ module.exports = () => {
       const { Tarefas } = await initializeModels();
       let tarefa = {
         titulo: req.body.titulo,
-        dia_atividade: req.body.dia,
+        dia_atividade: req.body.dia_atividade,
         importante: req.body.importante,
       };
 

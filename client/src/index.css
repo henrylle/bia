@@ -760,6 +760,32 @@ footer {
   color: var(--accent-primary);
 }
 
+/* Feedback visual para toque em mobile */
+.pagination-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  background: var(--accent-primary);
+  color: white;
+  transition: all 0.1s ease;
+}
+
+/* Melhor contraste para toque */
+@media (hover: none) and (pointer: coarse) {
+  .pagination-btn {
+    border-width: 2px;
+  }
+  
+  .pagination-btn:not(.active):not(:disabled) {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+  }
+  
+  .pagination-btn:active:not(:disabled) {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+  }
+}
+
 .pagination-btn.active {
   background: var(--accent-primary);
   color: white;
@@ -780,16 +806,56 @@ footer {
 @media (max-width: 640px) {
   .pagination {
     padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+  
+  .pagination-controls {
+    gap: 0.5rem;
   }
   
   .pagination-btn {
-    padding: 0.375rem 0.5rem;
-    min-width: 2rem;
-    height: 2rem;
-    font-size: 0.75rem;
+    padding: 0.75rem;
+    min-width: 3rem;
+    height: 3rem;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    /* Área de toque maior para mobile */
+    touch-action: manipulation;
+  }
+  
+  /* Botões de navegação (anterior/próximo) maiores no mobile */
+  .pagination-btn:first-child,
+  .pagination-btn:last-child {
+    min-width: 3.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
   }
   
   .pagination-info span {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Esconder números de página no mobile muito pequeno */
+  @media (max-width: 480px) {
+    .pagination-btn:not(:first-child):not(:last-child):not(.active) {
+      display: none;
+    }
+    
+    .pagination-dots {
+      display: none;
+    }
+    
+    /* Mostrar apenas página atual entre os botões de navegação */
+    .pagination-controls {
+      justify-content: space-between;
+      padding: 0 0.5rem;
+    }
+    
+    .pagination-btn.active {
+      order: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }

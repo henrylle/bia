@@ -1,26 +1,26 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import Button from "./Button.jsx";
+import { FaSun, FaMoon } from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext.jsx";
 
-const Header = ({ title, onAdd, showAdd }) => {
-  const location = useLocation();
+const Header = ({ title }) => {
+  const { isDarkMode, toggleTheme } = useTheme();
+  
   return (
     <header className="header">
       <h1>{title}</h1>
-      {/* <h3>process.env.EMAIL_ALUNO</h3> */}
-      {location.pathname === "/" && (
-        <Button
-          color={showAdd ? "red" : "blue"}
-          text={showAdd ? "Fechar" : "Adicionar"}
-          onClick={onAdd}
-        />
-      )}
+      <button 
+        className="theme-toggle" 
+        onClick={toggleTheme}
+        title={isDarkMode ? "Tema claro" : "Tema escuro"}
+      >
+        {isDarkMode ? <FaSun /> : <FaMoon />}
+      </button>
     </header>
   );
 };
 
 Header.defaultProps = {
-  title: "BIA 2026",
+  title: "BIA 2025",
 };
 
 export default Header;

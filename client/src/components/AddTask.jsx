@@ -8,12 +8,16 @@ const AddTask = ({ onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (!titulo) {
+    if (!titulo.trim()) {
       alert("Por favor, adicione uma tarefa");
       return;
     }
 
-    onAdd({ titulo, dia, importante });
+    onAdd({ 
+      titulo: titulo.trim(), 
+      dia_atividade: dia || new Date().toLocaleDateString('pt-BR'), 
+      importante 
+    });
 
     setTitulo("");
     setDia("");
@@ -26,30 +30,35 @@ const AddTask = ({ onAdd }) => {
         <label>Tarefa</label>
         <input
           type="text"
-          placeholder="Adicionar Tarefa"
+          placeholder="O que você precisa fazer?"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
         />
       </div>
+      
       <div className="form-control">
-        <label>Dia</label>
+        <label>Data/Prazo</label>
         <input
           type="text"
-          placeholder="Adicione o Dia"
+          placeholder="Quando?"
           value={dia}
           onChange={(e) => setDia(e.target.value)}
         />
       </div>
-      <div className="form-control form-control-check">
-        <label>Importante?</label>
+      
+      <div className="form-control-check">
         <input
           type="checkbox"
+          id="importante"
           checked={importante}
-          value={importante}
-          onChange={(e) => setImportante(e.currentTarget.checked)}
+          onChange={(e) => setImportante(e.target.checked)}
         />
+        <label htmlFor="importante">Importante</label>
       </div>
-      <input type="submit" value="Salvar Tarefa" className="btn btn-block" />
+      
+      <button type="submit" className="btn btn-block success">
+        Adicionar Tarefa
+      </button>
     </form>
   );
 };

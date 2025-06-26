@@ -1,19 +1,32 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaStar, FaRegStar } from "react-icons/fa";
+
 const Task = ({ task, onDelete, onToggle }) => {
   return (
     <div
       className={`task ${task.importante ? "reminder" : ""}`}
       onDoubleClick={() => onToggle(task.uuid)}
     >
-      <h3>
-        {task.titulo}{" "}
-        <FaTimes
-          style={{ color: "red", cursor: "pointer" }}
+      <div className="task-content">
+        <h3>{task.titulo}</h3>
+        <p>{task.dia_atividade}</p>
+      </div>
+      <div className="task-actions">
+        <button
+          className="task-priority"
+          onClick={() => onToggle(task.uuid)}
+          title={task.importante ? "Remover importante" : "Marcar importante"}
+        >
+          {task.importante ? <FaStar /> : <FaRegStar />}
+        </button>
+        <button
+          className="task-delete"
           onClick={() => onDelete(task.uuid)}
-        />
-      </h3>
-      <p>{task.dia_atividade}</p>
+          title="Excluir"
+        >
+          <FaTimes />
+        </button>
+      </div>
     </div>
   );
 };

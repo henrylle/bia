@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <!-- Fundo circular azul -->
+  <circle cx="50" cy="50" r="45" fill="#007acc" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Texto "B" para BIA -->
+  <text x="50" y="65" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="white" text-anchor="middle">B</text>
+</svg> 

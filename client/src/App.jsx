@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
@@ -8,7 +9,6 @@ import About from "./components/About.jsx";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 function App() {
-  const [showAddTask, setShowAddTask] = useState(false);
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function App() {
   // Componente para página principal
   const HomePage = () => (
     <>
-      {showAddTask && <AddTask onAdd={addTask} />}
+      <AddTask onAdd={addTask} />
       {tasks.length > 0 ? (
         <Tasks
           tasks={tasks}
@@ -90,26 +90,30 @@ function App() {
           onToggle={toggleReminder}
         />
       ) : (
-        "Nenhuma tarefa nesse momento"
+        <div className="empty-state">
+          <h3>Nenhuma tarefa por aqui 📝</h3>
+          <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+        </div>
       )}
     </>
   );
 
   return (
-    <Router>
-      <div className="container">
-        <Header
-          onAdd={() => setShowAddTask(!showAddTask)}
-          showAdd={showAddTask}
-        />
+    <ThemeProvider>
+      <div className="app">
+        <Router>
+          <div className="container">
+            <Header />
 
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-        <Footer />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
       </div>
-    </Router>
+    </ThemeProvider>
   );
 }
 

@@ -509,6 +509,18 @@ footer {
   transition: all 0.2s ease;
 }
 
+.version-trigger.online {
+  border-color: #22c55e;
+}
+
+.version-trigger.offline {
+  border-color: #ef4444;
+}
+
+.version-trigger.checking {
+  border-color: #f59e0b;
+}
+
 .version-trigger:hover {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -559,6 +571,20 @@ footer {
 
 .version-link:hover {
   opacity: 0.8;
+}
+
+.version-link.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.version-details .status-indicator {
+  margin-right: 0.25rem;
+}
+
+.version-details .env-indicator {
+  margin-right: 0.25rem;
+  font-weight: 600;
 }
 
 /* Modal */

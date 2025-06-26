@@ -9,7 +9,9 @@ const Task = ({ task, onDelete, onToggle }) => {
     >
       <div className="task-content">
         <h3>{task.titulo}</h3>
-        <p>{task.dia_atividade}</p>
+        <p className="task-date">
+          📅 {task.dia_atividade || "Sem data definida"}
+        </p>
       </div>
       <div className="task-actions">
         <button

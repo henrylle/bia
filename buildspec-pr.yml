@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Instalando dependências Node 21 e np,...
+      - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
+      - sudo yum install -y nodejs
+  build:
+    commands:
+      - echo Build iniciado em `date`
+      - npm install -g npm@11 --loglevel=error
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=http://34.239.240.133 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - echo Rodando testes unitarios...
+      - npm test -

@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 
-
+./buildspec.yml 
 
 #React node_modules
 /client/node_modules

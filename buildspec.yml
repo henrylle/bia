@@ -12,7 +12,7 @@ phases:
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 686255944952.dkr.ecr.us-east-1.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=$(COMMIT_HASH:=latest)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
     
   build:
     commands:

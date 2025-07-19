@@ -1,26 +1,35 @@
 version: 0.2
 
+env:
+  variables:
+    REPOSITORY_URI: "686255944952.dkr.ecr.us-east-1.amazonaws.com/bia"
+    key: "value"
+
 phases:
   pre_build:
     commands:
-      - echo Fazendo login no ECR...      
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418381762.dkr.ecr.us-east-1.amazonaws.com
-      - REPOSITORY_URI=905418381762.dkr.ecr.us-east-1.amazonaws.com/bia
+      - echo Login in ECR...
+      - aws --versison
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 686255944952.dkr.ecr.us-east-1.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - IMAGE_TAG=$(COMMIT_HASH:-latest)
+    
   build:
     commands:
-      - echo Build iniciado em `date`
-      - echo Gerando imagem da BIA...
+      - echo Build started on `date`
+      - echo Building image...
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+    
   post_build:
     commands:
-      - echo Build finalizado com sucesso em `date`
-      - echo Fazendo push da imagem para o ECR...
+      - echo Build completed on `date`
+      - echo Pushing the image...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Gerando artefato da imagem para o ECS
+      - echo Generating artifact...
       - printf '[{"name":"bia","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+    
 artifacts:
-  files: imagedefinitions.json
+  files:
+    - imagedefinitions.json

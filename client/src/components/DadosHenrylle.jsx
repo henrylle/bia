@@ -6,16 +6,6 @@ const DadosHenrylle = () => {
       <h3>Links Importantes</h3>
       <div className="links-grid">
         <a
-          href="https://comunidade.imersaoaws.com.br"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-card"
-        >
-          <h4>🏠 Comunidade AWS</h4>
-          <p>Bootcamp Imersão AWS</p>
-        </a>
-        
-        <a
           href="https://inscricao.formacaoaws.com.br/suporte"
           target="_blank"
           rel="noopener noreferrer"

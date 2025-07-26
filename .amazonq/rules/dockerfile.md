@@ -3,7 +3,7 @@
 ## Filosofia de Desenvolvimento
 - **Público-alvo:** Alunos em aprendizado
 - **Abordagem:** Simplicidade acima de complexidade
-- **Objetivo:** Facilitar compreensão e não afastar iniciantes
+- **Objetivo:** Facilitar compreensão de quem que está na etapa inicial da jornada
 
 ## Regras Obrigatórias para Dockerfiles
 
@@ -18,8 +18,8 @@
 
 ### 2. Configurações Importantes (NÃO IGNORAR)
 - **Imagem base:** Sempre usar ECR (`public.ecr.aws/docker/library/node:XX-slim`)
-- **Upgrade do npm:** Incluir se presente no original (útil para compatibilidade)
-- **WORKDIR:** Manter o mesmo do original (`/usr/src/app` vs `/app`)
+- **Upgrade do npm:** Busque incluir, para estarmos sempre mais atualizados
+- **WORKDIR:** Trabalhar com (`/usr/src/app`)
 - **Instalação do curl:** Incluir para health checks
 - **Flags do npm:** Manter `--loglevel=error`, `--legacy-peer-deps` se necessário
 
@@ -34,23 +34,12 @@
 - **EVITAR** otimizações avançadas de camadas
 - Usar comandos básicos e diretos
 
-### 3. Estrutura Padrão
-```dockerfile
-FROM node:18
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-### 4. Processo de Validação
+### 5. Processo de Validação
 - **SEMPRE** perguntar se é para testar o Dockerfile
 - **QUANDO TESTAR:** Executar o projeto e verificar a rota de health check
-- **ROTA DE HEALTH:** Confirmar que `/health` está respondendo corretamente
+- **ROTA DE HEALTH:** Confirmar que `/api/versao` está respondendo corretamente
 
-### 5. Criação de Arquivos
+### 6. Criação de Arquivos
 - **NUNCA** sobrescrever Dockerfile existente
 - **SEMPRE** avisar ao usuário onde o novo Dockerfile está sendo criado
 - **SUGERIR** nome alternativo se já existir (ex: Dockerfile.new, Dockerfile.backup)
@@ -61,10 +50,10 @@ CMD ["npm", "start"]
 docker build -t bia-app .
 
 # Execução do container
-docker run -p 3000:3000 bia-app
+docker run -p 3001:8080 bia-app
 
 # Teste do health check
-curl http://localhost:3000/health
+curl http://localhost:3000/api/versao
 ```
 
 ## O que NÃO fazer
@@ -78,4 +67,3 @@ curl http://localhost:3000/health
 - ✅ Comandos simples e claros
 - ✅ Perguntar sobre teste
 - ✅ Validar health check quando testando
-- ✅ Manter foco educacional

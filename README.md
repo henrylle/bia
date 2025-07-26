@@ -1,6 +1,6 @@
 ## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
 
-### Período do evento: 31/03 a 06/04/2025 (Online e ao Vivo às 20h)
+### Período do evento: 28/07 a 03/08/2025 (Online e ao Vivo às 20h)
 
 [>> Página de Inscrição do evento](https://org.imersaoaws.com.br/github/readme)
 

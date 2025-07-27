@@ -1,6 +1,7 @@
 {
   "name": "react-task-tracker",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^6.5.0",

@@ -1,4 +1,4 @@
-## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
+## Projeto base para o evento Imersão AWS & IA que irei realizar.
 
 ### Período do evento: 28/07 a 03/08/2025 (Online e ao Vivo às 20h)
 

@@ -22,5 +22,10 @@ module.exports = () => {
   require("../api/routes/tarefas")(app);
   require("../api/routes/versao")(app);
 
+  // Fallback para React Router - serve index.html para todas as rotas não-API
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../", "client", "build", "index.html"));
+  });
+
   return app;
 };

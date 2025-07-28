@@ -1,4 +1,6 @@
-URL="https://www.uol.com.br"
+#URL="https://pages.formacaoaws.com.br/"
+URL="https://pages.formacaoaws.com.br/bootcamp-imersao-aws-ga-qt-fu/"
+#URL="https://pages.formacaoaws.com.br/wp-includes/images/blank.gif"
 while true; do 
   START=$(date '+%Y-%m-%d %H:%M:%S')
   START_MS=$(gdate +%s%3N)

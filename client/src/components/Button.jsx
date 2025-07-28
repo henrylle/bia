@@ -1,10 +1,10 @@
 import React from "react";
+
 const Button = ({ color, text, onClick }) => {
   return (
     <button
       onClick={onClick}
-      style={{ backgroundColor: color }}
-      className="btn"
+      className={`btn ${color ? color : ''}`}
     >
       {text}
     </button>
@@ -12,7 +12,7 @@ const Button = ({ color, text, onClick }) => {
 };
 
 Button.defaultProps = {
-  color: "steelblue",
+  color: "",
 };
 
 export default Button;

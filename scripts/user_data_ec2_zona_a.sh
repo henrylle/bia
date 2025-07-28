@@ -30,3 +30,9 @@ sudo echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
 #Instalar node e npm
 curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
 sudo yum install -y nodejs
+
+#Configurar python 3.11 e uv para uso com mcp servers da aws
+sudo dnf install python3.11 -y
+sudo ln -sf /usr/bin/python3.11 /usr/bin/python3
+
+curl -LsSf https://astral.sh/uv/install.sh | sh

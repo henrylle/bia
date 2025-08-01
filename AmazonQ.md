@@ -73,4 +73,24 @@ O foco base dele é fornecer uma estrutura educacional em que o aluno possa evol
 3. **Monitoramento:** Healthcheck comentado no Docker Compose
 4. **Testes:** Estrutura de testes presente com Jest
 
+### Rotas da API para Testes
+- **`/api/versao`:** Retorna versão da aplicação (não usa banco)
+- **`/api/tarefas`:** Retorna dados do banco PostgreSQL (ideal para testar conectividade com RDS)
+
+### Testes de Conectividade Realizados
+**Data:** 31/07/2025 00:44 UTC
+
+**✅ Aplicação Web:**
+- Rota `/api/versao`: Respondendo "Bia 4.2.0"
+- Rota `/api/tarefas`: Retornando dados do PostgreSQL corretamente
+
+**✅ Conectividade ECS ↔ RDS:**
+- Teste TCP para `bia.cc5o0y2wqori.us-east-1.rds.amazonaws.com:5432`: Sucesso
+- Security groups configurados corretamente (bia-web → bia-db)
+
+**✅ Infraestrutura:**
+- Cluster: `cluster-bia` (ACTIVE)
+- Service: `service-bia` (1 task RUNNING)
+- RDS: `bia` (available, PostgreSQL 17.4)
+
 ---

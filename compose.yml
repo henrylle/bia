@@ -4,7 +4,7 @@ services:
     container_name: bia
     ports:
       - 3001:8080
-    links:
+    depends_on:
       - database
     environment:
       DB_USER: postgres
@@ -25,7 +25,7 @@ services:
     #   retries: 3
     #   start_period: 5s     
   database:
-    image: postgres:16.1
+    image: postgres:17.1
     container_name: database
     environment:
       - "POSTGRES_USER=postgres"

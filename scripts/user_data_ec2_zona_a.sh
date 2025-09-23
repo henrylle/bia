@@ -1,9 +1,16 @@
 #!/bin/bash
 
-#Instalar Docker e Git
+#Instalar Docker, Git e AWS CLI
 sudo yum update -y
 sudo yum install git -y
 sudo yum install docker -y
+
+#Instalar AWS CLI v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo yum install unzip -y
+unzip awscliv2.zip
+sudo ./aws/install
+rm -rf awscliv2.zip aws/
 sudo usermod -a -G docker ec2-user
 sudo usermod -a -G docker ssm-user
 id ec2-user ssm-user

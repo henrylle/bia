@@ -13,11 +13,10 @@
         "ALLOW_SENSITIVE_DATA": "false"
       }
     }
-    },    
+    },
     "resources": [
-      "file://AmazonQ.md",     
+      "file://AmazonQ.md",
       "file://README.md",
       "file://.amazonq/rules/**/*.md"
     ]
   }
-  

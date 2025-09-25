@@ -42,5 +42,5 @@ sudo yum install -y nodejs
 sudo dnf install python3.12 -y
 sudo ln -sf /usr/bin/python3.12 /usr/bin/python3
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
+sudo -u ec2-user bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/ec2-user/.bashrc

@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#Instalar Docker, Git e AWS CLI
+#Instalar Docker, Git, jq e AWS CLI
 sudo yum update -y
 sudo yum install git -y
 sudo yum install docker -y
+sudo yum install jq -y
 
 #Instalar AWS CLI v2
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"

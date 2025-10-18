@@ -15,7 +15,7 @@ Onde:
 - No início da task, você precisa colocar informações importantes sobre o nosso modelo de trabalho. 
 Vamos adotar um modelo feature/branch, ou seja, cada task terá o seu branch. O branch deverá ter o nome das task e SEMPRE derivar do branch ia-main. Ao criar a task, você precisa especificar qual agent deve iniciar ela.
 - O agent que iniciar, deverá inicialmente verificar se estamos no branch ia-main. Caso não esteja, deve informar e perguntar se podemos retornar para ele, antes de iniciar a task.
-- Após ser autorizado, ele deverá mover a task para doing, fazer commit e push no branch ia-main e criar o branch para inicar a implementação.
+- Após ser autorizado, ele deverá mover a task para .amazonq/tasks/doing, fazer commit e push no branch ia-main e criar o branch para inicar a implementação.
 - Você deverá delegar a atividade para inicio de um desses agentes: 
     - dev (.amazonq/cli-agents/dev.json)
     - devops(.amazonq/cli-agents/devops.json)

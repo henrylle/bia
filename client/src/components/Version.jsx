@@ -9,28 +9,6 @@ const Version = () => {
 
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-  const getEnvironmentInfo = () => {
-    const { protocol, hostname, port } = window.location;
-    
-    if (hostname === 'localhost' || hostname === '127.0.0.1') {
-      return { type: 'Local', icon: '🏠', color: '#3b82f6' };
-    }
-    
-    if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname) && protocol === 'http:') {
-      return { type: 'IP Direto', icon: '🌐', color: '#f59e0b' };
-    }
-    
-    if (protocol === 'http:' && hostname.includes('.elb.')) {
-      return { type: 'ALB HTTP', icon: '⚖️', color: '#ef4444' };
-    }
-    
-    if (protocol === 'https:') {
-      return { type: 'Produção', icon: '🔒', color: '#22c55e' };
-    }
-    
-    return { type: 'Outro', icon: '❓', color: '#6b7280' };
-  };
-
   const fetchVersionInfo = async () => {
     setLoading(true);
     setError(null);
@@ -83,12 +61,10 @@ const Version = () => {
     fetchVersionInfo();
   };
 
-  const environment = getEnvironmentInfo();
-
   return (
     <div className="version-page">
       <div className="version-header">
-        <h2>Informações de Versão</h2>
+        <h2>Status da API</h2>
         <button 
           className="refresh-btn"
           onClick={handleRefresh}
@@ -100,7 +76,6 @@ const Version = () => {
       </div>
 
       <div className="version-cards">
-        {/* Card da API */}
         <div className="version-card">
           <div className="card-header">
             <h3>🔌 Status da API</h3>
@@ -128,61 +103,6 @@ const Version = () => {
             )}
           </div>
         </div>
-
-        {/* Card do Ambiente */}
-        <div className="version-card">
-          <div className="card-header">
-            <h3>{environment.icon} Ambiente</h3>
-            <span 
-              className="env-badge"
-              style={{ backgroundColor: environment.color }}
-            >
-              {environment.type}
-            </span>
-          </div>
-          
-          <div className="card-content">
-            <p><strong>Tipo:</strong> {environment.type}</p>
-            <p><strong>Protocolo:</strong> {window.location.protocol}</p>
-            <p><strong>Host:</strong> {window.location.hostname}</p>
-            <p><strong>Porta:</strong> {window.location.port || 'Padrão'}</p>
-            <p><strong>URL Completa:</strong> {window.location.href}</p>
-          </div>
-        </div>
-
-        {/* Card do Cliente */}
-        <div className="version-card">
-          <div className="card-header">
-            <h3>💻 Cliente</h3>
-            <span className="status-badge online">🟢 Ativo</span>
-          </div>
-          
-          <div className="card-content">
-            <p><strong>Aplicação:</strong> BIA Client</p>
-            <p><strong>Framework:</strong> React + Vite</p>
-            <p><strong>Navegador:</strong> {navigator.userAgent.split(' ').pop()}</p>
-            <p><strong>Plataforma:</strong> {navigator.platform}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Ações rápidas */}
-      <div className="version-actions">
-        <button 
-          className="action-btn"
-          onClick={() => window.open(`${apiUrl}/api/versao`, '_blank')}
-          title="Abrir endpoint de versão em nova aba"
-        >
-          🔗 Abrir /api/versao
-        </button>
-        
-        <button 
-          className="action-btn"
-          onClick={() => window.open(`${apiUrl}/api/tarefas`, '_blank')}
-          title="Abrir endpoint de tarefas em nova aba"
-        >
-          📋 Abrir /api/tarefas
-        </button>
       </div>
     </div>
   );

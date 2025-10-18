@@ -20,8 +20,8 @@ Simplificar a tela de versão (/versao) removendo informações de ambiente e cl
 ## Definição de Pronto
 - [x] Código implementado e testado
 - [x] Rota /versao respondendo apenas com status da API
-- [ ] Commit realizado no branch da feature
-- [ ] Push para repositório remoto
+- [x] Commit realizado no branch da feature
+- [x] Push para repositório remoto
 
 ## Observações Técnicas
 - Verificar arquivos relacionados à rota /versao no frontend e backend
@@ -50,3 +50,7 @@ Simplificar a tela de versão (/versao) removendo informações de ambiente e cl
 - ✅ Funcionalidade de refresh mantida
 - ✅ Logs e contexto de log mantidos
 - ✅ Testes realizados: API respondendo "Bia 4.2.0" e aplicação web funcionando
+- ✅ Commit realizado: 7768c97
+- ✅ Push realizado para branch 005-feat-simplificar-tela-versao
+
+## Status: ✅ CONCLUÍDA

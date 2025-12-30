@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer>
       <div className="footer-content">
-        <p>Formação AWS 2025</p>
+        <p>Formação AWS Henrylle Maia 🚀🚀🚀 </p>
         <Link to="/about" className="footer-link">
           Sobre a BIA
         </Link>

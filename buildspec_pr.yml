@@ -8,7 +8,8 @@ phases:
       - sudo yum install -y nodejs
   build:
     commands:
-      - npm install --loglevel=error
-      - REACT_APP_API_URL=http://localhost:3001 SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - echo Instalando dependências do projeto...
+      - cd client && npm install --legacy-peer-deps --loglevel=error
+      - VITE_API_URL=http://localhost:3001 npm run build
       - echo Rodando testes unitarios...
       - npm test

@@ -4,12 +4,13 @@ phases:
   install:
     commands:
       - echo Instalando dependências...
-      - curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
+      - curl -fsSL https://rpm.nodesource.com/setup_22.x | sudo bash -
       - sudo yum install -y nodejs
   build:
     commands:
-      - echo Instalando dependências do projeto...
+      - npm install --loglevel=error
       - cd client && npm install --legacy-peer-deps --loglevel=error
       - VITE_API_URL=http://localhost:3001 npm run build
-      - echo Rodando testes unitarios...
+      - cd ..
+      - echo Rodando testes...
       - npm test

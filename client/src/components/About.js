@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div>
       <h4>Versão 4.2.0</h4>
-      <h5>BIA 27/09 e 28/09/2025</h5>
+      <h5>BIA 31/01 e 01/02/2026</h5>
       <Link to="/">Voltar</Link>
       <DadosHenrylle />
     </div>

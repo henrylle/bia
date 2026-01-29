@@ -1,14 +1,19 @@
 {
   "mcpServers": {
     "postgres": {
-      "command": "uv",
+      "command": "docker",
       "args": [
         "run",
-        "postgres-mcp",
+        "-i",
+        "--rm",
+        "--network=bia_default",
+        "-e",
+        "DATABASE_URI",
+        "crystaldba/postgres-mcp",
         "--access-mode=unrestricted"
       ],
       "env": {
-        "DATABASE_URI": "postgresql://postgres:postgres@localhost:5433/bia"
+        "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
       }
     }
   }

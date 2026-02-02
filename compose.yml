@@ -4,12 +4,12 @@ services:
     container_name: bia
     ports:
       - 3001:8080
-    depends_on:
-      - database
+    # depends_on:
+    #   - database
     environment:
       DB_USER: postgres
-      DB_PWD: postgres
-      DB_HOST: database
+      DB_PWD: postgres123
+      DB_HOST: bia.c4zy4cykm0n7.us-east-1.rds.amazonaws.com
       DB_PORT: 5432
       ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
       # DB_SECRET_NAME: 

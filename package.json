@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/henrylle/bia.git"
+    "url": "git+https://github.com/LiviaMor/bia.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/henrylle/bia/issues"
+    "url": "https://github.com/LiviaMor/bia/issues"
   },
-  "homepage": "https://github.com/henrylle/bia#readme",
+  "homepage": "https://github.com/LiviaMor/bia#readme",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.583.0",
     "@aws-sdk/client-sts": "^3.583.0",

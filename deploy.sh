@@ -1,2 +1,2 @@
 ./build.sh
-aws ecs update-service --cluster cluster-bia --service bia-service  --force-new-deployment
+aws ecs update-service --cluster cluster-alb-bia --service service-bia-alb  --force-new-deployment

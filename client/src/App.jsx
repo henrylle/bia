@@ -9,7 +9,7 @@ import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const apiUrl = import.meta.env.VITE_API_URL || window.location.origin;
 
 function AppContent() {
   const [tasks, setTasks] = useState([]);

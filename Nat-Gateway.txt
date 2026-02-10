@@ -1,0 +1,101 @@
+# Criação do NAT Gateway e VPC Endpoints - Passo a Passo
+
+## Problema
+CodeBuild em subnet privada sem acesso à internet para login no ECR.
+
+## Solução: NAT Gateway + VPC Endpoints
+
+### Passo 1: Verificar VPC e Subnets
+```bash
+# Verificar subnets da VPC
+aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-0c38efc67c01971e8"
+
+# Identificar:
+# - Subnet pública: subnet-093af2c12d069e0d3 (vpc-dev-subnet-public1-us-east-1a)
+# - Subnet privada: subnet-01a3b104d030b32f4 (vpc-dev-subnet-private1-us-east-1a)
+```
+
+### Passo 2: Verificar Internet Gateway
+```bash
+# Confirmar que existe IGW na VPC
+aws ec2 describe-internet-gateways --filters "Name=attachment.vpc-id,Values=vpc-0c38efc67c01971e8"
+
+# Resultado: igw-07bcdd9e381664a75
+```
+
+### Passo 3: Alocar Elastic IP
+```bash
+aws ec2 allocate-address \
+    --domain vpc \
+    --tag-specifications 'ResourceType=elastic-ip,Tags=[{Key=Name,Value=nat-gateway-eip}]'
+
+# Resultado: eipalloc-0afeb1f43f42ed534 (IP: 54.175.128.177)
+```
+
+### Passo 4: Criar NAT Gateway
+```bash
+aws ec2 create-nat-gateway \
+    --allocation-id eipalloc-0afeb1f43f42ed534 \
+    --subnet-id subnet-093af2c12d069e0d3 \
+    --tag-specifications 'ResourceType=natgateway,Tags=[{Key=Name,Value=vpc-dev-nat-gateway}]'
+
+# Resultado: nat-05225a2e8d97f8bd9
+```
+
+### Passo 5: Atualizar Tabela de Rotas Privada
+```bash
+# Identificar tabela de rotas da subnet privada
+aws ec2 describe-route-tables --filters "Name=vpc-id,Values=vpc-0c38efc67c01971e8"
+
+# Tabela privada: rtb-07b6f2eeaad5b5fa1
+
+# Adicionar rota para internet via NAT Gateway
+aws ec2 create-route \
+    --route-table-id rtb-07b6f2eeaad5b5fa1 \
+    --destination-cidr-block 0.0.0.0/0 \
+    --nat-gateway-id nat-05225a2e8d97f8bd9
+```
+
+### Passo 6: Criar VPC Endpoints para ECR
+```bash
+# VPC Endpoint para ECR API
+aws ec2 create-vpc-endpoint \
+    --vpc-id vpc-0c38efc67c01971e8 \
+    --service-name com.amazonaws.us-east-1.ecr.api \
+    --vpc-endpoint-type Interface \
+    --subnet-ids subnet-01a3b104d030b32f4 \
+    --security-group-ids sg-09bcf2bcb613744bc
+
+# Resultado: vpce-09d181ff1bd91416d
+
+# VPC Endpoint para ECR DKR
+aws ec2 create-vpc-endpoint \
+    --vpc-id vpc-0c38efc67c01971e8 \
+    --service-name com.amazonaws.us-east-1.ecr.dkr \
+    --vpc-endpoint-type Interface \
+    --subnet-ids subnet-01a3b104d030b32f4 \
+    --security-group-ids sg-09bcf2bcb613744bc
+
+# Resultado: vpce-0951f5c6590d47140
+```
+
+### Passo 7: Verificar Status
+```bash
+# Aguardar NAT Gateway ficar disponível
+aws ec2 describe-nat-gateways --nat-gateway-ids nat-05225a2e8d97f8bd9
+
+# Aguardar VPC Endpoints ficarem disponíveis
+aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-09d181ff1bd91416d vpce-0951f5c6590d47140
+```
+
+## Recursos Criados
+- **Elastic IP:** eipalloc-0afeb1f43f42ed534 (54.175.128.177)
+- **NAT Gateway:** nat-05225a2e8d97f8bd9
+- **Rota:** 0.0.0.0/0 → nat-05225a2e8d97f8bd9 na tabela rtb-07b6f2eeaad5b5fa1
+- **VPC Endpoint ECR API:** vpce-09d181ff1bd91416d
+- **VPC Endpoint ECR DKR:** vpce-0951f5c6590d47140
+
+## Resultado
+✅ CodeBuild na subnet privada tem acesso à internet via NAT Gateway
+✅ Acesso direto ao ECR via VPC Endpoints (sem sair para internet)
+✅ Pode fazer login no ECR e push de imagens Docker

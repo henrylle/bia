@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeddiFlux Systems - Modernização AWS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Fixo com Navegação */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FF9900;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: #FF9900;
+            color: white;
+        }
+
+        .aws-badge {
+            background: #FF9900;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            color: #495057;
+        }
+
+        .hero-stats {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            color: white;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .hero-stat .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #232F3E;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #FF9900;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: #ffffff;
+            color: #2c3e50;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: #2c3e50;
+        }
+
+        .card.success {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        }
+
+        .card.warning {
+            border-color: #ffc107;
+            background: linear-gradient(135deg, #ffffff 0%, #fffef8 100%);
+        }
+
+        .card.info {
+            border-color: #17a2b8;
+            background: linear-gradient(135deg, #ffffff 0%, #f8feff 100%);
+        }
+
+        .card.primary {
+            border-color: #007bff;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        }
+
+        /* Financial Cards */
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .financial-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .financial-card.current { 
+            border-left-color: #ffc107; 
+            background: linear-gradient(135deg, #ffffff 0%, #fffef8 100%);
+        }
+        .financial-card.projected { 
+            border-left-color: #28a745; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        }
+        .financial-card.savings { 
+            border-left-color: #28a745; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        }
+        .financial-card.percentage { 
+            border-left-color: #28a745; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        }
+
+        .financial-card .amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #2c3e50;
+        }
+
+        .financial-card .currency {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #FF9900;
+        }
+
+        /* Table */
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cost-table th {
+            background: #3498db;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .cost-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cost-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .cost-table tr:last-child {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-list li {
+            background: #f8f9fa;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 1rem;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #232F3E 0%, #131A22 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .cta-button {
+            background: #FF9900;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background: #e68900;
+        }
+
+        /* Footer */
+        footer {
+            background: #232F3E;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 2rem 1rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">MeddiFlux Systems</div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#resumo">Resumo</a></li>
+                        <li><a href="#financeiro">Financeiro</a></li>
+                        <li><a href="#arquitetura">Arquitetura</a></li>
+                    </ul>
+                </nav>
+                <div class="aws-badge">AWS Modernization</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>MeddiFlux Systems - Modernização DevOps</h1>
+                <p>Solução Implementada: Automatização de Deploy e Segurança para Software Hospitalar</p>
+                <p><strong>Pipeline CI/CD + 3 Ambientes Isolados + Governança de Deploy</strong></p>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="number">3</span>
+                        <span class="label">Ambientes Isolados</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">15</span>
+                        <span class="label">Desenvolvedores</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">100%</span>
+                        <span class="label">Deploy Automatizado</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">Zero</span>
+                        <span class="label">Acesso Direto ao Banco</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <section id="resumo" class="section">
+                <h2>Resumo Executivo</h2>
+                <div class="cards-grid">
+                    <div class="card success">
+                        <h3>Problema Resolvido</h3>
+                        <p>Eliminado processo manual e burocrático de deploy que consumia tempo da equipe de 15 desenvolvedores.</p>
+                    </div>
+                    <div class="card warning">
+                        <h3>Segurança Implementada</h3>
+                        <p>Removido acesso direto dos desenvolvedores ao banco de produção via Bastion Host.</p>
+                    </div>
+                    <div class="card info">
+                        <h3>Pipeline Automatizada</h3>
+                        <p>CI/CD com testes automáticos, migrates e deploy controlado entre DEV → HOM → PROD.</p>
+                    </div>
+                    <div class="card primary">
+                        <h3>Governança Estabelecida</h3>
+                        <p>Deploy para produção requer 2 aprovações, garantindo controle e qualidade para 2.000+ clientes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="financeiro" class="section">
+                <h2>Análise Financeira</h2>
+                <div class="financial-grid">
+                    <div class="financial-card current">
+                        <h3>Custo Atual</h3>
+                        <div class="amount">US$ 1.370</div>
+                        <div class="currency">R$ 7.179/mês</div>
+                    </div>
+                    <div class="financial-card projected">
+                        <h3>Custo Projetado</h3>
+                        <div class="amount">US$ 291</div>
+                        <div class="currency">R$ 1.525/mês</div>
+                    </div>
+                    <div class="financial-card savings">
+                        <h3>Economia Mensal</h3>
+                        <div class="amount">US$ 1.079</div>
+                        <div class="currency">R$ 5.654/mês</div>
+                    </div>
+                    <div class="financial-card percentage">
+                        <h3>Redução</h3>
+                        <div class="amount">78,8%</div>
+                        <div class="currency">Economia Total</div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid #28a745;">
+                    <h3 style="color: #28a745; margin-bottom: 1rem;">ROI e Payback</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: #2c3e50;">Investimento Inicial</h4>
+                            <p><strong>US$ 2.000 (R$ 10.480)</strong></p>
+                            <p>Setup inicial da infraestrutura AWS</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50;">Retorno do Investimento</h4>
+                            <p><strong>ROI Anual: 547,4%</strong></p>
+                            <p>Payback em apenas 56 dias</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50;">Economia Anual</h4>
+                            <p><strong>US$ 12.948 (R$ 67.848)</strong></p>
+                            <p>Economia total no primeiro ano</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #ffffff 0%, #fffef8 100%); padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid #ffc107;">
+                    <h3 style="color: #ffc107; margin-bottom: 1rem;">Benefícios Operacionais Alcançados</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: #dc3545;">Antes da Modernização</h4>
+                            <ul style="color: #2c3e50;">
+                                <li>❌ Deploy manual da IDE do desenvolvedor</li>
+                                <li>❌ Necessário lembrar de rodar testes</li>
+                                <li>❌ Túnel SSH para executar migrates</li>
+                                <li>❌ Acompanhamento manual do processo</li>
+                                <li>❌ Acesso direto ao banco de produção</li>
+                                <li>❌ Processo burocrático e demorado</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #28a745;">Depois da Modernização</h4>
+                            <ul style="color: #2c3e50;">
+                                <li>✅ Deploy automatizado via Git</li>
+                                <li>✅ Testes executados automaticamente</li>
+                                <li>✅ Migrates automáticas na pipeline</li>
+                                <li>✅ Monitoramento automático do deploy</li>
+                                <li>✅ Zero acesso direto aos bancos</li>
+                                <li>✅ Processo ágil e seguro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Cronograma de Execução</h2>
+                <div style="background: #ffffff; padding: 3rem; border-radius: 15px; border: 2px solid #28a745; margin: 2rem 0; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                    <h3 style="color: #2c3e50; margin-bottom: 2rem; text-align: center;">Projeto Executado em 9 Semanas</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">1</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Planejamento (Semana 1-2)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Análise da arquitetura atual, mapeamento de problemas, definição da nova arquitetura e estimativa de custos.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">2</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Criação da Infraestrutura (Semana 3-4)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Criação do ambiente DEV, configuração de VPCs, setup dos bancos RDS e configuração do Elastic Beanstalk.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">3</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Pipeline CI/CD (Semana 5-6)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Configuração do GitHub Actions, AWS CodeBuild, automação de testes e implementação de rollback automático para DEV e HOM.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">4</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Segurança e Governança (Semana 7)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Remoção do acesso direto aos bancos, configuração de aprovações obrigatórias e implementação de logs.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">5</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Testes e Validação (Semana 8)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Testes da pipeline completa, validação dos deploys automáticos e documentação.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <div style="background: #28a745; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 1.5rem; flex-shrink: 0;">6</div>
+                            <div style="flex: 1;">
+                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Otimização (Semana 9)</h4>
+                                <p style="color: #2c3e50; margin: 0;">Migração para nova pipeline, monitoramento intensivo, análise de economia real e entrega final.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid #6c5ce7;">
+                    <h3 style="color: #6c5ce7; margin-bottom: 1.5rem;">🎯 Principais Entregas por Fase</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 1rem;">Infraestrutura Criada</h4>
+                            <ul style="color: #2c3e50; margin: 0; padding-left: 1rem;">
+                                <li>✅ <strong>Ambiente DEV:</strong> Elastic Beanstalk + RDS PostgreSQL isolado</li>
+                                <li>✅ <strong>Ambiente HOM:</strong> Otimizado com auto-scaling (1-3 instâncias)</li>
+                                <li>✅ <strong>Ambiente PROD:</strong> Mantido com auto-scaling (6-12 instâncias)</li>
+                                <li>✅ <strong>Redes:</strong> VPCs isoladas com security groups específicos</li>
+                                <li>✅ <strong>Bancos:</strong> RDS separados por ambiente com backup automático</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #2c3e50; margin-bottom: 1rem;">Automação Implementada</h4>
+                            <ul style="color: #2c3e50; margin: 0; padding-left: 1rem;">
+                                <li>✅ <strong>Pipeline CI/CD:</strong> GitHub Actions + AWS CodeBuild</li>
+                                <li>✅ <strong>Testes Automáticos:</strong> Executados em todos os deploys</li>
+                                <li>✅ <strong>Migrates Automáticas:</strong> Sem necessidade de túnel SSH</li>
+                                <li>✅ <strong>Deploy Controlado:</strong> DEV → HOM → PROD com aprovações</li>
+                                <li>✅ <strong>Rollback Automático:</strong> Configurado para ambientes DEV e HOM</li>
+                                <li>✅ <strong>CDN Configurado:</strong> Performance otimizada para usuários finais</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="arquitetura" class="section">
+                <h2>Solução Implementada para MeddiFlux</h2>
+
+                <div style="background: #e8f5e8; padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid #28a745;">
+                    <h3 style="color: #28a745; margin-bottom: 1.5rem;">🔒 Isolamento Completo de Ambientes</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #28a745; margin-bottom: 1rem;">🔧 Ambiente DEV</h4>
+                            <ul style="margin: 0; padding-left: 1rem; color: #2c3e50;">
+                                <li><strong>Infraestrutura:</strong> Elastic Beanstalk + RDS PostgreSQL isolado</li>
+                                <li><strong>Escalabilidade:</strong> Instância fixa (sem auto-scaling)</li>
+                                <li><strong>Deploy:</strong> Automático via push para branch develop</li>
+                                <li><strong>Testes:</strong> Executados automaticamente na pipeline</li>
+                                <li><strong>Migrates:</strong> Aplicadas automaticamente via CI/CD com rollback</li>
+                                <li><strong>Acesso:</strong> Apenas equipe de desenvolvimento (12 devs)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #ffc107; margin-bottom: 1rem;">🧪 Ambiente HOM</h4>
+                            <ul style="margin: 0; padding-left: 1rem; color: #2c3e50;">
+                                <li><strong>Infraestrutura:</strong> Elastic Beanstalk + RDS PostgreSQL</li>
+                                <li><strong>Escalabilidade:</strong> Auto-scaling configurado</li>
+                                <li><strong>Deploy:</strong> Via pull request após aprovação</li>
+                                <li><strong>Testes:</strong> Validação automática + testes do QA</li>
+                                <li><strong>Migrates:</strong> Executadas automaticamente na pipeline com rollback</li>
+                                <li><strong>Acesso:</strong> QA, PO e stakeholders do projeto</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #dc3545; margin-bottom: 1rem;">🚀 Ambiente PROD</h4>
+                            <ul style="margin: 0; padding-left: 1rem; color: #2c3e50;">
+                                <li><strong>Infraestrutura:</strong> Elastic Beanstalk + ALB + RDS PostgreSQL Multi-AZ + CDN</li>
+                                <li><strong>Escalabilidade:</strong> Auto-scaling configurado</li>
+                                <li><strong>Deploy:</strong> Requer 2 aprovações (CTO + Líder Técnico)</li>
+                                <li><strong>Testes:</strong> Bateria completa de testes automatizados</li>
+                                <li><strong>Migrates:</strong> Executadas automaticamente na pipeline</li>
+                                <li><strong>Acesso:</strong> 2.000+ clientes (hospitais e clínicas)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(40, 167, 69, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 2rem; border-left: 4px solid #28a745;">
+                        <h4 style="color: #28a745; margin-bottom: 1rem;">✅ Vantagens do Isolamento</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong>🛡️ Segurança Crítica:</strong><br>
+                                Zero acesso direto aos bancos de produção
+                            </div>
+                            <div>
+                                <strong>⚡ Performance Otimizada:</strong><br>
+                                CDN implementado para melhor experiência dos usuários
+                            </div>
+                            <div>
+                                <strong>🚀 Eficiência Operacional:</strong><br>
+                                80% redução no tempo de deploy
+                            </div>
+                            <div>
+                                <strong>🔍 Controle de Qualidade:</strong><br>
+                                Testes automáticos em todos os ambientes
+                            </div>
+                            <div>
+                                <strong>📊 Governança:</strong><br>
+                                2 aprovações obrigatórias para produção
+                            </div>
+                            <div>
+                                <strong>🔄 Automação Completa:</strong><br>
+                                Migrates e deploys sem intervenção manual
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <h2>Resultados Entregues para MeddiFlux</h2>
+                <p>A modernização DevOps da MeddiFlux Systems foi concluída com sucesso, resolvendo os problemas críticos de <strong>segurança, eficiência operacional e governança</strong> para uma empresa que atende <strong>2.000+ clientes hospitalares</strong>.</p>
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; margin: 2rem 0;">
+                    <h3>Transformação Completa Realizada:</h3>
+                    <ul style="text-align: left; margin-top: 1rem;">
+                        <li>✅ <strong>Eliminado processo manual</strong> que consumia tempo dos 15 desenvolvedores</li>
+                        <li>✅ <strong>Removido acesso direto</strong> dos devs ao banco de produção (risco crítico)</li>
+                        <li>✅ <strong>Implementada pipeline CI/CD</strong> com testes e migrates automáticos</li>
+                        <li>✅ <strong>Estabelecida governança</strong> com 2 aprovações para produção</li>
+                        <li>✅ <strong>Criado ambiente DEV</strong> para desenvolvimento isolado</li>
+                        <li>✅ <strong>Automatizado deploy</strong> entre DEV → HOM → PROD</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(40, 167, 69, 0.2); padding: 1.5rem; border-radius: 10px; margin: 2rem 0;">
+                    <h4 style="color: #28a745;">🏥 Impacto para o Negócio:</h4>
+                    <p><strong>Software hospitalar crítico</strong> agora opera com máxima segurança e eficiência, garantindo disponibilidade para prontuários eletrônicos, exames, evoluções médicas e laudos de 2.000+ clientes.</p>
+                </div>
+                <p><strong>Status:</strong> Sistema Operacional | <strong>Segurança:</strong> 100% | <strong>Automação:</strong> Completa</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 MeddiFlux Systems - Modernização AWS. Todos os direitos reservados.</p>
+            <p>Transformando a gestão de saúde com tecnologia de ponta</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll para links de navegação
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight da navegação ativa
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.background = '';
+                link.style.color = '#2c3e50';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.background = '#FF9900';
+                    link.style.color = 'white';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

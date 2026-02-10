@@ -1,0 +1,9 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Instalando dependencias...
+      - npm install --loglevel=error
+      - echo Rodando testes unitarios...
+      - npm test

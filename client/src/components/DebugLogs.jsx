@@ -54,7 +54,7 @@ const DebugLogs = () => {
           <div className="debug-info">
             <h4>🔧 Área de Debug</h4>
             <p>Esta área mostra logs da API para facilitar o debug durante o desenvolvimento.</p>
-            <p><strong>URL da API:</strong> {import.meta.env.VITE_API_URL || "http://localhost:8080"}</p>
+            <p><strong>URL da API:</strong> {import.meta.env.VITE_API_URL || window.location.origin}</p>
           </div>
           
           <div className="logs-container">

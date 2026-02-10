@@ -16,8 +16,8 @@ const VersionInfo = () => {
       return window.location.origin;
     }
     
-    // Desenvolvimento local - inferir porta 8080
-    return 'http://localhost:8080';
+    // Fallback para desenvolvimento local
+    return window.location.origin;
   };
 
   const checkApiHealth = async () => {
@@ -100,6 +100,39 @@ const VersionInfo = () => {
       };
     }
     
+    // Ambiente de desenvolvimento (Beanstalk)
+    if (hostname.includes('desenvolvimento') || hostname.includes('-dev') || hostname.includes('dev-')) {
+      return {
+        type: 'development',
+        icon: '🔧',
+        label: 'Desenvolvimento',
+        description: hostname,
+        color: '#3b82f6' // azul
+      };
+    }
+    
+    // Ambiente de homologação (Beanstalk)
+    if (hostname.includes('homologacao') || hostname.includes('homol') || hostname.includes('-hom') || hostname.includes('hom-') || hostname.includes('staging')) {
+      return {
+        type: 'staging',
+        icon: '🧪',
+        label: 'Homologação',
+        description: hostname,
+        color: '#f59e0b' // amarelo/laranja
+      };
+    }
+    
+    // Ambiente de produção (Beanstalk)
+    if (hostname.includes('producao') || hostname.includes('prod') || hostname.includes('-prod') || hostname.includes('prod-')) {
+      return {
+        type: 'production',
+        icon: '🚀',
+        label: 'Produção',
+        description: hostname,
+        color: '#22c55e' // verde
+      };
+    }
+    
     // IP direto sem HTTPS
     if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname) && protocol === 'http:') {
       return {
@@ -127,7 +160,7 @@ const VersionInfo = () => {
       return {
         type: 'domain-https',
         icon: '🔒',
-        label: 'Produção',
+        label: 'HTTPS',
         description: hostname,
         color: '#22c55e' // verde
       };

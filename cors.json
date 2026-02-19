@@ -1,0 +1,8 @@
+[
+    {
+        "AllowedHeaders": ["*"],
+        "AllowedMethods": ["GET", "POST", "PUT", "DELETE"],
+        "AllowedOrigins": ["http://desafio-fundamentos.s3-website-us-east-1.amazonaws.com"],
+        "ExposeHeaders": []
+    }
+]

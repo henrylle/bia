@@ -8,10 +8,10 @@ services:
       - database
     environment:
       DB_USER: postgres
-      DB_PWD: postgres
-      DB_HOST: database
+      DB_PWD: Ajkluj65z3s3GLCI5CIY
+      DB_HOST: bia.c4zy4cykm0n7.us-east-1.rds.amazonaws.com
       DB_PORT: 5432
-      ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
+     ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
       # DB_SECRET_NAME: 
       # DB_REGION: 
       # AWS_ACCESS_KEY_ID: 

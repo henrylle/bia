@@ -13,7 +13,7 @@
         "--access-mode=unrestricted"
       ],
       "env": {
-        "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
+        "DATABASE_URI": "postgresql://postgres:Ajkluj65z3s3GLCI5CIY@bia.c4zy4cykm0n7.us-east-1.rds.amazonaws.com:5432/bia"
       }
     }
   }

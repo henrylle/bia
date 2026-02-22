@@ -17,7 +17,11 @@ module.exports = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.use(cors());
+  app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }));
 
   require("../api/routes/tarefas")(app);
   require("../api/routes/versao")(app);

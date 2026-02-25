@@ -1,0 +1,20 @@
+{
+  "name": "dev",
+  "description": "",
+  "prompt": null,
+  "mcpServers": {},
+  "tools": [
+    "*"
+  ],
+  "toolAliases": {},
+  "allowedTools": [],
+  "resources": [
+      "file://AmazonQ.md",
+      "file://README.md",
+      "file://.kiro/rules/**/*.md"
+  ],
+  "hooks": {},
+  "toolsSettings": {},
+  "includeMcpJson": true,
+  "model": null
+}

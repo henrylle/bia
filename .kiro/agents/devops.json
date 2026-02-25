@@ -7,15 +7,14 @@
     "*"
   ],
   "toolAliases": {},
-  "allowedTools": [
-    "fs_read"
-  ],
+  "allowedTools": [],
   "resources": [
-    "file://AmazonQ.md",
-    "file://README.md",
-    "file://.amazonq/rules/**/*.md"
+      "file://AmazonQ.md",
+      "file://README.md",
+      "file://.kiro/rules/**/*.md"
   ],
   "hooks": {},
   "toolsSettings": {},
-  "useLegacyMcpJson": true
+  "includeMcpJson": true,
+  "model": null
 }

@@ -1,0 +1,22 @@
+{
+  "name": "po",
+  "description": "",
+  "prompt": null,
+  "mcpServers": {},
+  "tools": [
+    "*"
+  ],
+  "toolAliases": {},
+  "allowedTools": [ 
+    "write"  
+  ],
+  "resources": [
+      "file://AmazonQ.md",
+      "file://README.md",
+      "file://.kiro/rules/**/*.md"
+  ],
+  "hooks": {},
+  "toolsSettings": {},
+  "includeMcpJson": true,
+  "model": null
+}

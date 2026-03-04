@@ -15,10 +15,7 @@ async function isLocalConnection() {
 async function getRemoteDialectOptions() {
   // Configurações específicas para conexões remotas (útil a partir do pg 15)
   return {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
+    ssl: false,
   };
 }
 

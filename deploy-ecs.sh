@@ -13,7 +13,7 @@ set -e  # Para o script em caso de erro
 DEFAULT_REGION="us-east-1"
 DEFAULT_ECR_REPO="bia"
 DEFAULT_CLUSTER="cluster-bia"
-DEFAULT_SERVICE="service-bia"
+DEFAULT_SERVICE="servce-bia"
 DEFAULT_TASK_FAMILY="task-def-bia"
 
 # Cores para output
@@ -153,13 +153,13 @@ create_task_definition() {
     local ecr_uri=$3
     local tag=$4
     
-    log_info "Criando nova task definition..."
+    log_info "Criando nova task definition..." >&2
     
     # Obter a task definition atual
     local current_task_def=$(aws ecs describe-task-definition --task-definition $task_family --region $region --query 'taskDefinition' --output json)
     
     if [ $? -ne 0 ]; then
-        log_error "Não foi possível obter a task definition atual: $task_family"
+        log_error "Não foi possível obter a task definition atual: $task_family" >&2
         exit 1
     fi
     
@@ -177,19 +177,28 @@ create_task_definition() {
     local new_temp_file=$(mktemp)
     echo "$new_task_def" > "$new_temp_file"
     
-    # Registrar nova task definition
-    local new_revision=$(aws ecs register-task-definition --region $region --cli-input-json file://"$new_temp_file" --query 'taskDefinition.revision' --output text)
+    # Registrar nova task definition e capturar revision
+    local register_output=$(aws ecs register-task-definition --region $region --cli-input-json file://"$new_temp_file" --output json)
+    local register_status=$?
     
     # Limpar arquivos temporários
     rm -f "$temp_file" "$new_temp_file"
     
-    if [ $? -ne 0 ]; then
-        log_error "Falha ao registrar nova task definition"
+    if [ $register_status -ne 0 ]; then
+        log_error "Falha ao registrar nova task definition" >&2
         exit 1
     fi
     
-    log_success "Nova task definition criada: $task_family:$new_revision"
-    echo $new_revision
+    # Extrair revision do output
+    local new_revision=$(echo "$register_output" | jq -r '.taskDefinition.revision')
+    
+    if [ -z "$new_revision" ] || [ "$new_revision" = "null" ]; then
+        log_error "Não foi possível obter a revision da nova task definition" >&2
+        exit 1
+    fi
+    
+    log_success "Nova task definition criada: $task_family:$new_revision" >&2
+    echo "$new_revision"
 }
 
 # Função para atualizar o serviço ECS

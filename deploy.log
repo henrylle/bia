@@ -1,0 +1,176 @@
+[0;34m[INFO][0m Iniciando deploy...
+[0;34m[INFO][0m Commit Hash: 6df20a5
+[0;34m[INFO][0m ECR URI: 794038217446.dkr.ecr.us-east-1.amazonaws.com/bia
+[0;34m[INFO][0m Verificando repositório ECR: bia
+[0;34m[INFO][0m Fazendo login no ECR...
+WARNING! Your password will be stored unencrypted in /home/ec2-user/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[0;34m[INFO][0m Fazendo build da imagem Docker...
+[0;34m[INFO][0m Tag: 6df20a5
+Sending build context to Docker daemon    747MB
+Step 1/13 : FROM public.ecr.aws/docker/library/node:22-slim
+ ---> e89411894931
+Step 2/13 : RUN npm install -g npm@11 --loglevel=error
+ ---> Using cache
+ ---> de85d4e3e882
+Step 3/13 : RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> 7acf95319a29
+Step 4/13 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> c73c4bdb7e57
+Step 5/13 : COPY package*.json ./
+ ---> Using cache
+ ---> 275ff7544778
+Step 6/13 : RUN npm install --loglevel=error
+ ---> Using cache
+ ---> 832a2fb1f603
+Step 7/13 : COPY client/package*.json ./client/
+ ---> Using cache
+ ---> 96deb6698f44
+Step 8/13 : RUN cd client && npm install --legacy-peer-deps --loglevel=error
+ ---> Using cache
+ ---> e14f03af3b30
+Step 9/13 : COPY . .
+ ---> d16fcabd5764
+Step 10/13 : RUN cd client && VITE_API_URL=http://44.201.161.163 npm run build
+ ---> Running in e0533ee81537
+
+> react-task-tracker@0.1.0 build
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 54 modules transformed.
+rendering chunks...
+computing gzip size...
+build/index.html                   0.84 kB │ gzip:  0.45 kB
+build/assets/index-CFnOCw1_.css   11.73 kB │ gzip:  2.61 kB
+build/assets/index-CdH-OhuB.js   185.00 kB │ gzip: 60.64 kB │ map: 2,172.37 kB
+✓ built in 2.84s
+Removing intermediate container e0533ee81537
+ ---> 5f05a27cfa94
+Step 11/13 : RUN cd client && npm prune --production && rm -rf node_modules/.cache
+ ---> Running in 2b9322acd017
+[91mnpm warn config production Use `--omit=dev` instead.
+[0m
+added 10 packages, removed 54 packages, and audited 94 packages in 6s
+
+16 packages are looking for funding
+  run `npm fund` for details
+
+5 vulnerabilities (2 moderate, 3 high)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+Removing intermediate container 2b9322acd017
+ ---> 29517836e45b
+Step 12/13 : EXPOSE 8080
+ ---> Running in bc24d91a1a70
+Removing intermediate container bc24d91a1a70
+ ---> b9db672309fa
+Step 13/13 : CMD [ "npm", "start" ]
+ ---> Running in 21398876c7ae
+Removing intermediate container 21398876c7ae
+ ---> 05f6209f2eda
+Successfully built 05f6209f2eda
+Successfully tagged bia-app:6df20a5
+Successfully tagged bia-app:latest
+Successfully tagged 794038217446.dkr.ecr.us-east-1.amazonaws.com/bia:6df20a5
+Successfully tagged 794038217446.dkr.ecr.us-east-1.amazonaws.com/bia:latest
+[0;32m[SUCCESS][0m Build concluído com sucesso
+[0;34m[INFO][0m Fazendo push da imagem para ECR...
+The push refers to repository [794038217446.dkr.ecr.us-east-1.amazonaws.com/bia]
+d3183104f3c7: Preparing
+4818839e90a0: Preparing
+500015dbd0cb: Preparing
+4982aa35d2a4: Preparing
+7679eeb0fb3f: Preparing
+260e0d3c5dcd: Preparing
+a3046e25de66: Preparing
+9153dbb804a6: Preparing
+0bf7b72ba9a6: Preparing
+a80eedb6d5c7: Preparing
+a2a4e69ea5e1: Preparing
+cc5e91a4e413: Preparing
+4353f08b8786: Preparing
+f6e71f9d22ec: Preparing
+9eb9a78eeb10: Preparing
+260e0d3c5dcd: Waiting
+a3046e25de66: Waiting
+9153dbb804a6: Waiting
+0bf7b72ba9a6: Waiting
+a80eedb6d5c7: Waiting
+a2a4e69ea5e1: Waiting
+cc5e91a4e413: Waiting
+4353f08b8786: Waiting
+f6e71f9d22ec: Waiting
+9eb9a78eeb10: Waiting
+7679eeb0fb3f: Layer already exists
+4982aa35d2a4: Layer already exists
+260e0d3c5dcd: Layer already exists
+a3046e25de66: Layer already exists
+9153dbb804a6: Layer already exists
+0bf7b72ba9a6: Layer already exists
+a80eedb6d5c7: Layer already exists
+a2a4e69ea5e1: Layer already exists
+cc5e91a4e413: Layer already exists
+4353f08b8786: Layer already exists
+f6e71f9d22ec: Layer already exists
+9eb9a78eeb10: Layer already exists
+4818839e90a0: Pushed
+d3183104f3c7: Pushed
+500015dbd0cb: Pushed
+6df20a5: digest: sha256:f46104ca44d1e96669fec8837c3ab0732e103bf11498d052d1c514f807133020 size: 3474
+The push refers to repository [794038217446.dkr.ecr.us-east-1.amazonaws.com/bia]
+d3183104f3c7: Preparing
+4818839e90a0: Preparing
+500015dbd0cb: Preparing
+4982aa35d2a4: Preparing
+7679eeb0fb3f: Preparing
+260e0d3c5dcd: Preparing
+a3046e25de66: Preparing
+9153dbb804a6: Preparing
+0bf7b72ba9a6: Preparing
+a80eedb6d5c7: Preparing
+a2a4e69ea5e1: Preparing
+cc5e91a4e413: Preparing
+4353f08b8786: Preparing
+f6e71f9d22ec: Preparing
+9eb9a78eeb10: Preparing
+a3046e25de66: Waiting
+9153dbb804a6: Waiting
+0bf7b72ba9a6: Waiting
+a80eedb6d5c7: Waiting
+cc5e91a4e413: Waiting
+4353f08b8786: Waiting
+f6e71f9d22ec: Waiting
+9eb9a78eeb10: Waiting
+a2a4e69ea5e1: Waiting
+260e0d3c5dcd: Waiting
+500015dbd0cb: Layer already exists
+7679eeb0fb3f: Layer already exists
+4982aa35d2a4: Layer already exists
+4818839e90a0: Layer already exists
+d3183104f3c7: Layer already exists
+260e0d3c5dcd: Layer already exists
+a3046e25de66: Layer already exists
+9153dbb804a6: Layer already exists
+0bf7b72ba9a6: Layer already exists
+a2a4e69ea5e1: Layer already exists
+a80eedb6d5c7: Layer already exists
+4353f08b8786: Layer already exists
+cc5e91a4e413: Layer already exists
+f6e71f9d22ec: Layer already exists
+9eb9a78eeb10: Layer already exists
+latest: digest: sha256:f46104ca44d1e96669fec8837c3ab0732e103bf11498d052d1c514f807133020 size: 3474
+[0;32m[SUCCESS][0m Push concluído com sucesso
+[0;34m[INFO][0m Atualizando serviço ECS...
+[0;34m[INFO][0m Task Definition: task-def-bia:[0;34m[INFO][0m
+
+aws: [ERROR]: An error occurred (InvalidParameterException) when calling the UpdateService operation: Invalid revision number. Number: [0;34m[INFO][0m

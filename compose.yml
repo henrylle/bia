@@ -3,7 +3,7 @@ services:
     build: .
     container_name: bia
     ports:
-      - 80:8080
+      - 3001:8080
     environment:
       DB_USER: postgres
       DB_PWD: Ajkluj65z3s3GLCI5CIY

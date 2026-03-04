@@ -1,0 +1,150 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Auto Scaling Group para ECS Cluster cluster-bia'
+
+Parameters:
+  ClusterName:
+    Type: String
+    Default: cluster-bia
+    Description: Nome do cluster ECS existente
+  
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues: [t3.micro, t3.small, t3.medium, t3.large]
+    Description: Tipo de instância EC2
+  
+  MinSize:
+    Type: Number
+    Default: 0
+    Description: Número mínimo de instâncias
+  
+  MaxSize:
+    Type: Number
+    Default: 3
+    Description: Número máximo de instâncias
+  
+  DesiredCapacity:
+    Type: Number
+    Default: 1
+    Description: Número desejado de instâncias
+
+Resources:
+  ECSLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub '${ClusterName}-launch-template'
+      LaunchTemplateData:
+        ImageId: !Sub '{{resolve:ssm:/aws/service/ecs/optimized-ami/amazon-linux-2023/recommended/image_id}}'
+        InstanceType: !Ref InstanceType
+        IamInstanceProfile:
+          Arn: arn:aws:iam::794038217446:instance-profile/role-acesso-ssm
+        NetworkInterfaces:
+          - AssociatePublicIpAddress: true
+            DeviceIndex: 0
+            DeleteOnTermination: true
+            Groups:
+              - sg-01cf577e0933cffe6
+        BlockDeviceMappings:
+          - DeviceName: /dev/xvda
+            Ebs:
+              VolumeSize: 30
+              VolumeType: gp3
+              DeleteOnTermination: true
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            echo ECS_CLUSTER=${ClusterName} >> /etc/ecs/ecs.config
+            echo ECS_ENABLE_TASK_IAM_ROLE=true >> /etc/ecs/ecs.config
+            echo ECS_ENABLE_CONTAINER_METADATA=true >> /etc/ecs/ecs.config
+            
+            yum update -y
+            yum install -y docker git jq htop
+            
+            systemctl start docker
+            systemctl enable docker
+            usermod -a -G docker ec2-user
+            
+            curl -L "https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+            
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            ./aws/install
+            rm -rf awscliv2.zip aws/
+            
+            dd if=/dev/zero of=/swapfile bs=1M count=4096
+            chmod 600 /swapfile
+            mkswap /swapfile
+            swapon /swapfile
+            echo '/swapfile none swap sw 0 0' >> /etc/fstab
+            
+            curl -fsSL https://rpm.nodesource.com/setup_21.x | bash -
+            yum install -y nodejs
+            
+            systemctl restart ecs
+            
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: !Sub '${ClusterName}-instance'
+              - Key: ECS-Cluster
+                Value: !Ref ClusterName
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: !Sub '${ClusterName}-asg'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref ECSLaunchTemplate
+        Version: !GetAtt ECSLaunchTemplate.LatestVersionNumber
+      MinSize: !Ref MinSize
+      MaxSize: !Ref MaxSize
+      DesiredCapacity: !Ref DesiredCapacity
+      VPCZoneIdentifier:
+        - subnet-004fc006f214f0ad1
+      HealthCheckType: EC2
+      HealthCheckGracePeriod: 300
+      Tags:
+        - Key: Name
+          Value: !Sub '${ClusterName}-asg-instance'
+          PropagateAtLaunch: true
+        - Key: ECS-Cluster
+          Value: !Ref ClusterName
+          PropagateAtLaunch: true
+    CreationPolicy:
+      ResourceSignal:
+        Count: !Ref DesiredCapacity
+        Timeout: PT15M
+
+  ECSCapacityProvider:
+    Type: AWS::ECS::CapacityProvider
+    Properties:
+      Name: !Sub '${ClusterName}-capacity-provider'
+      AutoScalingGroupProvider:
+        AutoScalingGroupArn: !Ref AutoScalingGroup
+        ManagedScaling:
+          Status: ENABLED
+          TargetCapacity: 100
+          MinimumScalingStepSize: 1
+          MaximumScalingStepSize: 1000
+        ManagedDraining: ENABLED
+
+  ClusterCapacityProviderAssociation:
+    Type: AWS::ECS::ClusterCapacityProviderAssociations
+    Properties:
+      Cluster: !Ref ClusterName
+      CapacityProviders:
+        - !Ref ECSCapacityProvider
+      DefaultCapacityProviderStrategy:
+        - CapacityProvider: !Ref ECSCapacityProvider
+          Weight: 1
+
+Outputs:
+  AutoScalingGroupName:
+    Value: !Ref AutoScalingGroup
+  CapacityProviderName:
+    Value: !Ref ECSCapacityProvider
+  LaunchTemplateName:
+    Value: !Ref ECSLaunchTemplate

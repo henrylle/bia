@@ -1,7 +1,7 @@
 {
   "name": "bia",
   "version": "4.2.0",
-  "description": "### Período do evento: 31/01 a 01/02/2026 (Online e ao vivo das 9h30 às 17h30)",
+  "description": "### Período do evento: 21/03 a 22/03/2026 (Online e ao vivo das 9h30 às 17h30)",
   "main": "index.js",
   "scripts": {
     "test": "jest tests/unit",

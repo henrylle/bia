@@ -33,7 +33,9 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "socket.io": "^4.6.1",
+    "ws": "^8.13.0"
   },
   "eslintConfig": {
     "extends": [

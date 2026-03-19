@@ -7,9 +7,11 @@ import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
+import Chat from "./components/Chat.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const chatEnabled = import.meta.env.VITE_ENABLE_CHAT === 'true';
 
 function AppContent() {
   const [tasks, setTasks] = useState([]);
@@ -195,6 +197,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
+            {chatEnabled && <Route path="/chat" element={<Chat />} />}
           </Routes>
           <Footer />
         </div>

@@ -67,12 +67,37 @@ body {
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-card);
+  gap: 1rem;
 }
 
 .header h1 {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.header-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.header-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.header-nav a:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.header-nav a.active {
+  background: var(--accent-primary);
+  color: white;
 }
 
 .theme-controls {

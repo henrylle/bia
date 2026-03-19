@@ -3,7 +3,10 @@
 # dependencies
 /node_modules
 
-
+# Python virtual environment (MCP servers)
+.venv/
+__pycache__/
+*.pyc
 
 #React node_modules
 /client/node_modules

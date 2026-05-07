@@ -3,7 +3,7 @@
 ## Visão Geral do Projeto
 **Nome:** BIA  
 **Versão:** 4.2.0  
-**Período da Imersão AWS & IA:** 21/03 a 22/03/2026 (Online e ao Vivo das 9h30 às 17h30)  
+**Período da Imersão AWS & IA:** 23/05 a 24/05/2026 (Online e ao Vivo das 9h30 às 17h30)  
 **Repositório:** https://github.com/henrylle/bia
 
 ## Impressões Iniciais do Desenvolvedor

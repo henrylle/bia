@@ -1,4 +1,5 @@
 {
+  "mcpServers": {
   "aws-mcp": {
     "command": "uvx",
     "args": [
@@ -8,4 +9,5 @@
       "AWS_REGION=us-east-2"
     ]
   }
+}
 }

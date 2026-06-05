@@ -1,4 +1,13 @@
 const initializeModels = require("../models");
+const cache = require("../../lib/cache");
+
+const CACHE_KEY = "tarefas:all";
+
+async function refreshCache() {
+  const { Tarefas } = await initializeModels();
+  const data = await Tarefas.findAll();
+  await cache.set(CACHE_KEY, data);
+}
 
 module.exports = () => {
   const controller = {};
@@ -13,6 +22,7 @@ module.exports = () => {
       };
 
       const data = await Tarefas.create(tarefa);
+      await refreshCache();
       res.send(data);
     } catch (err) {
       res.status(500).send({
@@ -51,6 +61,7 @@ module.exports = () => {
       });
 
       if (result) {
+        await refreshCache();
         res.send({ message: "Tarefa deletada com sucesso." });
       } else {
         res.status(404).send({
@@ -74,6 +85,7 @@ module.exports = () => {
         },
       });
 
+      await refreshCache();
       const data = await Tarefas.findByPk(uuid);
       if (data) {
         res.send(data);
@@ -89,10 +101,45 @@ module.exports = () => {
     }
   };
 
-  controller.findAll = async (req, res) => {
+  controller.deleteAll = async (req, res) => {
     try {
       const { Tarefas } = await initializeModels();
+      const result = await Tarefas.destroy({ where: {}, truncate: true });
+      await cache.del(CACHE_KEY);
+      res.send({ message: "Todas as tarefas foram deletadas." });
+    } catch (err) {
+      res.status(500).send({
+        message: err.message || "Deu ruim.",
+      });
+    }
+  };
+
+  controller.findAll = async (req, res) => {
+    try {
+      const cacheEnabled = !!process.env.CACHE_ENDPOINT;
+      const start = Date.now();
+
+      if (cacheEnabled) {
+        const cached = await cache.get(CACHE_KEY);
+        if (cached) {
+          const elapsed = Date.now() - start;
+          const remaining = await cache.ttl(CACHE_KEY);
+          console.log(`[CACHE HIT] tarefas - ${elapsed}ms - TTL restante: ${remaining}s`);
+          return res.send({ fromCache: true, cacheTTL: remaining, data: cached });
+        }
+      }
+
+      const { Tarefas } = await initializeModels();
       const data = await Tarefas.findAll();
+      const elapsed = Date.now() - start;
+
+      if (cacheEnabled) {
+        await cache.set(CACHE_KEY, data);
+        const ttl = Number(process.env.CACHE_TTL) || 60;
+        console.log(`[CACHE MISS] tarefas - ${elapsed}ms - buscou do banco, cache setado com TTL: ${ttl}s`);
+        return res.send({ fromCache: false, cacheTTL: ttl, data });
+      }
+
       res.send(data);
     } catch (err) {
       res.status(500).send({

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = ({ isOpen, onClose, title, message, type = 'info' }) => {
+const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'info' }) => {
   if (!isOpen) return null;
 
   const getIcon = () => {
@@ -40,9 +40,20 @@ const Modal = ({ isOpen, onClose, title, message, type = 'info' }) => {
           <p>{message}</p>
         </div>
         <div className="modal-footer">
-          <button className="modal-btn" onClick={onClose}>
-            OK
-          </button>
+          {onConfirm ? (
+            <>
+              <button className="modal-btn modal-btn-cancel" onClick={onClose}>
+                Cancelar
+              </button>
+              <button className="modal-btn modal-btn-confirm" onClick={onConfirm}>
+                Confirmar
+              </button>
+            </>
+          ) : (
+            <button className="modal-btn" onClick={onClose}>
+              OK
+            </button>
+          )}
         </div>
       </div>
     </div>

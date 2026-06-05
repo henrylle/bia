@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { FaBolt, FaDatabase, FaTrash } from "react-icons/fa";
 import Task from "./Task.jsx";
 
-const Tasks = ({ tasks, onDelete, onToggle }) => {
+const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [countdown, setCountdown] = useState(cacheTTL);
   const tasksPerPage = 5; // Mostrar 5 tarefas por página
+
+  // Atualizar countdown quando cacheTTL muda
+  useEffect(() => {
+    setCountdown(cacheTTL);
+  }, [cacheTTL]);
+
+  // Countdown automático
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [countdown]);
 
   // Calcular tarefas da página atual
   const indexOfLastTask = currentPage * tasksPerPage;
@@ -44,6 +60,17 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
 
   return (
     <div className="tasks-container">
+      {/* Indicador de fonte dos dados */}
+      {cacheTTL !== null && (
+        <div className="data-source-badge">
+          {fromCache ? (
+            <span className="badge badge-cache"><FaBolt /> {countdown}s</span>
+          ) : (
+            <span className="badge badge-database"><FaDatabase /></span>
+          )}
+        </div>
+      )}
+
       {/* Lista de tarefas da página atual */}
       <div className="tasks-list">
         {currentTasks.map((task) => (
@@ -116,6 +143,10 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
               ›
             </button>
           </div>
+
+          <button className="btn-delete-all" onClick={onDeleteAll} title="Excluir todas as tarefas">
+            <FaTrash /> Limpar tudo
+          </button>
         </div>
       )}
     </div>

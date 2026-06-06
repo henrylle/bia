@@ -18,6 +18,12 @@
 - **Multi-AZ deployments:** Manter configuração simples
 - **Auto Scaling complexo:** Usar configurações básicas
 
+## Availability Zones (Cenário com ALB)
+- **Zonas utilizadas:** Apenas zona A e zona B da região
+- **ALB:** Configurado nas subnets da zona A e zona B
+- **EC2 (ECS):** 1 instância na zona A + 1 instância na zona B
+- **Motivo:** Simplicidade para o aluno, alta disponibilidade mínima com 2 zonas e redução de custo com IPv4 público no ALB
+
 ## Padrão de Nomenclatura
 
 ### Prefixo Padrão
@@ -30,6 +36,20 @@
 - **Task Definition sem ALB:** `task-def-bia` (prefixo task-def)
 - **Service:** `service-bia` (sem alb)
 - **Service:** `service-bia-alb` (com alb)
+
+### Configuração do Container (Task Definition)
+- **Memory Soft Limit:** 400 MB
+- **CPU:** 1 vCPU (1024 units)
+- **Nota:** Configuração na área do container, NÃO na parte de Fargate/Task size
+
+### Estratégia de Deploy (ECS Service)
+- **Tipo:** Rolling Update
+- **Minimum healthy percent:** 50%
+- **Maximum percent:** 100%
+- **AZ Rebalancing:** Desativado
+
+### Target Group (ALB)
+- **Deregistration Delay:** 30 segundos
 
 ### Sufixos dos Security Groups
 

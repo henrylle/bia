@@ -16,6 +16,7 @@ function AppContent() {
   const [tasks, setTasks] = useState([]);
   const [fromCache, setFromCache] = useState(false);
   const [cacheTTL, setCacheTTL] = useState(null);
+  const [cacheError, setCacheError] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { logApiRequest, logApiResponse, logApiError, addLog } = useLog();
 
@@ -31,10 +32,12 @@ function AppContent() {
         setTasks(response.data);
         setFromCache(response.fromCache);
         setCacheTTL(response.cacheTTL);
+        setCacheError(response.cacheError || false);
       } else {
         setTasks(response);
         setFromCache(false);
         setCacheTTL(null);
+        setCacheError(false);
       }
     } catch (error) {
       addLog('ERROR', 'Falha ao carregar tarefas', error.message);
@@ -214,6 +217,7 @@ function AppContent() {
           onToggle={toggleReminder}
           fromCache={fromCache}
           cacheTTL={cacheTTL}
+          cacheError={cacheError}
         />
       ) : (
         <div className="empty-state">

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaBolt, FaDatabase, FaTrash } from "react-icons/fa";
+import { FaBolt, FaDatabase, FaTrash, FaExclamationTriangle } from "react-icons/fa";
 import Task from "./Task.jsx";
 
-const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL }) => {
+const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL, cacheError }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [countdown, setCountdown] = useState(cacheTTL);
   const tasksPerPage = 5; // Mostrar 5 tarefas por página
@@ -63,7 +63,9 @@ const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL }) 
       {/* Indicador de fonte dos dados */}
       {cacheTTL !== null && (
         <div className="data-source-badge">
-          {fromCache ? (
+          {cacheError ? (
+            <span className="badge badge-error"><FaExclamationTriangle /> <FaDatabase /></span>
+          ) : fromCache ? (
             <span className="badge badge-cache"><FaBolt /> {countdown}s</span>
           ) : (
             <span className="badge badge-database"><FaDatabase /></span>

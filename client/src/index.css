@@ -917,3 +917,7 @@ footer {
 .badge-database {
   color: #6c757d;
 }
+
+.badge-error {
+  color: #dc3545;
+}

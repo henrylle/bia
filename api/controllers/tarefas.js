@@ -120,12 +120,15 @@ module.exports = () => {
       const start = Date.now();
 
       if (cacheEnabled) {
-        const cached = await cache.get(CACHE_KEY);
+        const { data: cached, error: cacheError } = await cache.get(CACHE_KEY);
         if (cached) {
           const elapsed = Date.now() - start;
           const remaining = await cache.ttl(CACHE_KEY);
           console.log(`[CACHE HIT] tarefas - ${elapsed}ms - TTL restante: ${remaining}s`);
           return res.send({ fromCache: true, cacheTTL: remaining, data: cached });
+        }
+        if (cacheError) {
+          console.log(`[CACHE ERROR] tarefas - Redis indisponível, buscando do banco`);
         }
       }
 
@@ -134,10 +137,13 @@ module.exports = () => {
       const elapsed = Date.now() - start;
 
       if (cacheEnabled) {
-        await cache.set(CACHE_KEY, data);
+        const cacheError = (await cache.get(CACHE_KEY)).error;
+        if (!cacheError) {
+          await cache.set(CACHE_KEY, data);
+        }
         const ttl = Number(process.env.CACHE_TTL) || 60;
-        console.log(`[CACHE MISS] tarefas - ${elapsed}ms - buscou do banco, cache setado com TTL: ${ttl}s`);
-        return res.send({ fromCache: false, cacheTTL: ttl, data });
+        console.log(`[CACHE MISS] tarefas - ${elapsed}ms - buscou do banco${cacheError ? ' (cache indisponível)' : ', cache setado com TTL: ' + ttl + 's'}`);
+        return res.send({ fromCache: false, cacheTTL: ttl, cacheError, data });
       }
 
       res.send(data);

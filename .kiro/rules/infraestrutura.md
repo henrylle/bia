@@ -6,7 +6,8 @@
 
 ## Tipos de Instância
 - **RDS (Database):** t3.micro
-- **EC2 (ECS Cluster):** t3.micro
+- **EC2 (ECS Cluster) — Cenário 1 e 2:** t3.micro
+- **EC2 (ECS Cluster) — Cenário 3 (awsvpc):** t3.small (necessário por conta do limite de ENIs no modo awsvpc)
 
 ## Filosofia de Simplicidade
 - **Público-alvo:** Alunos em aprendizado
@@ -50,6 +51,8 @@
 
 ### Target Group (ALB)
 - **Deregistration Delay:** 30 segundos
+- **Cenário 2 (com ALB):** `tg-bia-alb` — tipo instance
+- **Cenário 3 (com ALB + Cache):** `tg-bia-app` — tipo ip (necessário para awsvpc)
 
 ### Sufixos dos Security Groups
 
@@ -61,6 +64,29 @@
 - **Database (RDS):** `bia-db`
 - **Application Load Balancer:** `bia-alb`
 - **EC2 (ECS Cluster):** `bia-ec2`
+
+#### Cenário 3: Com ALB + Cache (Evolução com Cache)
+- **Database (RDS):** `bia-db`
+- **Application Load Balancer:** `bia-alb`
+- **EC2 (ECS Cluster):** `bia-cluster`
+- **Serviço da aplicação (ECS):** `bia-app`
+- **Serviço de cache (ECS):** `bia-cache`
+
+## Nomenclatura de Serviços ECS (Cenário 3: Com ALB + Cache)
+- **Cluster:** `cluster-bia-app`
+- **Serviço da aplicação:** `service-bia-app`
+- **Serviço de cache:** `service-bia-cache`
+
+### Network Mode (Cenário 3)
+- **Modo:** `awsvpc` — cada task recebe ENI própria com IP privado dedicado
+- **Impacto:** Security Groups aplicados diretamente na ENI da task, não na EC2
+- **EC2 (bia-cluster):** inbound vazio — controle de acesso é feito nos SGs das tasks
+
+### Service Discovery — Cache (Cenário 3)
+- **Serviço:** `service-bia-cache` registrado no AWS Cloud Map
+- **Acesso:** `service-bia-app` resolve o endereço do cache via DNS interno (Cloud Map)
+- **Benefício:** Sem necessidade de hardcodar IP do cache como variável de ambiente
+- **Alternativa possível:** Em vez de cache como serviço ECS, poderia ser utilizado o **Amazon ElastiCache** (Redis/Memcached gerenciado), que oferece alta disponibilidade e gerenciamento automático — porém é um estágio mais avançado do aprendizado
 
 ## Regras de Security Groups
 
@@ -76,12 +102,27 @@
   - `bia-dev` → Descrição: "acesso vindo de bia-dev"
   - `bia-ec2` (quando com ALB) → Descrição: "acesso vindo de bia-ec2"
   - `bia-web` (quando sem ALB) → Descrição: "acesso vindo de bia-web"
+  - `bia-app` (quando com ALB + Cache) → Descrição: "acesso vindo de bia-app"
 
 ### EC2 com ALB (bia-ec2)
 **Inbound Rules:**
 - **Protocolo:** All TCP
 - **Source:** `bia-alb` → Descrição: "acesso vindo de bia-alb"
 - **Motivo:** Portas aleatórias do ECS Service
+
+### EC2 com ALB + Cache (bia-cluster)
+**Inbound Rules:** nenhuma — controle de acesso feito nos SGs das tasks via awsvpc
+**Outbound:** `0.0.0.0/0`
+
+### Serviço da aplicação (bia-app) — Cenário 3
+**Inbound Rules:**
+- **Porta:** 8080
+- **Source:** `bia-alb` → Descrição: "acesso vindo de bia-alb"
+
+### Serviço de cache (bia-cache) — Cenário 3
+**Inbound Rules:**
+- **Porta:** 6379 (Redis)
+- **Source:** `bia-app` → Descrição: "acesso vindo de bia-app"
 
 ### Application Load Balancer (bia-alb)
 **Inbound Rules:**

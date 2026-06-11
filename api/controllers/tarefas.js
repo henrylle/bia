@@ -4,6 +4,7 @@ const cache = require("../../lib/cache");
 const CACHE_KEY = "tarefas:all";
 
 async function refreshCache() {
+  if (!process.env.CACHE_ENDPOINT) return;
   const { Tarefas } = await initializeModels();
   const data = await Tarefas.findAll();
   await cache.set(CACHE_KEY, data);
@@ -119,13 +120,15 @@ module.exports = () => {
       const cacheEnabled = !!process.env.CACHE_ENDPOINT;
       const start = Date.now();
 
+      let cacheError = false;
       if (cacheEnabled) {
-        const { data: cached, error: cacheError } = await cache.get(CACHE_KEY);
-        if (cached) {
+        const result = await cache.get(CACHE_KEY);
+        cacheError = result.error;
+        if (result.data) {
           const elapsed = Date.now() - start;
           const remaining = await cache.ttl(CACHE_KEY);
           console.log(`[CACHE HIT] tarefas - ${elapsed}ms - TTL restante: ${remaining}s`);
-          return res.send({ fromCache: true, cacheTTL: remaining, data: cached });
+          return res.send({ fromCache: true, cacheTTL: remaining, cacheTime: elapsed, data: result.data });
         }
         if (cacheError) {
           console.log(`[CACHE ERROR] tarefas - Redis indisponível, buscando do banco`);
@@ -133,20 +136,22 @@ module.exports = () => {
       }
 
       const { Tarefas } = await initializeModels();
+      const dbStart = Date.now();
       const data = await Tarefas.findAll();
+      const dbTime = Date.now() - dbStart;
       const elapsed = Date.now() - start;
 
       if (cacheEnabled) {
-        const cacheError = (await cache.get(CACHE_KEY)).error;
         if (!cacheError) {
           await cache.set(CACHE_KEY, data);
         }
         const ttl = Number(process.env.CACHE_TTL) || 60;
-        console.log(`[CACHE MISS] tarefas - ${elapsed}ms - buscou do banco${cacheError ? ' (cache indisponível)' : ', cache setado com TTL: ' + ttl + 's'}`);
-        return res.send({ fromCache: false, cacheTTL: ttl, cacheError, data });
+        console.log(`[CACHE MISS] tarefas - ${elapsed}ms (db: ${dbTime}ms) - buscou do banco${cacheError ? ' (cache indisponível)' : ', cache setado com TTL: ' + ttl + 's'}`);
+        return res.send({ fromCache: false, cacheTTL: ttl, cacheError, dbTime, data });
       }
 
-      res.send(data);
+      console.log(`[DB] tarefas - ${dbTime}ms`);
+      res.send({ dbTime, data });
     } catch (err) {
       res.status(500).send({
         message: err.message || "Deu ruim.",

@@ -19,10 +19,10 @@ services:
       # AWS_SECRET_ACCESS_KEY:
       # DEBUG_SECRET: 
       # IS_LOCAL: true 
-      CACHE_ENDPOINT: redis
-      CACHE_PORT: 6379
-      CACHE_TTL: 15
-      CACHE_TLS: false
+      # CACHE_ENDPOINT: redis
+      # CACHE_PORT: 6379
+      # CACHE_TTL: 15
+      # CACHE_TLS: false
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
     #   interval: 10s

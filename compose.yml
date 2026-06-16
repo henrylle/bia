@@ -6,18 +6,23 @@ services:
       - 3001:8080
     depends_on:
       - database
+      - redis
     environment:
       DB_USER: postgres
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
-      ## NAO PRECISA NO BOOTCAMP DAQUI PRA BAIXO ##
+      ## NAO PRECISA NA IMERSÃO DAQUI PRA BAIXO ## 
       # DB_SECRET_NAME: 
       # DB_REGION: 
       # AWS_ACCESS_KEY_ID: 
       # AWS_SECRET_ACCESS_KEY:
       # DEBUG_SECRET: 
       # IS_LOCAL: true 
+      # CACHE_ENDPOINT: redis
+      # CACHE_PORT: 6379
+      # CACHE_TTL: 15
+      # CACHE_TLS: false
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
     #   interval: 10s
@@ -35,5 +40,10 @@ services:
       - 5433:5432
     volumes:
       - db:/var/lib/postgresql/data
+  redis:
+    image: valkey/valkey:8.1-alpine
+    container_name: redis
+    ports:
+      - 6379:6379
 volumes:
   db:

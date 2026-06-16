@@ -16,6 +16,13 @@ module.exports = (app) => {
       } catch (err) {
         next(err);
       }
+    })
+    .delete(async (req, res, next) => {
+      try {
+        await controller.deleteAll(req, res);
+      } catch (err) {
+        next(err);
+      }
     });
 
   app.route("/api/tarefas/:uuid")

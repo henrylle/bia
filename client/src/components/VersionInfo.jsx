@@ -4,6 +4,7 @@ const VersionInfo = () => {
   const [showVersion, setShowVersion] = useState(false);
   const [apiStatus, setApiStatus] = useState('checking'); // 'checking', 'online', 'offline'
   const [apiVersion, setApiVersion] = useState('4.0.0');
+  const [cacheConfig, setCacheConfig] = useState(null);
 
   const getApiUrl = () => {
     // Se estiver definido no ambiente (Docker/Produção)
@@ -39,6 +40,12 @@ const VersionInfo = () => {
         const versionText = await response.text();
         setApiVersion(versionText);
         setApiStatus('online');
+
+        // Buscar config do cache
+        try {
+          const cacheRes = await fetch(`${apiUrl}/api/cache-config`, { cache: 'no-cache' });
+          if (cacheRes.ok) setCacheConfig(await cacheRes.json());
+        } catch {}
       } else {
         setApiStatus('offline');
       }
@@ -177,6 +184,9 @@ const VersionInfo = () => {
                </small>
                <small>Local: {getEnvironmentInfo().description}</small>
                <small>API: {getApiUrl()}</small>
+               {cacheConfig && cacheConfig.enabled && (
+                 <small>Cache: {cacheConfig.endpoint}:{cacheConfig.port} - {cacheConfig.ttl}s</small>
+               )}
                <small>
                  <button 
                    className="version-link" 

@@ -129,6 +129,29 @@
 - **Porta:** 80/443
 - **Source:** 0.0.0.0/0 → Descrição: "acesso público HTTP/HTTPS"
 
+## EC2 de Desenvolvimento (bia-dev)
+
+### Configuração da Instância
+- **Nome (Tag Name):** `bia-dev`
+- **Tipo:** `t3.micro`
+- **AMI:** Amazon Linux 2023 (última versão disponível)
+- **Key Pair:** `bia-dev`
+- **Security Group:** `bia-dev`
+- **Região:** `us-east-1` (Virginia)
+- **Subnet:** zona A (`us-east-1a`)
+- **IP Público:** habilitado
+
+### User Data
+- **Script:** `scripts/user_data_ec2_zona_a.sh`
+- **O script instala:**
+  - Docker + Docker Compose v2.23.3
+  - Git, jq
+  - AWS CLI v2
+  - Node.js 21.x + npm
+  - Python 3.11 + uv (para MCP servers da AWS)
+  - Swap de 4GB (128M × 32)
+  - Adiciona `ec2-user` e `ssm-user` ao grupo `docker`
+
 ## Banco de Dados
 - **Aproveitamento:** Usar banco existente na infraestrutura
 - **Não criar:** Novos recursos RDS nos templates

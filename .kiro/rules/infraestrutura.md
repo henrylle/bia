@@ -137,6 +137,7 @@
 - **AMI:** Amazon Linux 2023 (última versão disponível)
 - **Key Pair:** `bia-dev`
 - **Security Group:** `bia-dev`
+- **IAM Instance Profile:** `role-acesso-ssm` (obrigatório para acesso via SSM)
 - **Região:** `us-east-1` (Virginia)
 - **Subnet:** zona A (`us-east-1a`)
 - **IP Público:** habilitado
@@ -154,10 +155,39 @@
 
 ### Lançamento via AWS CLI (run-instances) — Regras Obrigatórias
 
+#### IAM Instance Profile — sempre associar `role-acesso-ssm`
+- **Obrigatório** para que o SSM Agent consiga registrar a instância e permitir `ssm start-session`
+- **Parâmetro CLI:** `--iam-instance-profile Name=role-acesso-ssm`
+- Sem essa role, o comando `aws ssm start-session --target <id>` retorna erro de instância não encontrada
+
 #### User Data — passar sempre em base64 inline
 - A AWS CLI **não aceita `file://`** para `--user-data` em ambientes restritos (ex: MCP/agentes)
 - **Solução:** Encodar o script em base64 e passar o conteúdo diretamente no parâmetro
 - **Comando para gerar:** `base64 -i scripts/user_data_ec2_zona_a.sh | tr -d '\n'`
+
+#### Parâmetro de quantidade — usar `--count`, NÃO `--min-count` / `--max-count`
+- O MCP/CLI deste projeto **não aceita** `--min-count` e `--max-count`
+- **Correto:** `--count 1`
+- **Errado:** `--min-count 1 --max-count 1` → causa erro de validação imediato
+
+#### IP público + Subnet — usar `--network-interfaces`, NÃO combinação direta
+- Usar `--associate-public-ip-address` junto com `--subnet-id` e `--security-group-ids` **causa erro** `InvalidParameterCombination`
+- **Solução obrigatória:** Passar tudo pelo parâmetro `--network-interfaces`:
+  ```
+  --network-interfaces "DeviceIndex=0,SubnetId=<subnet-id>,Groups=<sg-id>,AssociatePublicIpAddress=true"
+  ```
+- **Não usar** `--subnet-id`, `--security-group-ids` ou `--associate-public-ip-address` como parâmetros separados quando quiser IP público
+
+#### AMI Amazon Linux 2023 — buscar via SSM Parameter Store
+- Usar `describe-images` com filtros pode falhar ou ser lento
+- **Método confiável e rápido:**
+  ```
+  aws ssm get-parameter \
+    --region us-east-1 \
+    --name "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64" \
+    --query "Parameter.Value"
+  ```
+- Sempre retorna a AMI mais recente disponível na região sem depender de filtros
 
 ## Banco de Dados
 - **Aproveitamento:** Usar banco existente na infraestrutura

@@ -152,6 +152,13 @@
   - Swap de 4GB (128M × 32)
   - Adiciona `ec2-user` e `ssm-user` ao grupo `docker`
 
+### Lançamento via AWS CLI (run-instances) — Regras Obrigatórias
+
+#### User Data — passar sempre em base64 inline
+- A AWS CLI **não aceita `file://`** para `--user-data` em ambientes restritos (ex: MCP/agentes)
+- **Solução:** Encodar o script em base64 e passar o conteúdo diretamente no parâmetro
+- **Comando para gerar:** `base64 -i scripts/user_data_ec2_zona_a.sh | tr -d '\n'`
+
 ## Banco de Dados
 - **Aproveitamento:** Usar banco existente na infraestrutura
 - **Não criar:** Novos recursos RDS nos templates

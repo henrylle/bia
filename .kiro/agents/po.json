@@ -12,27 +12,7 @@
     "file://.kiro/rules/**/*.md"
   ],
   "hooks": {},
-  "toolsSettings": {
-    "write": {
-      "allowedPaths": [
-        ".kiro/tasks/**",
-        ".kiro/agents/po/**"
-      ]
-    },
-    "shell": {
-      "allowedCommands": [
-        "git add",
-        "git commit",
-        "git push",
-        "git checkout",
-        "git status",
-        "git branch",
-        "git log",
-        "gh pr create"
-      ],
-      "autoAllowReadonly": true
-    }
-  },
+  "toolsSettings": {},
   "includeMcpJson": true,
   "model": null
 }

@@ -5,14 +5,41 @@
   "mcpServers": {},
   "tools": ["*"],
   "toolAliases": {},
-  "allowedTools": ["fs_read", "fs_write", "execute_bash"],
+  "allowedTools": ["fs_read", "execute_bash"],
   "resources": [
     "file://README.md",
     "file://.kiro/agents/po/**/*.md",
     "file://.kiro/rules/**/*.md"
   ],
   "hooks": {},
-  "toolsSettings": {},
+  "toolsSettings": {
+    "write": {
+      "allowedPaths": [
+        ".kiro/**"
+      ],
+      "deniedPaths": [
+        "**"
+      ]
+    },
+    "shell": {
+    "allowedCommands": [
+      "git add",
+      "git commit",
+      "git push",
+      "git checkout",
+      "git status",
+      "git branch",
+      "git log",
+      "gh pr create"
+    ],
+    "deniedCommands": [
+      "cat", "echo", "tee", "sed", "mv", "cp", "rm",
+      "touch", "mkdir", "chmod", "chown", "dd",
+      "awk", "perl", "python", "node", "curl", "wget"
+    ],
+    "denyByDefault": true
+  }
+  },
   "includeMcpJson": true,
-  "model": null
+  "model": "claude-sonnet-4.6"
 }

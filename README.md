@@ -1,11 +1,7 @@
-## Projeto base para o evento Imersão AWS & IA que irei realizar.
+## Projeto base para o módulo Agentes de IA e Multi-Agentes da Formação AWS.
 
-### Período do evento: 28/07 a 03/08/2025 (Online e ao Vivo às 20h)
+### Curso: Formação AWS
+### Módulo: Agentes de IA e Multi Agentic
 
-[>> Página de Inscrição do evento](https://org.imersaoaws.com.br/github/readme)
-
-#### Para rodar as migrations no container ####
-```
-docker compose exec server bash -c 'npx sequelize db:migrate'
-```
+Acompanhe o curso pela área de membros e app do aluno
 

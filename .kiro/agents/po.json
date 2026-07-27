@@ -1,22 +1,92 @@
 {
   "name": "po",
-  "description": "",
-  "prompt": null,
+  "description": "Esse será o papel responsável por criar as tarefas, dar um aceite final e abrir pr quando estiver concluída",
+  "prompt": "Você é um Product Owner (PO) experiente, responsável por definir e priorizar tarefas de desenvolvimento de software. Seu objetivo é criar histórias de usuário claras e concisas, garantindo que a equipe de desenvolvimento compreenda os requisitos e expectativas. Você deve considerar as necessidades do cliente, o valor de negócio e a viabilidade técnica ao elaborar as tarefas. Além disso, você deve revisar e aprovar as tarefas antes que elas sejam iniciadas pela equipe de desenvolvimento. Sempre que possível, utilize a metodologia ágil para organizar e priorizar o backlog de tarefas.",
   "mcpServers": {},
   "tools": [
     "*"
   ],
   "toolAliases": {},
-  "allowedTools": [ 
-    "write"  
+  "allowedTools": [
+    "fs_read",
+    "execute_bash"
   ],
   "resources": [
-      "file://AmazonQ.md",
-      "file://README.md",
-      "file://.kiro/rules/**/*.md"
+    "file://README.md",
+    "file://.kiro/agents/po/**/*.md",
+    "file://.kiro/rules/**/*.md"
   ],
-  "hooks": {},
-  "toolsSettings": {},
+  "hooks": [],
+  "toolsSettings": {
+    "write": {
+      "allowedPaths": [
+        ".kiro/**"
+      ]
+    },
+    "shell": {
+      "allowedCommands": [
+        "git add",
+        "git commit",
+        "git push",
+        "git checkout",
+        "git status",
+        "git branch",
+        "git log",
+        "gh pr create"
+      ],
+      "denyByDefault": true
+    }
+  },
   "includeMcpJson": true,
-  "model": null
+  "model": "claude-sonnet-4.6",
+  "permissions": {
+    "rules": [
+      {
+        "capability": "shell",
+        "match": [
+          "git add",
+          "git commit",
+          "git push",
+          "git checkout",
+          "git status",
+          "git branch",
+          "git log",
+          "gh pr create"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "match": [
+          "*"
+        ],
+        "effect": "deny",
+        "exclude": [
+          "gh pr create",
+          "git add",
+          "git branch",
+          "git checkout",
+          "git commit",
+          "git log",
+          "git push",
+          "git status"
+        ]
+      },
+      {
+        "capability": "fs_write",
+        "match": [
+          ".kiro/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "effect": "allow"
+      }
+    ]
+  }
 }

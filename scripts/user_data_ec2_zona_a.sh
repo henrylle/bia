@@ -1,9 +1,17 @@
 #!/bin/bash
 
-#Instalar Docker e Git
+#Instalar Docker, Git, jq e AWS CLI
 sudo yum update -y
 sudo yum install git -y
 sudo yum install docker -y
+sudo yum install jq -y
+
+#Instalar AWS CLI v2
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo yum install unzip -y
+unzip awscliv2.zip
+sudo ./aws/install
+rm -rf awscliv2.zip aws/
 sudo usermod -a -G docker ec2-user
 sudo usermod -a -G docker ssm-user
 id ec2-user ssm-user
@@ -35,4 +43,5 @@ sudo yum install -y nodejs
 sudo dnf install python3.11 -y
 sudo ln -sf /usr/bin/python3.11 /usr/bin/python3
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
+sudo -u ec2-user bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/ec2-user/.bashrc

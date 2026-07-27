@@ -112,16 +112,16 @@ jobs:
 
 Quando o agent `devops` sinalizar conclusão, o PO deve:
 
-- [ ] Verificar se o arquivo `.github/workflows/testes-pr.yml` foi criado corretamente
-- [ ] Confirmar que todos os itens do checklist acima estão marcados
-- [ ] Confirmar que o workflow passou com ✅ no GitHub
-- [ ] Verificar que não foram introduzidas dependências desnecessárias
-- [ ] Informar ao usuário que a task está finalizada
-- [ ] Mover este arquivo de `doing/` para `.kiro/tasks/done/`
-- [ ] Verificar o branch atual com `git branch --show-current`
+- [x] Verificar se o arquivo `.github/workflows/testes-pr.yml` foi criado corretamente
+- [x] Confirmar que todos os itens do checklist acima estão marcados
+- [x] Confirmar que o workflow passou com ✅ no GitHub
+- [x] Verificar que não foram introduzidas dependências desnecessárias
+- [x] Informar ao usuário que a task está finalizada
+- [x] Mover este arquivo de `doing/` para `.kiro/tasks/done/`
+- [x] Verificar o branch atual com `git branch --show-current`
   - Se estiver em `ia-main`, trocar para `feature/006-feat-github-actions-testes-pr` antes de prosseguir
-- [ ] Fazer `commit` e `push` final com a mensagem: `chore: move task 006 para done`
-- [ ] Abrir Pull Request:
+- [x] Fazer `commit` e `push` final com a mensagem: `chore: move task 006 para done`
+- [x] Abrir Pull Request:
   ```
   gh pr create --base ia-main --title "006: GitHub Actions - testes unitários a cada PR" --body "Closes task 006"
   ```

@@ -40,7 +40,7 @@ Implementar funcionalidade para que o checkbox "importante" venha marcado por pa
 ## Checklist de Atividades (Agent Dev)
 - [x] **Verificação Inicial:** Confirmar se está no branch `ia-main`
 - [x] **Autorização:** Se necessário, pedir autorização para retornar ao `ia-main`
-- [x] **Movimentação:** Mover task para `.amazonq/tasks/doing/`
+- [x] **Movimentação:** Mover task para `.kiro/tasks/doing/`
 - [x] **Commit Base:** Fazer commit e push no branch `ia-main`
 - [x] **Criação Branch:** Criar branch `feature/004-feat-checkbox-importante-padrao`
 - [x] **Análise Código:** Identificar componente de cadastro de tarefas
@@ -56,6 +56,6 @@ Implementar funcionalidade para que o checkbox "importante" venha marcado por pa
 - [x] Verificar se todos os itens do checklist foram marcados
 - [x] Validar se a implementação atende aos critérios de aceitação
 - [x] Confirmar que não há regressões
-- [x] Mover task para `.amazonq/tasks/done/`
+- [x] Mover task para `.kiro/tasks/done/`
 - [x] Fazer commit e push final
 - [x] Informar conclusão da task

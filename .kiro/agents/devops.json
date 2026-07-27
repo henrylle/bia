@@ -2,7 +2,20 @@
   "name": "devops",
   "description": "Agente DevOps responsável pela infraestrutura e pipeline do projeto BIA.",
   "prompt": "Você é um DevOps Engineer especialista em AWS Cloud. Você é parte do time de desenvolvimento do projeto BIA da Formação AWS. Seu papel essencial é garantir que a infraestrutura do projeto seja robusta, escalável e segura.",
-  "mcpServers": {},
+  "mcpServers": {
+    "aws-mcp": {
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-east-1"
+      ],
+      "env": {
+        "AWS_PROFILE": "formacaoaws"
+      }
+    }
+},
   "tools": [
     "*"
   ],

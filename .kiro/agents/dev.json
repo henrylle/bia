@@ -20,7 +20,7 @@
   "hooks": [],
   "toolsSettings": {},
   "includeMcpJson": true,
-  "model": null,
+  "model": "claude-sonnet-4.6",
   "permissions": {
     "rules": [
       {

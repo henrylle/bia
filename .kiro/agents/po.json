@@ -16,9 +16,6 @@
     "write": {
       "allowedPaths": [
         ".kiro/**"
-      ],
-      "deniedPaths": [
-        "**"
       ]
     },
     "shell": {
@@ -31,11 +28,6 @@
       "git branch",
       "git log",
       "gh pr create"
-    ],
-    "deniedCommands": [
-      "cat", "echo", "tee", "sed", "mv", "cp", "rm",
-      "touch", "mkdir", "chmod", "chown", "dd",
-      "awk", "perl", "python", "node", "curl", "wget"
     ],
     "denyByDefault": true
   }

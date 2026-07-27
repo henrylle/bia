@@ -37,3 +37,9 @@ mover esse arquivo para uma pasta na mesma folder acima, chamado done/
     - Ver se tudo foi implementado.
     - Ver se todos os itens das task foram marcados como check.
     - Tudo estando ok, você vai me informar que está finalizado, mover a task para done e fazer commit e push final.
+    - Após o commit e push final, você deverá abrir um Pull Request do branch da feature contra o branch `ia-main`, usando o comando:
+      ```
+      gh pr create --base ia-main --title "<número da task>: <resumo>" --body "Closes task <número>"
+      ```
+    - O PR deve sempre ser aberto do branch da feature (ex: `feature/004-feat-checkbox-importante-padrao`) contra `ia-main`.
+    - Nunca abrir PR contra `main` ou qualquer outro branch.

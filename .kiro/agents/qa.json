@@ -3,15 +3,27 @@
   "description": "Agente de QA responsável por garantir a qualidade das entregas.",
   "prompt": null,
   "mcpServers": {},
-  "tools": ["*"],
+  "tools": [
+    "*"
+  ],
   "toolAliases": {},
-  "allowedTools": ["fs_read"],
+  "allowedTools": [
+    "fs_read"
+  ],
   "resources": [
     "file://README.md",
     "file://.kiro/rules/**/*.md"
   ],
-  "hooks": {},
+  "hooks": [],
   "toolsSettings": {},
   "includeMcpJson": true,
-  "model": null
+  "model": null,
+  "permissions": {
+    "rules": [
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      }
+    ]
+  }
 }

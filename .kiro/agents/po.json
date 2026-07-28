@@ -32,13 +32,18 @@
         "git status",
         "git branch",
         "git log",
-        "gh pr create"
+        "git worktree",
+        "gh pr create",
+        "cd",
+        "pwd",
+        "ls",
+        "mv"
       ],
       "denyByDefault": true
     }
   },
   "includeMcpJson": true,
-  "model": "claude-sonnet-4.6",
+  "model": "claude-sonnet-4.5",
   "permissions": {
     "rules": [
       {
@@ -51,7 +56,12 @@
           "git status",
           "git branch",
           "git log",
-          "gh pr create"
+          "git worktree",
+          "gh pr create",
+          "cd",
+          "pwd",
+          "ls",
+          "mv"
         ],
         "effect": "allow"
       },
@@ -69,7 +79,12 @@
           "git commit",
           "git log",
           "git push",
-          "git status"
+          "git status",
+          "git worktree",
+          "cd",
+          "pwd",
+          "ls",
+          "mv"
         ]
       },
       {

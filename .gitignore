@@ -32,3 +32,6 @@ yarn-error.log*
 
 # Playwright MCP artifacts
 .playwright-mcp/
+
+# Kiro worktrees
+.kiro/worktrees/

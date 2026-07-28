@@ -9,6 +9,7 @@ import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
 import Version from "./components/Version.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
+import Analytics from "./components/Analytics.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
@@ -172,6 +173,19 @@ function AppContent() {
   const HomePage = () => (
     <>
       <AddTask onAdd={addTask} />
+
+      {/* Card de acesso rápido ao Analytics */}
+      <div className="analytics-link-wrapper">
+        <a href="/analytics" className="analytics-link-card">
+          <span className="analytics-link-icon">📊</span>
+          <div className="analytics-link-text">
+            <strong>Ver Analytics</strong>
+            <span>Visualize suas tarefas por prioridade</span>
+          </div>
+          <span className="analytics-link-arrow">→</span>
+        </a>
+      </div>
+
       {tasks.length > 0 ? (
         <Tasks
           tasks={tasks}
@@ -197,6 +211,7 @@ function AppContent() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
             <Route path="/versao" element={<Version />} />
+            <Route path="/analytics" element={<Analytics tasks={tasks} />} />
           </Routes>
           <Footer />
         </div>

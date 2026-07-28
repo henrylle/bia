@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import { registerLocale } from "react-datepicker";
+import { ptBR } from "date-fns/locale/pt-BR";
+import "react-datepicker/dist/react-datepicker.css";
+import "../styles/datepicker.css";
 import Modal from "./Modal";
+
+registerLocale("pt-BR", ptBR);
 
 const AddTask = ({ onAdd }) => {
   const [titulo, setTitulo] = useState("");
-  const [dia, setDia] = useState("");
+  const [dia, setDia] = useState(null);
   const [importante, setImportante] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -15,14 +22,19 @@ const AddTask = ({ onAdd }) => {
       return;
     }
 
+    const formatDateToString = (date) => {
+      if (!date) return new Date().toLocaleDateString('pt-BR');
+      return date.toLocaleDateString('pt-BR');
+    };
+
     onAdd({ 
       titulo: titulo.trim(), 
-      dia_atividade: dia || new Date().toLocaleDateString('pt-BR'), 
+      dia_atividade: formatDateToString(dia), 
       importante 
     });
 
     setTitulo("");
-    setDia("");
+    setDia(null);
     setImportante(false);
   };
 
@@ -40,11 +52,18 @@ const AddTask = ({ onAdd }) => {
       
       <div className="form-control">
         <label>Data/Prazo</label>
-        <input
-          type="text"
-          placeholder="Quando?"
-          value={dia}
-          onChange={(e) => setDia(e.target.value)}
+        <DatePicker
+          selected={dia}
+          onChange={(date) => setDia(date)}
+          locale="pt-BR"
+          dateFormat="dd/MM/yyyy"
+          placeholderText="Quando?"
+          isClearable
+          showYearDropdown
+          scrollableYearDropdown
+          yearDropdownItemNumber={15}
+          className="datepicker-input"
+          calendarClassName="datepicker-calendar"
         />
       </div>
       

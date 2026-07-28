@@ -1,0 +1,238 @@
+/* =============================================
+   DatePicker - Customização para tema dark/light
+   Integrado com as variáveis CSS do index.css
+   ============================================= */
+
+/* Wrapper container */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+  position: relative;
+}
+
+/* Input field */
+.datepicker-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.datepicker-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.datepicker-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Botão de limpar (isClearable) */
+.react-datepicker__close-icon {
+  padding-right: 0.5rem;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: var(--text-secondary);
+  color: var(--bg-card);
+  font-size: 0.75rem;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.react-datepicker__close-icon:hover::after {
+  background-color: var(--accent-danger);
+}
+
+/* Popover/Calendar container */
+.react-datepicker-popper {
+  z-index: 9999;
+}
+
+.react-datepicker {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 0.875rem !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden;
+}
+
+/* Header do calendário */
+.react-datepicker__header {
+  background-color: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  border-radius: 0 !important;
+  padding: 0.5rem 0 0 !important;
+}
+
+/* Navegação (setas anterior/próximo) */
+.react-datepicker__navigation {
+  top: 0.75rem !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: var(--text-secondary) !important;
+  transition: border-color 0.2s ease;
+}
+
+.react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+  border-color: var(--accent-primary) !important;
+}
+
+/* Título do mês/ano */
+.react-datepicker__current-month,
+.react-datepicker-year-header {
+  color: var(--text-primary) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  padding-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+/* Nomes dos dias da semana */
+.react-datepicker__day-name {
+  color: var(--text-secondary) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  width: 2rem !important;
+  line-height: 2rem !important;
+  margin: 0.1rem !important;
+}
+
+/* Dias do mês */
+.react-datepicker__day {
+  color: var(--text-primary) !important;
+  border-radius: 6px !important;
+  width: 2rem !important;
+  line-height: 2rem !important;
+  margin: 0.1rem !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--bg-secondary) !important;
+  color: var(--accent-primary) !important;
+}
+
+/* Dia selecionado */
+.react-datepicker__day--selected {
+  background-color: var(--accent-primary) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.react-datepicker__day--selected:hover {
+  background-color: var(--accent-primary) !important;
+  color: white !important;
+  opacity: 0.9;
+}
+
+/* Dia de hoje */
+.react-datepicker__day--today {
+  font-weight: 700 !important;
+  color: var(--accent-primary) !important;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected {
+  color: white !important;
+}
+
+/* Dias fora do mês atual */
+.react-datepicker__day--outside-month {
+  color: var(--border-color) !important;
+}
+
+/* Dias com teclado em foco */
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--bg-secondary) !important;
+  color: var(--accent-primary) !important;
+}
+
+/* Dropdown de mês e ano */
+.react-datepicker__year-dropdown,
+.react-datepicker__month-dropdown {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.react-datepicker__year-option,
+.react-datepicker__month-option {
+  color: var(--text-primary) !important;
+  transition: background-color 0.15s ease;
+}
+
+.react-datepicker__year-option:hover,
+.react-datepicker__month-option:hover {
+  background-color: var(--bg-secondary) !important;
+}
+
+.react-datepicker__year-option--selected_year,
+.react-datepicker__month-option--selected_month {
+  background-color: var(--accent-primary) !important;
+  color: white !important;
+}
+
+/* Setas do dropdown de ano */
+.react-datepicker__year-option:first-of-type,
+.react-datepicker__year-option:last-of-type {
+  color: var(--text-secondary) !important;
+}
+
+/* Select de ano (showYearDropdown) */
+.react-datepicker__year-select,
+.react-datepicker__month-select {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.875rem !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+}
+
+/* Mês atual no header */
+.react-datepicker__month-container {
+  float: none !important;
+}
+
+/* Triângulo/Seta do popper */
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+/* Responsividade mobile */
+@media (max-width: 480px) {
+  .react-datepicker {
+    font-size: 1rem !important;
+  }
+
+  .react-datepicker__day {
+    width: 2.5rem !important;
+    line-height: 2.5rem !important;
+    margin: 0.15rem !important;
+  }
+
+  .react-datepicker__day-name {
+    width: 2.5rem !important;
+    line-height: 2.5rem !important;
+  }
+}

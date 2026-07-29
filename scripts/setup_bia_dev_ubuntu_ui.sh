@@ -19,7 +19,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Instalando o Node
-sudo curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # Atualizando versao do NPM
 sudo npm install -g npm@latest --loglevel=error

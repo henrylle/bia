@@ -148,7 +148,7 @@
   - Docker + Docker Compose v2.23.3
   - Git, jq
   - AWS CLI v2
-  - Node.js 21.x + npm
+  - Node.js 24.x (LTS) + npm
   - Python 3.11 + uv (para MCP servers da AWS)
   - Swap de 4GB (128M × 32)
   - Adiciona `ec2-user` e `ssm-user` ao grupo `docker`

@@ -117,7 +117,7 @@ describe('Tarefas Controller', () => {
       await findAll(req, res);
 
       expect(mockTarefas.findAll).toHaveBeenCalled();
-      expect(res.send).toHaveBeenCalledWith(tarefas);
+      expect(res.send).toHaveBeenCalledWith({ dbTime: expect.any(Number), data: tarefas });
     });
 
     test('deve retornar erro 500 ao falhar', async () => {

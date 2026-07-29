@@ -10,7 +10,7 @@ const About = () => {
           <div className="feature-card highlight">
             <h3>Próximo Evento</h3>
             <h4>AWS & IA</h4>
-            <p><strong>23/05 e 24/05/2026</strong><br/>Formação AWS</p>
+            <p><strong>01/08 e 02/08/2026</strong><br/>Formação AWS</p>
           </div>
         </div>
 

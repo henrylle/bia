@@ -22,15 +22,15 @@
           "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
         }
       },
-      "awslabs.ecs-mcp-server": {
+      "aws-mcp": {
       "command": "uvx",
-      "args": ["--from", "awslabs-ecs-mcp-server", "ecs-mcp-server"],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "FASTMCP_LOG_FILE": "/path/to/ecs-mcp-server.log",
-        "ALLOW_WRITE": "false",
-        "ALLOW_SENSITIVE_DATA": "false"
-      }
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-east-1"
+      ]
+  }
     }
 
   },

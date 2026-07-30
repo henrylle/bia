@@ -7,21 +7,17 @@
     ],
     "mcpServers": {
       "postgres": {
-        "command": "docker",
-        "args": [
-          "run",
-          "-i",
-          "--rm",
-          "--network=bia_default",
-          "-e",
-          "DATABASE_URI",
-          "crystaldba/postgres-mcp",
-          "--access-mode=unrestricted"
-        ],
-        "env": {
-          "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
-        }
-      },
+      "command": "uvx",
+      "args": [
+        "--with",
+        "mcp<2",
+        "postgres-mcp",
+        "--access-mode=unrestricted"
+      ],
+      "env": {
+        "DATABASE_URI": "postgresql://postgres:postgres@localhost:5433/bia"
+      }
+    },
       "aws-mcp": {
       "command": "uvx",
       "args": [

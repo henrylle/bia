@@ -1,21 +1,21 @@
 {
   "mcpServers": {
     "postgres": {
-      "command": "docker",
+      "command": "uvx",
       "args": [
-        "run",
-        "-i",
-        "--rm",
-        "--network=bia_default",
-        "-e",
-        "DATABASE_URI",
-        "crystaldba/postgres-mcp",
+        "--with",
+        "mcp<2",
+        "postgres-mcp",
         "--access-mode=unrestricted"
       ],
       "env": {
-        "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
+        "DATABASE_URI": "postgresql://postgres:postgres@localhost:5433/bia"
       }
     }
   }
 }
 //Source: https://github.com/crystaldba/postgres-mcp
+// Roda como processo local, nao via docker run: container de MCP sobrevive
+// quando o cliente e morto (--rm so age se o container sair sozinho).
+// A porta 5433 e a que o compose.yml expoe no host (5433:5432).
+// O pin mcp<2 e necessario: o SDK 2.0.0 removeu mcp.server.fastmcp.

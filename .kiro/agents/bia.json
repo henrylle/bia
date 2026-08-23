@@ -18,7 +18,7 @@
       "env": {
         "DATABASE_URI": "postgresql://postgres:postgres@database:5432/bia"
       }
-    },  
+    },
     "awslabs.ecs-mcp-server": {
       "command": "uvx",
       "args": [

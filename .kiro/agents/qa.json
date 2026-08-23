@@ -9,5 +9,7 @@
     "file://AmazonQ.md",
     "file://README.md",
     "file://.kiro/rules/**/*.md"
-  ]
+  ],
+  "model": "claude-sonnet-4.6",
+  "includeMcpJson": true
 }

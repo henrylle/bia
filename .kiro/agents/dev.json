@@ -33,5 +33,7 @@
         "effect": "allow"
       }
     ]
-  }
+  },
+  "model": "claude-sonnet-4.6",
+  "includeMcpJson": true
 }

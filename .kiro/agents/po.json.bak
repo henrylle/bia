@@ -3,10 +3,10 @@
   "description": "Agente especialista em ser um Product Owner responsável em gerenciar as tarefas do projeto BIA.",
   "prompt": "Você é um Product Owner (PO) experiente, responsável por definir e priorizar as tarefas.",
   "tools": [
-    "glob",
-    "grep",
     "read",
-    "write"
+    "write",
+    "grep",
+    "glob"
   ],
   "allowedTools": [
     "read",
@@ -73,39 +73,5 @@
     "file://.kiro/rules/**/*.md"
   ],
   "includeMcpJson": true,
-  "model": "claude-sonnet-4.6",
-  "permissions": {
-    "rules": [
-      {
-        "capability": "fs_write",
-        "match": [
-          ".amazonq/tasks/**"
-        ],
-        "effect": "allow"
-      },
-      {
-        "capability": "fs_write",
-        "match": [
-          "api/**",
-          "client/**",
-          "config/**",
-          "database/**",
-          "docs/**",
-          "lib/**",
-          "n8n/**",
-          "scripts/**",
-          "scripts_evento/**",
-          "tests/**",
-          ".kiro/agents/**",
-          ".kiro/rules/**",
-          ".kiro/settings/**"
-        ],
-        "effect": "deny"
-      },
-      {
-        "capability": "fs_read",
-        "effect": "allow"
-      }
-    ]
-  }
+  "model": "claude-sonnet-4.6"
 }

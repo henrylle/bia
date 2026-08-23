@@ -17,21 +17,5 @@
     "file://.kiro/agents/dev/*.md",
     "file://.amazonq/**/*.md",
     "file://api/**/*.js"
-  ],
-  "permissions": {
-    "rules": [
-      {
-        "capability": "fs_read",
-        "effect": "allow"
-      },
-      {
-        "capability": "fs_write",
-        "effect": "allow"
-      },
-      {
-        "capability": "shell",
-        "effect": "allow"
-      }
-    ]
-  }
+  ]
 }

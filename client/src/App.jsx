@@ -8,7 +8,9 @@ import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
 import Modal from "./components/Modal.jsx";
 import About from "./components/About.jsx";
+import VersionPage from "./components/VersionPage.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
+import HistoricoVersoes from "./components/HistoricoVersoes.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
@@ -18,6 +20,7 @@ function AppContent() {
   const [cacheTTL, setCacheTTL] = useState(null);
   const [cacheError, setCacheError] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [taskAddedAt, setTaskAddedAt] = useState(0);
   const { logApiRequest, logApiResponse, logApiError, addLog } = useLog();
 
   useEffect(() => {
@@ -151,6 +154,7 @@ function AppContent() {
       }
       
       setTasks([...tasks, data]);
+      setTaskAddedAt((prev) => prev + 1);
       addLog('SUCCESS', 'Tarefa criada', `"${task.titulo}" adicionada com sucesso`);
     } catch (error) {
       logApiError('POST', url, error);
@@ -225,6 +229,7 @@ function AppContent() {
           <p>Adicione sua primeira tarefa usando o formulário acima!</p>
         </div>
       )}
+      <HistoricoVersoes refreshTrigger={taskAddedAt} />
       <Modal
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
@@ -245,6 +250,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
+            <Route path="/versao" element={<VersionPage />} />
           </Routes>
           <Footer />
         </div>

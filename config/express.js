@@ -19,6 +19,7 @@ module.exports = () => {
 
   app.use(cors());
 
+  require("../api/routes/versoes")(app);
   require("../api/routes/tarefas")(app);
   require("../api/routes/versao")(app);
   require("../api/routes/cache-config")(app);

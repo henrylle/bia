@@ -7,12 +7,19 @@ import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
 import About from "./components/About.jsx";
+import VersionPage from "./components/VersionPage.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
+import HistoricoVersoes from "./components/HistoricoVersoes.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "";
 
 function AppContent() {
   const [tasks, setTasks] = useState([]);
+  const [fromCache, setFromCache] = useState(false);
+  const [cacheTTL, setCacheTTL] = useState(null);
+  const [cacheError, setCacheError] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [taskAddedAt, setTaskAddedAt] = useState(0);
   const { logApiRequest, logApiResponse, logApiError, addLog } = useLog();
 
   useEffect(() => {
@@ -33,17 +40,17 @@ function AppContent() {
   const fetchTasks = async () => {
     const url = `${apiUrl}/api/tarefas`;
     logApiRequest('GET', url);
-    
+
     try {
       const res = await fetch(url);
       const data = await res.json();
-      
+
       logApiResponse('GET', url, res.status, data);
-      
+
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
-      
+
       return data;
     } catch (error) {
       logApiError('GET', url, error);
@@ -55,17 +62,17 @@ function AppContent() {
   const fetchTask = async (uuid) => {
     const url = `${apiUrl}/api/tarefas/${uuid}`;
     logApiRequest('GET', url);
-    
+
     try {
       const res = await fetch(url);
       const data = await res.json();
-      
+
       logApiResponse('GET', url, res.status, data);
-      
+
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
-      
+
       return data;
     } catch (error) {
       logApiError('GET', url, error);
@@ -92,21 +99,21 @@ function AppContent() {
         },
         body: JSON.stringify(updatedTask),
       });
-      
+
       const data = await res.json();
-      
+
       logApiResponse('PUT', url, res.status, data);
-      
+
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
-      
+
       setTasks(
         tasks.map((task) =>
           task.uuid === uuid ? { ...task, importante: data.importante } : task
         )
       );
-      
+
       addLog('SUCCESS', 'Prioridade alterada', `Tarefa ${uuid} - Importante: ${data.importante}`);
     } catch (error) {
       addLog('ERROR', 'Falha ao alterar prioridade', error.message);
@@ -117,7 +124,7 @@ function AppContent() {
   const addTask = async (task) => {
     const url = `${apiUrl}/api/tarefas`;
     logApiRequest('POST', url, task);
-    
+
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -126,16 +133,17 @@ function AppContent() {
         },
         body: JSON.stringify(task),
       });
-      
+
       const data = await res.json();
-      
+
       logApiResponse('POST', url, res.status, data);
-      
+
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
-      
+
       setTasks([...tasks, data]);
+      setTaskAddedAt((prev) => prev + 1);
       addLog('SUCCESS', 'Tarefa criada', `"${task.titulo}" adicionada com sucesso`);
     } catch (error) {
       logApiError('POST', url, error);
@@ -147,18 +155,18 @@ function AppContent() {
   const deleteTask = async (uuid) => {
     const url = `${apiUrl}/api/tarefas/${uuid}`;
     logApiRequest('DELETE', url);
-    
+
     try {
       const res = await fetch(url, {
         method: "DELETE",
       });
-      
+
       logApiResponse('DELETE', url, res.status);
-      
+
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
-      
+
       setTasks(tasks.filter((task) => task.uuid !== uuid));
       addLog('SUCCESS', 'Tarefa removida', `Tarefa ${uuid} excluída com sucesso`);
     } catch (error) {
@@ -183,6 +191,15 @@ function AppContent() {
           <p>Adicione sua primeira tarefa usando o formulário acima!</p>
         </div>
       )}
+      <HistoricoVersoes refreshTrigger={taskAddedAt} />
+      <Modal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={deleteAllTasks}
+        title="Limpar tudo"
+        message="Tem certeza que deseja excluir todas as tarefas?"
+        type="warning"
+      />
     </>
   );
 
@@ -195,6 +212,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
+            <Route path="/versao" element={<VersionPage />} />
           </Routes>
           <Footer />
         </div>

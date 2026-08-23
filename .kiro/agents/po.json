@@ -1,0 +1,17 @@
+{
+  "name": "po",
+  "description": "Agente especialista em ser um Product Owner responsável em gerenciar as tarefas do projeto BIA.",
+  "prompt": "Você é um Product Owner (PO) experiente, responsável por definir e priorizar as tarefas.",
+  "tools": [
+    "*"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "fs_write"
+  ],
+  "resources": [
+    "file://AmazonQ.md",
+    "file://README.md",
+    "file://.kiro/rules/**/*.md"
+  ]
+}

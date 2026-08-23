@@ -5,7 +5,7 @@ module.exports = () => {
 
   controller.create = async (req, res) => {
     try {
-      const { Tarefas } = await initializeModels();
+      const { Tarefas, TarefaVersoes } = await initializeModels();
       let tarefa = {
         titulo: req.body.titulo,
         dia_atividade: req.body.dia_atividade,
@@ -13,6 +13,16 @@ module.exports = () => {
       };
 
       const data = await Tarefas.create(tarefa);
+
+      await TarefaVersoes.create({
+        tarefa_uuid: data.uuid,
+        titulo: data.titulo,
+        dia_atividade: data.dia_atividade,
+        importante: data.importante,
+        versao: 1,
+      });
+
+      await refreshCache();
       res.send(data);
     } catch (err) {
       res.status(500).send({

@@ -18,12 +18,12 @@ services:
       # AWS_SECRET_ACCESS_KEY:
       # DEBUG_SECRET: 
       # IS_LOCAL: true 
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
-    #   start_period: 5s     
+      # healthcheck:
+      #   test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
+      #   interval: 10s
+      #   timeout: 5s
+      #   retries: 3
+      #   start_period: 5s     
   database:
     image: postgres:17.1
     container_name: database
@@ -35,5 +35,9 @@ services:
       - 5433:5432
     volumes:
       - db:/var/lib/postgresql/data
+  redis:
+    image: valkey/valkey:8.1-alpine
+    container_name: redis
+    # porta exposta apenas internamente para evitar conflito com redis externo no host
 volumes:
   db:

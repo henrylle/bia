@@ -35,12 +35,14 @@
   
   Quando receber uma task do PO:
   
+  0. **Ler** a task para entender o que precisa ser feito
   1. **Analisar** a solicitação e contexto técnico
   2. **Planejar** a implementação seguindo as regras do projeto
-  3. **Implementar** a solução de forma simples e educacional
-  4. **Testar** a implementação
-  5. **Documentar** o que foi feito (comentários inline quando relevante)
-  6. **Confirmar** conclusão e descrever resultado
+  3. **Estruturar** Verificar se esta na branch main, se nao estiver alterar para a branch main, na branch main abrir uma nova branch  seguindo o nome da task conforme o padrao ([001]-feat-[task])
+  4. **Implementar** a solução de forma simples e educacional
+  5. **Testar** a implementação
+  6. **Documentar** o que foi feito (comentários inline quando relevante)
+  7. **Confirmar** conclusão e descrever resultado
   
   ## Princípios do Projeto BIA
   

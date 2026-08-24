@@ -10,6 +10,7 @@ import About from "./components/About.jsx";
 import VersionPage from "./components/VersionPage.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
 import HistoricoVersoes from "./components/HistoricoVersoes.jsx";
+import VersaoTab from "./components/VersaoTab.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL || "";
 
@@ -176,32 +177,61 @@ function AppContent() {
   };
 
   // Componente para página principal
-  const HomePage = () => (
-    <>
-      <AddTask onAdd={addTask} />
-      {tasks.length > 0 ? (
-        <Tasks
-          tasks={tasks}
-          onDelete={deleteTask}
-          onToggle={toggleReminder}
-        />
-      ) : (
-        <div className="empty-state">
-          <h3>Nenhuma tarefa por aqui 📝</h3>
-          <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+  const HomePage = () => {
+    const [abaAtiva, setAbaAtiva] = useState('tarefas');
+
+    return (
+      <>
+        {/* Navegação de abas */}
+        <div className="home-tabs">
+          <button
+            className={`home-tab-btn${abaAtiva === 'tarefas' ? ' home-tab-btn--ativo' : ''}`}
+            onClick={() => setAbaAtiva('tarefas')}
+          >
+            📋 Tarefas
+          </button>
+          <button
+            className={`home-tab-btn${abaAtiva === 'versao' ? ' home-tab-btn--ativo' : ''}`}
+            onClick={() => setAbaAtiva('versao')}
+          >
+            ℹ️ Versão
+          </button>
         </div>
-      )}
-      <HistoricoVersoes refreshTrigger={taskAddedAt} />
-      <Modal
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
-        onConfirm={deleteAllTasks}
-        title="Limpar tudo"
-        message="Tem certeza que deseja excluir todas as tarefas?"
-        type="warning"
-      />
-    </>
-  );
+
+        {/* Conteúdo da aba Tarefas */}
+        {abaAtiva === 'tarefas' && (
+          <>
+            <AddTask onAdd={addTask} />
+            {tasks.length > 0 ? (
+              <Tasks
+                tasks={tasks}
+                onDelete={deleteTask}
+                onToggle={toggleReminder}
+              />
+            ) : (
+              <div className="empty-state">
+                <h3>Nenhuma tarefa por aqui 📝</h3>
+                <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+              </div>
+            )}
+            <HistoricoVersoes refreshTrigger={taskAddedAt} />
+          </>
+        )}
+
+        {/* Conteúdo da aba Versão */}
+        {abaAtiva === 'versao' && <VersaoTab />}
+
+        <Modal
+          isOpen={showConfirmModal}
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={deleteAllTasks}
+          title="Limpar tudo"
+          message="Tem certeza que deseja excluir todas as tarefas?"
+          type="warning"
+        />
+      </>
+    );
+  };
 
   return (
     <div className="app">

@@ -1178,3 +1178,105 @@ footer {
   font-size: 0.875rem;
   title: "Importante";
 }
+
+
+/* Abas da Home */
+.home-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.home-tab-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.home-tab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+.home-tab-btn--ativo {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+  background: var(--bg-card);
+}
+
+/* VersaoTab — painel compacto de versão na home */
+.versao-tab {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.versao-tab-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.versao-tab-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.versao-tab-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.versao-tab-card-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.versao-tab-version {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.versao-tab-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.versao-tab-status.status-online  { color: var(--accent-success); }
+.versao-tab-status.status-offline { color: var(--accent-danger); }
+.versao-tab-status.status-checking { color: #f59e0b; }
+
+.versao-tab-url {
+  font-size: 0.78rem;
+  font-family: monospace;
+  word-break: break-all;
+  color: var(--text-secondary);
+}
+
+.versao-tab-card-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+  font-weight: 400;
+}
+
+.versao-tab-actions {
+  display: flex;
+}

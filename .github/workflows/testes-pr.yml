@@ -1,0 +1,32 @@
+name: 🧪 Testes Unitários — Pull Request
+
+# Dispara em Pull Requests com destino à branch main
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  testes:
+    name: Executar testes unitários do backend
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Faz checkout do código
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Configura Node.js 24.x (versão alinhada ao projeto)
+      - name: 🟢 Configurar Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      # 3. Instala dependências de forma limpa e reproduzível
+      - name: 📦 Instalar dependências (npm ci)
+        run: npm ci
+
+      # 4. Executa os testes unitários do backend (tests/unit/controllers/)
+      - name: 🧪 Executar testes unitários
+        run: npm test

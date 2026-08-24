@@ -14,51 +14,7 @@
     "fs_write",
     "execute_bash"
   ],
-  "toolsSettings": {
-    "write": {
-      "allowedPaths": [
-        "scripts/**",
-        ".github/**",
-        "Dockerfile*",
-        "compose.yml",
-        "buildspec.yml",
-        "docs/**"
-      ],
-      "deniedPaths": [
-        "api/**",
-        "client/**",
-        "config/**",
-        "database/**",
-        "lib/**",
-        ".amazonq/tasks/**",
-        ".kiro/agents/**",
-        ".kiro/rules/**",
-        ".kiro/settings/**"
-      ],
-      "shell": {
-        "allowedCommands": [
-          "docker",
-          "docker compose",
-          "docker build",
-          "docker push",
-          "docker tag",
-          "aws",
-          "git add",
-          "git commit",
-          "git push",
-          "git checkout",
-          "git status",
-          "git log",
-          "git branch",
-          "npx sequelize",
-          "base64",
-          "curl",
-          "gh pr create"
-        ],
-        "denyByDefault": false
-      }
-    }
-  },
+  "toolsSettings": {},
   "resources": [
     "file://AmazonQ.md",
     "file://README.md",
@@ -112,6 +68,6 @@
       }
     ]
   },
-  "model": "claude-sonnet-4.6",
+  "model": "auto",
   "includeMcpJson": true
 }

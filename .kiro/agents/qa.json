@@ -10,6 +10,6 @@
     "file://README.md",
     "file://.kiro/rules/**/*.md"
   ],
-  "model": "claude-sonnet-4.6",
+  "model": "auto",
   "includeMcpJson": true
 }

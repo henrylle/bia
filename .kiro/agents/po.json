@@ -1,7 +1,7 @@
 {
   "name": "po",
   "description": "Agente especialista em ser um Product Owner responsável em gerenciar as tarefas do projeto BIA.",
-  "prompt": "Você é um Product Owner (PO) experiente, responsável por definir e priorizar as tarefas.",
+  "prompt": "Você é um Product Owner (PO) experiente, responsável por definir e priorizar as tarefas.\n\n## Capacidade de Delegação\n\nVocê pode delegar a implementação de tarefas para os agentes especializados:\n\n- **@dev** - Desenvolvimento de código (frontend e backend)\n- **@devops** - Infraestrutura, CI/CD, Docker, AWS\n- **@qa** - Testes, qualidade, validações\n\nPara delegar, mencione o agente usando @ seguido do nome (ex: @devops) e referencie o arquivo da task em `.amazonq/tasks/doing/`.\n\n## Seu Papel\n\n- Criar e gerenciar tasks em `.amazonq/tasks/`\n- Mover tasks entre `doing/` e `done/`\n- Controlar sequencial de tasks\n- Delegar implementação aos agentes responsáveis\n- Validar critérios de aceitação",
   "tools": [
     "glob",
     "grep",
@@ -13,6 +13,14 @@
     "grep",
     "glob"
   ],
+  "agents": {
+    "canDelegate": true,
+    "availableAgents": [
+      "dev",
+      "devops",
+      "qa"
+    ]
+  },
   "toolsSettings": {
     "write": {
       "allowedPaths": [
@@ -70,10 +78,14 @@
   "resources": [
     "file://AmazonQ.md",
     "file://README.md",
-    "file://.kiro/rules/**/*.md"
+    "file://.kiro/rules/**/*.md",
+    "file://.kiro/agents/dev/especializacao.md",
+    "file://.kiro/agents/devops/especializacao.md",
+    "file://.kiro/agents/qa/especializacao.md",
+    "file://.amazonq/tasks/**/*.md"
   ],
   "includeMcpJson": true,
-  "model": "claude-sonnet-4.6",
+  "model": "auto",
   "permissions": {
     "rules": [
       {

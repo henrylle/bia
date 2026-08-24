@@ -25,6 +25,8 @@
   ],
   "resources": [
     "file://README.md",
+    "file://docs/panorama-agentes-e-worktrees.md",
+    "file://.kiro/agents/devops/**/*.md",
     "file://.kiro/rules/**/*.md"
   ],
   "hooks": [],

@@ -20,7 +20,9 @@
   "resources": [
     "file://README.md",
     "file://.kiro/rules/**/*.md",
-    "file://.kiro/agents/dev/**/*.md"
+    "file://.kiro/agents/dev/**/*.md",
+    "file://api/**/*.js",
+    "file://client/**/*.*"
   ],
   "hooks": [],
   "toolsSettings": {},

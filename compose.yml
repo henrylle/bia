@@ -43,7 +43,6 @@ services:
   redis:
     image: valkey/valkey:8.1-alpine
     container_name: redis
-    ports:
-      - 6379:6379
+    # porta exposta apenas internamente para evitar conflito com redis externo no host
 volumes:
   db:

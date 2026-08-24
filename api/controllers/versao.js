@@ -6,13 +6,5 @@ module.exports = () => {
     res.send(responseString);
   };
 
-  controller.info = async (req, res) => {
-    res.json({
-      versao: process.env.VERSAO_API || "4.2.3",
-      nome: "BIA",
-      timestamp: new Date().toISOString(),
-    });
-  };
-
   return controller;
 };

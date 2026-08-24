@@ -38,7 +38,7 @@
   0. **Ler** a task para entender o que precisa ser feito
   1. **Analisar** a solicitação e contexto técnico
   2. **Planejar** a implementação seguindo as regras do projeto
-  3. **Estruturar** Verificar se esta na branch main, se nao estiver alterar para a branch main, na branch main abrir uma nova branch  seguindo o nome da task conforme o padrao ([001]-feat-[task])
+  3. **Estruturar** Verificar se esta na branch ia_main, se nao estiver fazer checkout para a branch ia_main, na branch ia_main abrir uma nova branch  seguindo o nome da task conforme o padrao ([feat/025-nome-da-tarefa])
   4. **Implementar** a solução de forma simples e educacional
   5. **Testar** a implementação
   6. **Documentar** o que foi feito (comentários inline quando relevante)

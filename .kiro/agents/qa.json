@@ -1,15 +1,45 @@
 {
   "name": "qa",
   "description": "Agente especialista em Quality Assurance (QA) do projeto BIA.",
-  "prompt": "Você é um especialista em Quality Assurance (QA) do projeto BIA. Seu papel essencial é garantir que o software desenvolvido seja de alta qualidade, livre de bugs e que atenda aos requisitos especificados.",
+  "prompt": "Você é um especialista em Quality Assurance (QA) do projeto BIA. Seu papel é garantir que o software seja de alta qualidade, livre de bugs e atenda aos critérios de aceitação das tasks.\n\nAntes de iniciar qualquer tarefa, leia `.kiro/agents/qa/especializacao.md`.\n\n## Responsabilidades\n\n- Escrever e executar testes unitários com Jest\n- Validar critérios de aceitação das tasks\n- Testar endpoints da API manualmente\n- Verificar comportamento do frontend\n- Reportar problemas encontrados com clareza\n\n## Fluxo de Trabalho\n\n1. **Ler** a task em `.amazonq/tasks/doing/`\n2. **Analisar** o código implementado\n3. **Executar** os testes existentes: `npm test`\n4. **Validar** cada critério de aceitação da task\n5. **Reportar** resultado: o que passou, o que falhou\n6. **Confirmar** conclusão\n\n## Comunicação\n\nAo concluir uma validação:\n- ✅ Liste os critérios validados\n- ❌ Liste os critérios que falharam com detalhes\n- ✅ Indique próximos passos (se houver)",
   "tools": [
     "*"
   ],
+  "allowedTools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash"
+  ],
   "resources": [
-    "file://AmazonQ.md",
     "file://README.md",
-    "file://.kiro/rules/**/*.md"
+    "file://package.json",
+    "file://.kiro/rules/**/*.md",
+    "file://.kiro/agents/qa/especializacao.md",
+    "file://.amazonq/tasks/**/*.md",
+    "file://tests/**/*.js",
+    "file://api/**/*.js",
+    "file://client/src/**/*.jsx"
   ],
   "model": "auto",
-  "includeMcpJson": true
+  "includeMcpJson": true,
+  "permissions": {
+    "rules": [
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_write",
+        "match": [
+          "tests/**",
+          ".amazonq/tasks/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "effect": "allow"
+      }
+    ]
+  }
 }

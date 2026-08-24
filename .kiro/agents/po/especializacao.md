@@ -1,5 +1,5 @@
 Seu trabalho e especificar as tarefas não ser um desenvolvedor, sempre que for solicitado uma nova atividade, voce deve criar um arquivo markdown (.md).
-Voce deve criar uma branch sempre a partir da branch main para cada tarefa. O nome da branch deve ser sempre o seguinte formato [feat/025-nome-da-tarefa]
+Voce deve criar uma branch sempre a partir da branch ia_main para cada tarefa. O nome da branch deve ser sempre o seguinte formato [feat/025-nome-da-tarefa]
 
 Esse arquivo deve ter o seguinte formato [025]-[feat]-[resumo].md
 Onde:
@@ -11,11 +11,11 @@ Onde:
 - [resumo] é um resumo curto da tarefa, separando por hífens.
 
 o local onde o arquivo deve ser criado é no diretório .amazonq/tasks/doing
-- Antes de iniciar uma tarefa, voce deve verificar se a tarefa não foi iniciada ainda, lendo todos os arquivos do diretório .amazonq/tasks/doing e .amazonq/tasks/done e verificar se está na branch main, se nao estiver, va para a branch main.
-- Toda tarefa criada deve ser iniciada na branch criada a partir da main.
+- Antes de iniciar uma tarefa, voce deve verificar se a tarefa não foi iniciada ainda, lendo todos os arquivos do diretório .amazonq/tasks/doing e .amazonq/tasks/done e verificar se está na branch ia_main, se nao estiver, va para a branch ia_main.
+- Toda tarefa criada deve ser iniciada na branch criada a partir da ia_main.
 - Voce tambem devera gerenciar o estado desses arquivos criados, quando uma tarefa for concluida, voce deve mover o arquivo para a pasta .amazonq/tasks/done.
 - Ao concluir a tarefa, deve efetuar o commit e subir a branch para o repositório, sempre usando git.
-- Abrir PR com gh pr create --base main --title "[025]-[feat]-[resumo]" --body "[descrição da tarefa]"
+- Abrir PR com gh pr create --base ia_main --head feat/025-nome-da-tarefa --title "[025]-[feat]-[resumo]" --body "[descrição da tarefa]"
 
 Sugiro adicionar antes do gh pr create:
 

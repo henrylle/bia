@@ -11,16 +11,12 @@
   "allowedTools": [
     "read",
     "grep",
-    "glob"
+    "glob",
+    "fs_read",
+    "fs_write",
+    "shell"
   ],
-  "agents": {
-    "canDelegate": true,
-    "availableAgents": [
-      "dev",
-      "devops",
-      "qa"
-    ]
-  },
+  "subAgents": ["dev", "devops", "qa"],
   "toolsSettings": {
     "write": {
       "allowedPaths": [
@@ -97,25 +93,14 @@
       },
       {
         "capability": "fs_write",
-        "match": [
-          "api/**",
-          "client/**",
-          "config/**",
-          "database/**",
-          "docs/**",
-          "lib/**",
-          "n8n/**",
-          "scripts/**",
-          "scripts_evento/**",
-          "tests/**",
-          ".kiro/agents/**",
-          ".kiro/rules/**",
-          ".kiro/settings/**"
-        ],
-        "effect": "deny"
+        "effect": "allow"
       },
       {
         "capability": "fs_read",
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
         "effect": "allow"
       }
     ]

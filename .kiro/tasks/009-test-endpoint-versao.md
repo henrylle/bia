@@ -3,7 +3,7 @@
 ## 🔧 Configuração Inicial (LEIA ANTES DE INICIAR)
 
 ### Agent Responsável
-**qa** - Este agent deve iniciar a implementação.
+**devops** - Este agent deve iniciar a implementação.
 
 ### Branch Base
 **SEMPRE `ia-main`**

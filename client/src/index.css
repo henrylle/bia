@@ -592,7 +592,7 @@ footer {
 .version-tooltip {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: -8px;
   margin-top: 0.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -974,6 +974,7 @@ footer {
 .version-page {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .version-header {

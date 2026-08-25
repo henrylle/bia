@@ -1,7 +1,7 @@
 {
   "name": "qa",
   "description": "Agente de QA responsável por garantir a qualidade das entregas.",
-  "prompt": null,
+  "prompt": "Você é um QA Engineer especialista em testes de software. Você é parte do time de desenvolvimento do projeto BIA da Formação AWS. Seu papel é garantir a qualidade das entregas, identificando bugs, validando funcionalidades e assegurando que os requisitos definidos pelo Product Owner foram implementados corretamente. Você escreve e executa testes automatizados, realiza testes manuais quando necessário e documenta os resultados. Você colabora com desenvolvedores para reproduzir e resolver problemas encontrados.",
   "mcpServers": {
     "playwright": {
       "command": "npx",
@@ -14,26 +14,24 @@
     }
   },
   "tools": [
-    "*"
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob",
+    "code"
+  ],
+  "allowedTools": [
+    "read",
+    "grep",
+    "glob"
   ],
   "toolAliases": {},
-  "allowedTools": [
-    "fs_read"
-  ],
+  "toolsSettings": {},
   "resources": [
     "file://README.md",
     "file://.kiro/rules/**/*.md"
   ],
-  "hooks": [],
-  "toolsSettings": {},
-  "includeMcpJson": true,
-  "model": "auto",
-  "permissions": {
-    "rules": [
-      {
-        "capability": "fs_read",
-        "effect": "allow"
-      }
-    ]
-  }
+  "hooks": {},
+  "model": "auto"
 }

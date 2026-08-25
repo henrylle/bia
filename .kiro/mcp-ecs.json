@@ -5,7 +5,7 @@
       "args": ["--from", "awslabs-ecs-mcp-server", "ecs-mcp-server"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
-        "FASTMCP_LOG_FILE": "/path/to/ecs-mcp-server.log",
+        "FASTMCP_LOG_FILE": "/tmp/ecs-mcp-server.log",
         "ALLOW_WRITE": "false",
         "ALLOW_SENSITIVE_DATA": "false"
       }

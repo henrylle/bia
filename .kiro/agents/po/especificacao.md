@@ -14,6 +14,9 @@ Onde:
 # Sobre a task que vai ser criada
 - No início da task, você precisa colocar informações importantes sobre o nosso modelo de trabalho. 
 Vamos adotar um modelo feature/branch com **worktrees isolados**, ou seja, cada task terá o seu branch E seu próprio worktree. O branch deverá ter o nome da task e SEMPRE derivar do branch ia-main. Ao criar a task, você precisa especificar qual agent deve iniciar ela.
+- o Agent que iniciar, devera inicalmente verificar se estamos no brach ia-main. Caso nao esteja, deve informar e perguntar se podemos retornar para ele, antes de inicar a task.\
+- Apos autorizado, ele devera mover a task para a pasta doing, fazer o commit e push e criar o branch para proxima implementacao.
+
 
 ## Workflow de Worktree (OBRIGATÓRIO)
 - **Padrão adotado:** Claude/Codex pattern - worktrees dentro do projeto
@@ -111,7 +114,8 @@ mover esse arquivo para uma pasta na mesma folder acima, chamado done/
       ```bash
       gh pr create --base ia-main --title "XXX: <resumo>" --body "Closes task XXX"
       ```
-    - O PR deve sempre ser aberto do branch da feature (ex: `feature/004-feat-checkbox-importante-padrao`) contra `ia-main`
+    - **CRÍTICO:** O PR deve sempre ser aberto **estando no branch da feature**, nunca no `ia-main`
+    - O branch da feature (ex: `feature/004-feat-checkbox-importante-padrao`) deve ser mergeado contra `ia-main`
     - Nunca abrir PR contra `main` ou qualquer outro branch
     
     - **APÓS O PR SER MERGEADO (ETAPA FINAL):**
@@ -180,7 +184,24 @@ Antes de começar a implementar, o agent deve:
   ```
 ```
 
-### 3. Seção de Finalização (após DoD)
+### 3. Checklist de Implementação (DEVE incluir estas etapas)
+```markdown
+## 📋 Checklist de Implementação
+
+Durante a implementação, o agent deve:
+
+- [ ] Implementar funcionalidade conforme especificado
+- [ ] Marcar itens do checklist à medida que forem concluídos
+- [ ] Fazer commits frequentes e descritivos
+- [ ] **OBRIGATÓRIO:** Ao finalizar, executar rebuild completo:
+  - [ ] `docker compose down`
+  - [ ] `docker compose build server`
+  - [ ] `docker compose up -d`
+  - [ ] Testar aplicação: `curl -s http://localhost:3001/api/versao`
+- [ ] Push do branch: `git push -u origin feature/XXX-tipo-resumo`
+```
+
+### 4. Seção de Finalização (após DoD)
 ```markdown
 ## ⚠️ FINALIZAÇÃO DA TASK (OBRIGATÓRIO)
 
@@ -197,14 +218,33 @@ git branch --show-current
 # Deve mostrar: feature/XXX-tipo-resumo
 ```
 
-### 2. Commit e Push Final
+### 2. Rebuild Obrigatório do Projeto
+**SEMPRE** após finalizar a implementação, executar o processo completo de rebuild:
+
+```bash
+# 1. Parar containers
+docker compose down
+
+# 2. Rebuild do servidor
+docker compose build server
+
+# 3. Subir containers
+docker compose up -d
+
+# 4. Testar se a aplicação está funcionando
+curl -s http://localhost:3001/api/versao
+```
+
+Este processo garante que todas as mudanças no código sejam aplicadas corretamente no container.
+
+### 3. Commit e Push Final
 ```bash
 git add .
 git commit -m "tipo: finaliza implementação da task XXX"
 git push origin feature/XXX-tipo-resumo
 ```
 
-### 3. Voltar para Raiz e Notificar PO
+### 4. Voltar para Raiz e Notificar PO
 ```bash
 cd ../../..  # Voltar para raiz do projeto
 ```

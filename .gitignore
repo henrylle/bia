@@ -47,5 +47,5 @@ connect_bia_dev.sh
 *.deb
 
 # Config de deploy gerado automaticamente (extrair_config_deploy.sh)
-/.deploy.config
-/client/.deploy.config
+/deploy-config.md
+deploy-*.log

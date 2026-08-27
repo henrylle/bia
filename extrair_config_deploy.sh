@@ -219,24 +219,41 @@ echo ""
 # 11. GERAR ARQUIVO DE CONFIGURAÇÃO
 # ============================================================================
 
-CONFIG_FILE=".deploy.config"
+CONFIG_FILE="deploy-config.md"
 
 echo "Salvando configurações em: $CONFIG_FILE"
 
 cat > "$CONFIG_FILE" << EOF
-#!/bin/bash
-# Configurações de Deploy - Gerado automaticamente
-# Data: $(date)
+# Configuração de Deploy — BIA
 
+> Gerado automaticamente por \`extrair_config_deploy.sh\` em $(date).
+> Lido por \`deploy-bia.sh\` — **só o bloco de código abaixo é processado**
+> pelo script; o resto é documentação, pra você conferir os valores extraídos
+> antes de rodar um deploy de verdade.
+
+## Valores extraídos
+
+| Variável | Valor |
+|---|---|
+| Projeto | $PROJECT_NAME (v$PROJECT_VERSION) |
+| Bucket S3 | $BIA_BUCKET |
+| Região | $REGION |
+| Caminho do projeto | $PROJECT_PATH |
+| URL do website | $WEBSITE_URL |
+
+## Configuração usada pelos scripts
+
+\`\`\`bash
 export BUCKET_S3="$BIA_BUCKET"
 export REGION="$REGION"
 export PROJECT_PATH="$PROJECT_PATH"
 export PROJECT_NAME="$PROJECT_NAME"
 export PROJECT_VERSION="$PROJECT_VERSION"
 export WEBSITE_URL="$WEBSITE_URL"
+\`\`\`
 EOF
 
-echo "✅ Arquivo .deploy.config criado"
+echo "✅ Arquivo $CONFIG_FILE criado"
 echo ""
 
 # ============================================================================
@@ -249,10 +266,11 @@ echo "=========================================="
 echo ""
 echo "Próximas ações:"
 echo ""
-echo "  1. Source o arquivo de config:"
-echo "     source .deploy.config"
+echo "  1. Rodar o deploy (ele lê deploy-config.md automaticamente):"
+echo "     ./deploy-bia.sh"
 echo ""
-echo "  2. Use as variáveis em outros scripts:"
+echo "  2. Ou carregar as variáveis manualmente no terminal:"
+echo "     source <(sed -n '/^\`\`\`bash\$/,/^\`\`\`\$/p' deploy-config.md | sed '1d;\$d')"
 echo "     echo \$BUCKET_S3"
 echo "     echo \$WEBSITE_URL"
 echo ""

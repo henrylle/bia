@@ -45,3 +45,7 @@ connect_bia_dev.sh
 
 # Pacotes de instalação
 *.deb
+
+# Config de deploy gerado automaticamente (extrair_config_deploy.sh)
+/.deploy.config
+/client/.deploy.config

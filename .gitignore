@@ -37,7 +37,11 @@ yarn-error.log*
 .kiro/worktrees/
 
 # Scripts de conexão temporários
-conect_bia_dev.sh
+connect_bia_dev.sh
+
+# Scripts e relatórios pessoais dos desafios DevOps (contêm dados sensíveis
+# de conta AWS não redigidos — ver desafios-devops/README.md)
+/desafios-devops/
 
 # Pacotes de instalação
 *.deb

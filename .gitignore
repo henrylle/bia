@@ -32,3 +32,6 @@ yarn-error.log*
 
 #playwright
 .playwright-mcp/*
+
+#mcp local
+.mcp.json

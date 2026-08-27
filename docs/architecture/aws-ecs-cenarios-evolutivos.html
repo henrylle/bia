@@ -1,0 +1,951 @@
+<title>Jornada ECS da BIA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#F5F6FA;
+    --surface:#FFFFFF;
+    --surface-alt:#EBEEF5;
+    --surface-sunken:#E1E5EF;
+    --border:#D6DAE3;
+    --border-strong:#B7BECD;
+    --ink:#141A24;
+    --ink-muted:#5B6478;
+    --ink-faint:#8890A0;
+    --accent:#C85A20;      /* compute — EC2 / ECS */
+    --accent-2:#0E7A63;    /* data — RDS */
+    --accent-3:#6B4FA0;    /* cache — Redis/Valkey */
+    --accent-4:#AE2E58;    /* traffic — ALB / público */
+    --accent-5:#2B5FAD;    /* rede / operador — VPC, bia-dev */
+    --accent-soft:#C85A2016;
+    --accent-2-soft:#0E7A6316;
+    --accent-3-soft:#6B4FA016;
+    --accent-4-soft:#AE2E5816;
+    --accent-5-soft:#2B5FAD16;
+    --shadow: 0 1px 2px rgba(20,26,36,0.04), 0 8px 24px rgba(20,26,36,0.06);
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F131B;
+      --surface:#161B25;
+      --surface-alt:#1C2230;
+      --surface-sunken:#11151E;
+      --border:#2A3140;
+      --border-strong:#3B4457;
+      --ink:#E8EAF0;
+      --ink-muted:#9AA2B5;
+      --ink-faint:#6B7387;
+      --accent:#E8875A;
+      --accent-2:#3FB49A;
+      --accent-3:#A98BDA;
+      --accent-4:#DD6C93;
+      --accent-5:#6C97DD;
+      --accent-soft:#E8875A20;
+      --accent-2-soft:#3FB49A20;
+      --accent-3-soft:#A98BDA20;
+      --accent-4-soft:#DD6C9320;
+      --accent-5-soft:#6C97DD20;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+    }
+  }
+
+  :root[data-theme="dark"]{
+    --bg:#0F131B;
+    --surface:#161B25;
+    --surface-alt:#1C2230;
+    --surface-sunken:#11151E;
+    --border:#2A3140;
+    --border-strong:#3B4457;
+    --ink:#E8EAF0;
+    --ink-muted:#9AA2B5;
+    --ink-faint:#6B7387;
+    --accent:#E8875A;
+    --accent-2:#3FB49A;
+    --accent-3:#A98BDA;
+    --accent-4:#DD6C93;
+    --accent-5:#6C97DD;
+    --accent-soft:#E8875A20;
+    --accent-2-soft:#3FB49A20;
+    --accent-3-soft:#A98BDA20;
+    --accent-4-soft:#DD6C9320;
+    --accent-5-soft:#6C97DD20;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  code, .mono, .chip, td.mono, .legend-label, .tag{
+    font-family:'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  a{ color:var(--accent-5); text-decoration-thickness:1px; text-underline-offset:2px; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent-5); outline-offset:2px; }
+
+  .skiplink{ position:absolute; left:-9999px; }
+  .skiplink:focus{ left:1rem; top:1rem; background:var(--surface); padding:.5rem 1rem; border-radius:6px; z-index:50; }
+
+  /* ---------- top nav ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; gap:1.25rem;
+    padding:.75rem 1.5rem;
+    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+  }
+  .topbar .brand{
+    font-weight:700; font-size:.95rem; letter-spacing:.02em;
+    white-space:nowrap; color:var(--ink);
+  }
+  .topbar nav{ display:flex; gap:1.1rem; white-space:nowrap; }
+  .topbar nav a{
+    color:var(--ink-muted); font-size:.85rem; font-weight:500;
+    text-decoration:none; padding:.3rem 0; border-bottom:2px solid transparent;
+  }
+  .topbar nav a:hover{ color:var(--ink); border-color:var(--border-strong); }
+
+  /* ---------- shell ---------- */
+  .shell{ max-width:960px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
+  .wide{ max-width:1180px; }
+
+  header.hero{ padding:2.75rem 0 1rem; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-size:.72rem; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent-5); margin-bottom:1rem;
+  }
+  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent-5); }
+  h1{
+    font-size:clamp(1.9rem, 4vw, 2.6rem);
+    font-weight:700; margin:0 0 .85rem; text-wrap:balance; letter-spacing:-0.01em;
+  }
+  .lede{
+    font-size:1.05rem; color:var(--ink-muted); max-width:64ch; margin:0 0 0;
+  }
+
+  section{ margin-top:3.25rem; scroll-margin-top:4.5rem; }
+  h2{ font-size:1.5rem; font-weight:700; margin:0 0 .4rem; letter-spacing:-0.005em; }
+  h3{ font-size:1.05rem; font-weight:600; margin:1.6rem 0 .6rem; }
+  .section-kicker{
+    font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:.5rem;
+  }
+  p{ margin:.6rem 0; max-width:70ch; }
+  .prose{ color:var(--ink-muted); }
+
+  /* ---------- callout ---------- */
+  .callout{
+    background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent-5);
+    border-radius:10px; padding:1.1rem 1.3rem; margin:1.25rem 0; box-shadow:var(--shadow);
+  }
+  .callout.warn{ border-left-color:var(--accent-4); }
+  .callout h4{ margin:0 0 .35rem; font-size:.9rem; font-weight:700; }
+  .callout p{ margin:0; font-size:.92rem; color:var(--ink-muted); max-width:none; }
+
+  /* ---------- legend ---------- */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:.5rem 1.25rem;
+    padding:.9rem 1.1rem; background:var(--surface-alt); border:1px solid var(--border);
+    border-radius:10px; margin:1rem 0 1.75rem;
+  }
+  .legend-item{ display:flex; align-items:center; gap:.5rem; font-size:.78rem; color:var(--ink-muted); }
+  .legend-dot{ width:10px; height:10px; border-radius:3px; flex:none; }
+
+  /* ---------- diagram figure ---------- */
+  figure.diagram{ margin:1.5rem 0; }
+  .diagram-scroll{
+    overflow-x:auto; background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; padding:1rem; box-shadow:var(--shadow);
+  }
+  figure.diagram svg{ display:block; width:100%; height:auto; min-width:640px; }
+  figcaption{ margin-top:.65rem; font-size:.82rem; color:var(--ink-faint); max-width:70ch; }
+
+  /* ---------- tables ---------- */
+  .table-scroll{ overflow-x:auto; border:1px solid var(--border); border-radius:10px; }
+  table{ width:100%; border-collapse:collapse; font-size:.86rem; min-width:480px; }
+  thead th{
+    text-align:left; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:600; padding:.65rem .9rem; background:var(--surface-alt);
+    border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  tbody td{ padding:.6rem .9rem; border-bottom:1px solid var(--border); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--surface-alt); }
+  td.mono, th.mono{ font-size:.8rem; }
+  .num{ font-variant-numeric:tabular-nums; }
+
+  /* ---------- chips ---------- */
+  .chip{
+    display:inline-flex; align-items:center; gap:.35rem;
+    font-size:.72rem; font-weight:500; padding:.15rem .55rem; border-radius:99px;
+    border:1px solid var(--border-strong); color:var(--ink-muted); white-space:nowrap;
+  }
+
+  /* ---------- comparison grid ---------- */
+  .compare{
+    display:grid; grid-template-columns: 1.1fr repeat(3, 1fr);
+    border:1px solid var(--border); border-radius:12px; overflow:hidden;
+    background:var(--surface); box-shadow:var(--shadow);
+  }
+  .compare > div{ padding:.75rem .9rem; border-bottom:1px solid var(--border); font-size:.84rem; }
+  .compare > div:nth-child(4n+1){ background:var(--surface-alt); font-weight:600; color:var(--ink-muted); font-size:.78rem; }
+  .compare .head{ font-weight:700; color:var(--ink); background:var(--surface-sunken) !important; font-size:.78rem; letter-spacing:.03em; text-transform:uppercase; }
+  .compare > div:last-child, .compare > div:nth-last-child(2), .compare > div:nth-last-child(3), .compare > div:nth-last-child(4){ border-bottom:none; }
+  .added{ color:var(--accent-2); font-weight:600; }
+
+  /* ---------- section divider dots ---------- */
+  .scenario-badge{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:1.9rem; height:1.9rem; border-radius:50%;
+    background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:.85rem;
+    margin-right:.6rem;
+  }
+  .scenario-title{ display:flex; align-items:center; }
+
+  /* ---------- status + access card ---------- */
+  .status-pill{
+    display:inline-flex; align-items:center; gap:.4rem;
+    font-size:.74rem; font-weight:600; padding:.25rem .65rem; border-radius:99px;
+    background:var(--accent-2-soft); color:var(--accent-2); border:1px solid var(--accent-2);
+  }
+  .status-pill::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--accent-2); }
+  .access-card{
+    display:grid; gap:.85rem; background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin:1.25rem 0;
+  }
+  .access-row{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.6rem; }
+  .access-row .label{ font-size:.72rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-faint); min-width:9rem; }
+  .cmdblock{
+    background:var(--surface-sunken); border:1px solid var(--border); border-radius:8px;
+    padding:.55rem .8rem; font-size:.82rem; overflow-x:auto; white-space:pre; color:var(--ink);
+  }
+  .url-link{ font-size:.95rem; font-weight:600; }
+
+  footer{
+    margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--border);
+    font-size:.78rem; color:var(--ink-faint);
+  }
+
+  @media (max-width:640px){
+    .compare{ grid-template-columns: 1fr; }
+    .compare .head:first-child{ display:none; }
+    .compare > div:nth-child(4n+1){ border-top:1px solid var(--border-strong); }
+  }
+</style>
+
+<a class="skiplink" href="#cenario-1">Pular para o conteúdo</a>
+
+<div class="topbar">
+  <span class="brand">🏗️ BIA · Jornada ECS</span>
+  <nav>
+    <a href="#visao-geral">Visão geral</a>
+    <a href="#estado-atual">Estado atual</a>
+    <a href="#cenario-1">Cenário 1</a>
+    <a href="#cenario-2">Cenário 2</a>
+    <a href="#cenario-3">Cenário 3</a>
+    <a href="#comparativo">Comparativo</a>
+    <a href="#pipeline">Pipeline</a>
+  </nav>
+</div>
+
+<div class="shell">
+
+  <header class="hero" id="visao-geral">
+    <div class="eyebrow">Formação AWS · Projeto BIA</div>
+    <h1>Uma aplicação, três infraestruturas</h1>
+    <p class="lede">
+      A BIA é a mesma imagem de container do início ao fim. O que muda, cenário a cenário,
+      é quanto de ECS o aluno precisa operar: primeiro sem balanceador, depois com ALB,
+      depois com cache como serviço próprio em <span class="mono">awsvpc</span>. Este documento
+      registra a arquitetura de cada estágio exatamente como definido em
+      <code>.kiro/rules/infraestrutura.md</code> — e onde uma regra não especifica algo, isso
+      é sinalizado em vez de inventado. Antes dos três cenários, a seção abaixo mostra
+      <strong>onde tudo está de fato rodando hoje</strong>: o sandbox <span class="mono">bia-dev</span>,
+      sem ECS nenhum ainda.
+    </p>
+  </header>
+
+  <div class="legend" aria-hidden="false">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--accent-5)"></span>Rede / operador (VPC, bia-dev)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--accent-4)"></span>Tráfego / ALB</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>Compute (EC2 / ECS)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--accent-3)"></span>Cache (Redis / Valkey)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--accent-2)"></span>Dado (RDS)</div>
+  </div>
+
+  <!-- ================= ESTADO ATUAL ================= -->
+  <section id="estado-atual">
+    <div class="section-kicker">Antes do ECS</div>
+    <h2>Estado atual — sandbox <span class="mono">bia-dev</span> <span class="status-pill">no ar</span></h2>
+    <p class="prose">
+      Nenhum dos três cenários abaixo existe na AWS ainda. O que existe hoje é uma única EC2
+      (<span class="mono">bia-dev</span>) rodando quatro containers Docker lado a lado — a
+      aplicação, uma segunda cópia de teste, o Postgres e o Redis — tudo na mesma máquina, sem
+      ECS, sem ALB, sem separação de rede entre eles além do que o próprio Docker isola. É o
+      ambiente de estudo; os cenários 1–3 são a rota de evolução, não o que está publicado.
+    </p>
+
+    <figure class="diagram">
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 900 400" role="img" aria-label="Diagrama do estado atual: a instância EC2 bia-dev roda quatro containers Docker — bia na porta interna 8080 publicada em 3001, bia-app2-test na porta interna 8080 publicada em 3002, database (Postgres) na porta interna 5432 publicada em 5433, e redis na porta 6379 — protegidos pelo security group bia-dev-sg, que libera publicamente apenas a porta 3001; o acesso administrativo à instância acontece via AWS Systems Manager, sem porta aberta e sem senha, usando a IAM role role-acesso-ssm.">
+          <defs>
+            <marker id="arrow0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="'IBM Plex Sans', sans-serif" fill="currentColor">
+            <rect x="16" y="16" width="868" height="368" rx="16" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 5"/>
+            <text x="34" y="38" font-size="12" font-weight="600" opacity=".55">AWS REGION · us-east-1</text>
+
+            <!-- usuário público -->
+            <g transform="translate(60,58)">
+              <rect x="0" y="0" width="140" height="42" rx="8" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 4"/>
+              <text x="70" y="26" font-size="11" text-anchor="middle" opacity=".65">usuário público</text>
+            </g>
+
+            <!-- operador via SSM -->
+            <g transform="translate(660,58)">
+              <rect x="0" y="0" width="180" height="42" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="90" y="18" font-size="10.5" font-weight="600" text-anchor="middle">você (operador)</text>
+              <text x="90" y="32" font-size="9" text-anchor="middle" opacity=".7" font-family="'IBM Plex Mono', monospace">aws ssm start-session</text>
+            </g>
+
+            <!-- EC2 bia-dev -->
+            <rect x="60" y="130" width="780" height="230" rx="12" fill="var(--surface-alt)" stroke="var(--border-strong)"/>
+            <text x="80" y="152" font-size="11.5" font-weight="600" opacity=".7">EC2 · bia-dev</text>
+            <text x="80" y="167" font-size="9.5" opacity=".55" font-family="'IBM Plex Mono', monospace">i-074bcbdb1642ec026 · Amazon Linux 2023 · IP 54.83.241.43 (pode mudar)</text>
+            <text x="800" y="152" font-size="9.5" text-anchor="end" opacity=".6" font-family="'IBM Plex Mono', monospace">SG bia-dev-sg</text>
+
+            <!-- container: bia -->
+            <g transform="translate(90,182)">
+              <rect x="0" y="0" width="220" height="66" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">bia</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">interna :8080 → host :3001</text>
+              <text x="10" y="48" font-size="9" fill="var(--accent-4)" font-family="'IBM Plex Mono', monospace">única porta pública</text>
+              <text x="10" y="60" font-size="8.5" opacity=".55">app principal (o que você testou)</text>
+            </g>
+
+            <!-- container: bia-app2-test -->
+            <g transform="translate(90,262)">
+              <rect x="0" y="0" width="220" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-dasharray="3 3"/>
+              <text x="10" y="19" font-size="11" font-weight="600">bia-app2-test</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">interna :8080 → host :3002</text>
+              <text x="10" y="48" font-size="8.5" opacity=".55">2ª cópia de teste · sem acesso público</text>
+            </g>
+
+            <!-- container: database -->
+            <g transform="translate(340,182)">
+              <rect x="0" y="0" width="200" height="66" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">database</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">interna :5432 → host :5433</text>
+              <text x="10" y="48" font-size="8.5" opacity=".55">Postgres · tarefas da BIA</text>
+              <text x="10" y="60" font-size="8.5" fill="var(--accent-4)">sem acesso público</text>
+            </g>
+
+            <!-- container: redis -->
+            <g transform="translate(340,262)">
+              <rect x="0" y="0" width="200" height="52" rx="8" fill="var(--accent-3-soft)" stroke="var(--accent-3)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">redis</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">:6379 → host :6379</text>
+              <text x="10" y="46" font-size="8.5" fill="var(--accent-4)">sem acesso público</text>
+            </g>
+
+            <!-- IAM role -->
+            <g transform="translate(590,182)">
+              <rect x="0" y="0" width="220" height="66" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">IAM role-acesso-ssm</text>
+              <text x="10" y="34" font-size="9" opacity=".75">anexada à instância</text>
+              <text x="10" y="48" font-size="9" opacity=".75">sem SSH, sem senha,</text>
+              <text x="10" y="60" font-size="9" opacity=".75">sem porta de admin aberta</text>
+            </g>
+
+            <!-- arrows: usuário -> bia -->
+            <line x1="130" y1="100" x2="180" y2="182" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow0)"/>
+            <text x="140" y="122" font-size="9.5" fill="var(--accent-4)" font-family="'IBM Plex Mono', monospace">3001 · HTTP · 0.0.0.0/0</text>
+
+            <!-- arrows: bia -> database / redis -->
+            <line x1="310" y1="205" x2="340" y2="210" stroke="var(--accent)" stroke-width="1.3" marker-end="url(#arrow0)"/>
+            <line x1="310" y1="240" x2="340" y2="285" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow0)"/>
+            <text x="315" y="330" font-size="8.5" opacity=".55" font-family="'IBM Plex Mono', monospace">rede docker interna (bridge) — sem passar pelo SG</text>
+
+            <!-- arrows: operador -> instância via SSM, contorna o SG -->
+            <path d="M 750 100 C 780 130, 810 150, 790 182" fill="none" stroke="var(--accent-5)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow0)"/>
+            <text x="680" y="120" font-size="9" fill="var(--accent-5)" font-family="'IBM Plex Mono', monospace">SSM · contorna o SG</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        Figura 0 — só a porta 3001 do container <span class="mono">bia</span> está liberada
+        publicamente no <span class="mono">bia-dev-sg</span>; as demais portas existem só dentro
+        da rede Docker da instância. O acesso administrativo não usa porta nenhuma do SG — passa
+        pelo control plane do SSM, autorizado pela IAM role.
+      </figcaption>
+    </figure>
+
+    <div class="access-card">
+      <div class="access-row">
+        <span class="label">Aplicação</span>
+        <a class="url-link mono" href="http://54.83.241.43:3001">http://54.83.241.43:3001</a>
+      </div>
+      <div class="access-row">
+        <span class="label">Acesso admin</span>
+        <div class="cmdblock">aws ssm start-session --target i-074bcbdb1642ec026 --region us-east-1</div>
+      </div>
+      <div class="access-row">
+        <span class="label">Checar containers</span>
+        <div class="cmdblock">docker ps</div>
+      </div>
+    </div>
+
+    <h3>Rotas e portas em uso</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Container</th><th>Porta interna</th><th>Porta no host</th><th>Alcance</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">bia</td><td class="num mono">8080</td><td class="num mono">3001</td><td class="mono">público · 0.0.0.0/0</td></tr>
+          <tr><td class="mono">bia-app2-test</td><td class="num mono">8080</td><td class="num mono">3002</td><td>somente dentro da instância</td></tr>
+          <tr><td class="mono">database</td><td class="num mono">5432</td><td class="num mono">5433</td><td>somente dentro da instância</td></tr>
+          <tr><td class="mono">redis</td><td class="num mono">6379</td><td class="num mono">6379</td><td>somente dentro da instância</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <h4>Duas coisas que ainda não travam</h4>
+      <p>
+        O IP público (<span class="mono">54.83.241.43</span>) pode mudar se a instância for
+        desligada e religada — não há Elastic IP configurado. E o SG real desta instância se
+        chama <span class="mono">bia-dev-sg</span>, enquanto a rule de infraestrutura descreve o
+        nome-alvo como <span class="mono">bia-dev</span>; vale alinhar o nome quando este sandbox
+        for reorganizado, mas não é um erro que impeça o funcionamento hoje.
+      </p>
+    </div>
+  </section>
+
+  <div class="callout">
+    <h4>Por que os cenários abaixo existem</h4>
+    <p>
+      O diagrama anterior do projeto (<code>docs/architecture/aws-ecs-diagram.html</code>) desenha
+      NAT Gateway, subnets privadas, RDS Multi-AZ e Secrets Manager — tudo isso a rule de
+      infraestrutura pede explicitamente para <strong>não incluir</strong>, porque o público é
+      aluno em etapa inicial e a prioridade é simplicidade sobre robustez de produção. Os três
+      cenários a seguir são a rota de evolução real, a partir do sandbox <span class="mono">bia-dev</span>
+      acima — nenhum deles está publicado na AWS ainda.
+    </p>
+  </div>
+
+  <!-- ================= CENÁRIO 1 ================= -->
+  <section id="cenario-1">
+    <div class="section-kicker">Estágio 1 de 3</div>
+    <h2 class="scenario-title"><span class="scenario-badge">1</span>Sem ALB — o essencial do ECS</h2>
+    <p class="prose">
+      Uma instância <span class="mono">t3.micro</span> roda o cluster ECS, uma task e um serviço.
+      Sem balanceador, sem múltiplas zonas — o objetivo aqui é só o aluno ver o container
+      vivo dentro de um cluster ECS/EC2, e o serviço falando com o RDS existente.
+    </p>
+
+    <figure class="diagram">
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 920 400" role="img" aria-label="Diagrama do Cenário 1: dentro da VPC, uma subnet contém a instância bia-dev e a instância EC2 t3.micro rodando o cluster-bia com o security group bia-web; ambas se conectam à porta 5432 do RDS PostgreSQL, protegido pelo security group bia-db; o acesso de usuários direto à aplicação não está definido pelas rules.">
+          <defs>
+            <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="'IBM Plex Sans', sans-serif" fill="currentColor">
+            <!-- region -->
+            <rect x="16" y="16" width="888" height="368" rx="16" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 5"/>
+            <text x="34" y="38" font-size="12" font-weight="600" fill="currentColor" opacity=".55">AWS REGION · us-east-1</text>
+
+            <!-- vpc -->
+            <rect x="40" y="54" width="840" height="310" rx="12" fill="none" stroke="var(--accent-5)" stroke-width="1.5"/>
+            <text x="58" y="76" font-size="12" font-weight="600" fill="var(--accent-5)">VPC</text>
+
+            <!-- usuário externo (indefinido) -->
+            <g transform="translate(70,96)">
+              <rect x="0" y="0" width="150" height="46" rx="8" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 4"/>
+              <text x="75" y="20" font-size="11" text-anchor="middle" opacity=".65">usuário</text>
+              <text x="75" y="34" font-size="9.5" text-anchor="middle" opacity=".5">acesso direto — sem</text>
+            </g>
+
+            <!-- subnet zona A -->
+            <rect x="70" y="160" width="380" height="180" rx="10" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".25"/>
+            <text x="86" y="180" font-size="11" font-weight="600" opacity=".6">SUBNET · ZONA A</text>
+
+            <!-- bia-dev -->
+            <g transform="translate(90,196)">
+              <rect x="0" y="0" width="150" height="52" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="10" y="20" font-size="11.5" font-weight="600">bia-dev</text>
+              <text x="10" y="35" font-size="9.5" opacity=".7" font-family="'IBM Plex Mono', monospace">t3.micro · SG bia-dev</text>
+            </g>
+
+            <!-- EC2 ECS -->
+            <g transform="translate(90,268)">
+              <rect x="0" y="0" width="330" height="60" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+              <text x="10" y="19" font-size="11.5" font-weight="600">EC2 t3.micro · cluster-bia</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">task-def-bia · service-bia</text>
+              <text x="10" y="48" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-web</text>
+            </g>
+
+            <!-- RDS -->
+            <g transform="translate(560,196)">
+              <rect x="0" y="0" width="270" height="90" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+              <text x="12" y="22" font-size="12" font-weight="600">RDS PostgreSQL</text>
+              <text x="12" y="40" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">t3.micro · porta 5432</text>
+              <text x="12" y="55" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-db</text>
+              <text x="12" y="74" font-size="9.5" opacity=".6">recurso existente, não recriado</text>
+            </g>
+
+            <!-- arrows -->
+            <line x1="240" y1="222" x2="560" y2="230" stroke="var(--accent-5)" stroke-width="1.5" marker-end="url(#arrow1)"/>
+            <text x="330" y="212" font-size="9.5" fill="var(--accent-5)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-dev</text>
+
+            <line x1="420" y1="298" x2="560" y2="264" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrow1)"/>
+            <text x="430" y="320" font-size="9.5" fill="var(--accent)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-web</text>
+
+            <line x1="145" y1="142" x2="230" y2="266" stroke="currentColor" stroke-opacity=".4" stroke-width="1.3" stroke-dasharray="3 4" marker-end="url(#arrow1)"/>
+            <text x="152" y="152" font-size="9" opacity=".55" font-family="'IBM Plex Mono', monospace">rule não define a porta</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        Figura 1 — bia-dev e a instância ECS conversam com o RDS pela mesma regra de menor
+        privilégio; a rule de infraestrutura não define como o usuário chega até a aplicação
+        neste cenário, por isso a seta de acesso externo aparece pontilhada.
+      </figcaption>
+    </figure>
+
+    <h3>Nomenclatura</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Recurso</th><th class="mono">Nome</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Cluster ECS</td><td class="mono">cluster-bia</td><td>—</td></tr>
+          <tr><td>Task definition</td><td class="mono">task-def-bia</td><td>CPU 1024 · memory soft limit 400 MB</td></tr>
+          <tr><td>Service</td><td class="mono">service-bia</td><td>Rolling update · min 50% · max 100%</td></tr>
+          <tr><td>EC2 (ECS Cluster)</td><td class="mono">t3.micro</td><td>SG <span class="mono">bia-web</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Security groups</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>SG</th><th>Porta</th><th>Origem</th><th>Descrição da inbound</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-dev</td><td class="mono">acesso vindo de bia-dev</td></tr>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-web</td><td class="mono">acesso vindo de bia-web</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= CENÁRIO 2 ================= -->
+  <section id="cenario-2">
+    <div class="section-kicker">Estágio 2 de 3</div>
+    <h2 class="scenario-title"><span class="scenario-badge">2</span>Com ALB — alta disponibilidade mínima</h2>
+    <p class="prose">
+      Entra o Application Load Balancer, esticado entre zona A e zona B, cada uma com sua
+      própria instância ECS/EC2. O ganho didático: o aluno passa a lidar com target group,
+      portas dinâmicas do ECS e um security group que só existe para representar "vindo do
+      ALB" — sem precisar de Multi-AZ no banco para isso.
+    </p>
+
+    <figure class="diagram">
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 980 430" role="img" aria-label="Diagrama do Cenário 2: um usuário acessa o Application Load Balancer nas portas 80 e 443; o ALB distribui tráfego TCP para duas instâncias EC2 t3.micro, uma na zona A e outra na zona B, cada uma protegida pelo security group bia-ec2; ambas as instâncias acessam a porta 5432 do RDS, junto com bia-dev.">
+          <defs>
+            <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="'IBM Plex Sans', sans-serif" fill="currentColor">
+            <rect x="16" y="16" width="948" height="398" rx="16" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 5"/>
+            <text x="34" y="38" font-size="12" font-weight="600" opacity=".55">AWS REGION · us-east-1</text>
+
+            <rect x="40" y="54" width="900" height="340" rx="12" fill="none" stroke="var(--accent-5)" stroke-width="1.5"/>
+            <text x="58" y="76" font-size="12" font-weight="600" fill="var(--accent-5)">VPC</text>
+
+            <!-- usuário -->
+            <g transform="translate(410,92)">
+              <rect x="0" y="0" width="140" height="42" rx="8" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 4"/>
+              <text x="70" y="26" font-size="11" text-anchor="middle" opacity=".65">usuário público</text>
+            </g>
+
+            <!-- ALB -->
+            <g transform="translate(340,158)">
+              <rect x="0" y="0" width="280" height="52" rx="8" fill="var(--accent-4-soft)" stroke="var(--accent-4)"/>
+              <text x="140" y="21" font-size="11.5" font-weight="600" text-anchor="middle">Application Load Balancer</text>
+              <text x="140" y="37" font-size="9.5" text-anchor="middle" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-alb · tg-bia-alb (instance)</text>
+            </g>
+            <line x1="480" y1="134" x2="480" y2="158" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow2)"/>
+            <text x="486" y="150" font-size="9.5" fill="var(--accent-4)" font-family="'IBM Plex Mono', monospace">80/443 · 0.0.0.0/0</text>
+
+            <!-- subnet A -->
+            <rect x="70" y="248" width="380" height="130" rx="10" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".25"/>
+            <text x="86" y="268" font-size="11" font-weight="600" opacity=".6">SUBNET · ZONA A</text>
+            <g transform="translate(90,282)">
+              <rect x="0" y="0" width="330" height="78" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+              <text x="10" y="19" font-size="11.5" font-weight="600">EC2 t3.micro · cluster-bia-alb</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">task-def-bia-alb · service-bia-alb</text>
+              <text x="10" y="49" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-ec2 · All TCP de bia-alb</text>
+              <text x="10" y="64" font-size="9" opacity=".55">portas dinâmicas do ECS</text>
+            </g>
+
+            <!-- subnet B -->
+            <rect x="530" y="248" width="380" height="130" rx="10" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".25"/>
+            <text x="546" y="268" font-size="11" font-weight="600" opacity=".6">SUBNET · ZONA B</text>
+            <g transform="translate(550,282)">
+              <rect x="0" y="0" width="330" height="78" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+              <text x="10" y="19" font-size="11.5" font-weight="600">EC2 t3.micro · cluster-bia-alb</text>
+              <text x="10" y="34" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">task-def-bia-alb · service-bia-alb</text>
+              <text x="10" y="49" font-size="9.5" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-ec2 · All TCP de bia-alb</text>
+              <text x="10" y="64" font-size="9" opacity=".55">réplica para HA mínima</text>
+            </g>
+
+            <line x1="400" y1="210" x2="255" y2="282" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow2)"/>
+            <line x1="560" y1="210" x2="715" y2="282" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- bia-dev + RDS row -->
+            <g transform="translate(70,60)">
+              <rect x="0" y="0" width="150" height="46" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">bia-dev</text>
+              <text x="10" y="34" font-size="9.5" opacity=".7" font-family="'IBM Plex Mono', monospace">SG bia-dev</text>
+            </g>
+            <g transform="translate(760,60)">
+              <rect x="0" y="0" width="150" height="46" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">RDS PostgreSQL</text>
+              <text x="10" y="34" font-size="9.5" opacity=".7" font-family="'IBM Plex Mono', monospace">5432 · SG bia-db</text>
+            </g>
+            <line x1="220" y1="83" x2="760" y2="83" stroke="var(--accent-5)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow2)"/>
+            <text x="420" y="76" font-size="9" fill="var(--accent-5)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-dev</text>
+
+            <line x1="420" y1="360" x2="835" y2="106" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow2)"/>
+            <line x1="700" y1="360" x2="850" y2="106" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow2)"/>
+            <text x="600" y="410" font-size="9.5" fill="var(--accent)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-ec2</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        Figura 2 — o ALB nunca fala com o banco: só as instâncias EC2/ECS (SG <span class="mono">bia-ec2</span>)
+        e a bia-dev têm inbound liberada em <span class="mono">bia-db</span>. Uma zona cair não
+        derruba a aplicação porque a outra continua atendendo pelo mesmo target group.
+      </figcaption>
+    </figure>
+
+    <h3>Nomenclatura</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Recurso</th><th class="mono">Nome</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Cluster ECS</td><td class="mono">cluster-bia-alb</td><td>—</td></tr>
+          <tr><td>Task definition</td><td class="mono">task-def-bia-alb</td><td>CPU 1024 · memory soft limit 400 MB</td></tr>
+          <tr><td>Service</td><td class="mono">service-bia-alb</td><td>Rolling update · min 50% · max 100% · sem AZ rebalancing</td></tr>
+          <tr><td>Target group</td><td class="mono">tg-bia-alb</td><td>tipo <span class="mono">instance</span> · deregistration delay 30s</td></tr>
+          <tr><td>EC2 (ECS Cluster)</td><td class="mono">t3.micro</td><td>1 por zona (A e B) · SG <span class="mono">bia-ec2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Security groups</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>SG</th><th>Porta</th><th>Origem</th><th>Descrição da inbound</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">bia-alb</td><td class="num mono">80 / 443</td><td class="mono">0.0.0.0/0</td><td class="mono">acesso público HTTP/HTTPS</td></tr>
+          <tr><td class="mono">bia-ec2</td><td class="num mono">All TCP</td><td class="mono">bia-alb</td><td class="mono">acesso vindo de bia-alb</td></tr>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-dev</td><td class="mono">acesso vindo de bia-dev</td></tr>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-ec2</td><td class="mono">acesso vindo de bia-ec2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= CENÁRIO 3 ================= -->
+  <section id="cenario-3">
+    <div class="section-kicker">Estágio 3 de 3</div>
+    <h2 class="scenario-title"><span class="scenario-badge">3</span>Com ALB + Cache — awsvpc e service discovery</h2>
+    <p class="prose">
+      Salto conceitual: cada task ganha ENI própria (<span class="mono">awsvpc</span>), então o
+      security group sai da EC2 e vai para a task. A EC2 (<span class="mono">bia-cluster</span>)
+      fica com inbound vazio — quem decide quem fala com quem agora são
+      <span class="mono">bia-app</span> e <span class="mono">bia-cache</span>. O cache aparece
+      como um segundo serviço ECS, resolvido via Cloud Map, sem IP fixo hardcoded.
+    </p>
+
+    <figure class="diagram">
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 1000 470" role="img" aria-label="Diagrama do Cenário 3: o ALB distribui tráfego na porta 8080 para tasks do serviço service-bia-app rodando em ENI própria, protegidas pelo security group bia-app, dentro de instâncias EC2 t3.small com inbound vazio; as tasks do app se conectam via Cloud Map à task de cache service-bia-cache na porta 6379, protegida pelo security group bia-cache; as tasks de app também acessam o RDS na porta 5432.">
+          <defs>
+            <marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="'IBM Plex Sans', sans-serif" fill="currentColor">
+            <rect x="16" y="16" width="968" height="438" rx="16" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="5 5"/>
+            <text x="34" y="38" font-size="12" font-weight="600" opacity=".55">AWS REGION · us-east-1</text>
+
+            <rect x="40" y="54" width="920" height="380" rx="12" fill="none" stroke="var(--accent-5)" stroke-width="1.5"/>
+            <text x="58" y="76" font-size="12" font-weight="600" fill="var(--accent-5)">VPC</text>
+
+            <!-- usuário + ALB -->
+            <g transform="translate(420,90)">
+              <rect x="0" y="0" width="140" height="38" rx="8" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 4"/>
+              <text x="70" y="24" font-size="11" text-anchor="middle" opacity=".65">usuário público</text>
+            </g>
+            <g transform="translate(350,150)">
+              <rect x="0" y="0" width="280" height="48" rx="8" fill="var(--accent-4-soft)" stroke="var(--accent-4)"/>
+              <text x="140" y="20" font-size="11.5" font-weight="600" text-anchor="middle">Application Load Balancer</text>
+              <text x="140" y="36" font-size="9.5" text-anchor="middle" opacity=".75" font-family="'IBM Plex Mono', monospace">SG bia-alb · tg-bia-app (ip)</text>
+            </g>
+            <line x1="490" y1="128" x2="490" y2="150" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+            <!-- zona A -->
+            <rect x="70" y="230" width="400" height="170" rx="10" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".25"/>
+            <text x="86" y="250" font-size="11" font-weight="600" opacity=".6">SUBNET · ZONA A</text>
+            <g transform="translate(90,262)">
+              <rect x="0" y="0" width="360" height="120" rx="8" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 3"/>
+              <text x="10" y="16" font-size="10" opacity=".55" font-family="'IBM Plex Mono', monospace">EC2 t3.small · bia-cluster (inbound vazio)</text>
+              <g transform="translate(14,26)">
+                <rect x="0" y="0" width="330" height="42" rx="7" fill="var(--accent-soft)" stroke="var(--accent)"/>
+                <text x="8" y="16" font-size="10.5" font-weight="600">task · service-bia-app</text>
+                <text x="8" y="30" font-size="9" opacity=".75" font-family="'IBM Plex Mono', monospace">ENI própria · SG bia-app · :8080</text>
+              </g>
+              <g transform="translate(14,76)">
+                <rect x="0" y="0" width="330" height="36" rx="7" fill="var(--accent-3-soft)" stroke="var(--accent-3)"/>
+                <text x="8" y="15" font-size="10.5" font-weight="600">task · service-bia-cache</text>
+                <text x="8" y="28" font-size="9" opacity=".75" font-family="'IBM Plex Mono', monospace">ENI própria · SG bia-cache · :6379</text>
+              </g>
+            </g>
+
+            <!-- zona B -->
+            <rect x="530" y="230" width="400" height="170" rx="10" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".25"/>
+            <text x="546" y="250" font-size="11" font-weight="600" opacity=".6">SUBNET · ZONA B</text>
+            <g transform="translate(550,262)">
+              <rect x="0" y="0" width="360" height="80" rx="8" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 3"/>
+              <text x="10" y="16" font-size="10" opacity=".55" font-family="'IBM Plex Mono', monospace">EC2 t3.small · bia-cluster (inbound vazio)</text>
+              <g transform="translate(14,26)">
+                <rect x="0" y="0" width="330" height="42" rx="7" fill="var(--accent-soft)" stroke="var(--accent)"/>
+                <text x="8" y="16" font-size="10.5" font-weight="600">task · service-bia-app</text>
+                <text x="8" y="30" font-size="9" opacity=".75" font-family="'IBM Plex Mono', monospace">ENI própria · SG bia-app · :8080</text>
+              </g>
+            </g>
+
+            <!-- ALB -> app tasks -->
+            <line x1="420" y1="198" x2="270" y2="290" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow3)"/>
+            <line x1="560" y1="198" x2="720" y2="290" stroke="var(--accent-4)" stroke-width="1.5" marker-end="url(#arrow3)"/>
+            <text x="330" y="222" font-size="9" fill="var(--accent-4)" font-family="'IBM Plex Mono', monospace">8080 · acesso vindo de bia-alb</text>
+
+            <!-- app -> cache (Cloud Map) -->
+            <path d="M 260 340 C 200 400, 260 420, 240 350" fill="none" stroke="var(--accent-3)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow3)"/>
+            <line x1="720" y1="316" x2="360" y2="345" stroke="var(--accent-3)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow3)"/>
+            <text x="470" y="418" font-size="9" fill="var(--accent-3)" font-family="'IBM Plex Mono', monospace">6379 · Cloud Map DNS · acesso vindo de bia-app</text>
+
+            <!-- bia-dev + RDS -->
+            <g transform="translate(70,60)">
+              <rect x="0" y="0" width="150" height="46" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">bia-dev</text>
+              <text x="10" y="34" font-size="9.5" opacity=".7" font-family="'IBM Plex Mono', monospace">SG bia-dev</text>
+            </g>
+            <g transform="translate(780,60)">
+              <rect x="0" y="0" width="150" height="46" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+              <text x="10" y="19" font-size="11" font-weight="600">RDS PostgreSQL</text>
+              <text x="10" y="34" font-size="9.5" opacity=".7" font-family="'IBM Plex Mono', monospace">5432 · SG bia-db</text>
+            </g>
+            <line x1="220" y1="83" x2="780" y2="83" stroke="var(--accent-5)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow3)"/>
+            <text x="420" y="76" font-size="9" fill="var(--accent-5)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-dev</text>
+
+            <line x1="270" y1="330" x2="855" y2="106" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow3)"/>
+            <line x1="700" y1="308" x2="870" y2="106" stroke="var(--accent)" stroke-width="1.3" stroke-dasharray="2 4" marker-end="url(#arrow3)"/>
+            <text x="620" y="440" font-size="9.5" fill="var(--accent)" font-family="'IBM Plex Mono', monospace">5432 · acesso vindo de bia-app</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        Figura 3 — em <span class="mono">awsvpc</span>, o security group da EC2
+        (<span class="mono">bia-cluster</span>) fica praticamente decorativo: todo o controle de
+        acesso migrou para os SGs das tasks (<span class="mono">bia-app</span>,
+        <span class="mono">bia-cache</span>). O ElastiCache gerenciado ficaria mais simples de
+        operar, mas foi deixado de fora por ser estágio mais avançado.
+      </figcaption>
+    </figure>
+
+    <h3>Nomenclatura</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Recurso</th><th class="mono">Nome</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>Cluster ECS</td><td class="mono">cluster-bia-app</td><td>—</td></tr>
+          <tr><td>Service (app)</td><td class="mono">service-bia-app</td><td>awsvpc · SG bia-app</td></tr>
+          <tr><td>Service (cache)</td><td class="mono">service-bia-cache</td><td>awsvpc · SG bia-cache · registrado no Cloud Map</td></tr>
+          <tr><td>Target group</td><td class="mono">tg-bia-app</td><td>tipo <span class="mono">ip</span> · deregistration delay 30s</td></tr>
+          <tr><td>EC2 (ECS Cluster)</td><td class="mono">t3.small</td><td>limite de ENIs do modo awsvpc · SG bia-cluster sem inbound</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Security groups</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>SG</th><th>Porta</th><th>Origem</th><th>Descrição da inbound</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">bia-alb</td><td class="num mono">80 / 443</td><td class="mono">0.0.0.0/0</td><td class="mono">acesso público HTTP/HTTPS</td></tr>
+          <tr><td class="mono">bia-app</td><td class="num mono">8080</td><td class="mono">bia-alb</td><td class="mono">acesso vindo de bia-alb</td></tr>
+          <tr><td class="mono">bia-cache</td><td class="num mono">6379</td><td class="mono">bia-app</td><td class="mono">acesso vindo de bia-app</td></tr>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-dev</td><td class="mono">acesso vindo de bia-dev</td></tr>
+          <tr><td class="mono">bia-db</td><td class="num mono">5432</td><td class="mono">bia-app</td><td class="mono">acesso vindo de bia-app</td></tr>
+          <tr><td class="mono">bia-cluster</td><td class="num mono">—</td><td class="num mono">—</td><td>inbound vazio · outbound 0.0.0.0/0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= COMPARATIVO ================= -->
+  <section id="comparativo">
+    <div class="section-kicker">Referência rápida</div>
+    <h2>O que muda entre os três</h2>
+    <p class="prose">Mesma task definition de app, três configurações de rede em volta dela.</p>
+
+    <div class="table-scroll">
+      <div class="compare">
+        <div class="head"></div>
+        <div class="head">Cenário 1</div>
+        <div class="head">Cenário 2</div>
+        <div class="head">Cenário 3</div>
+
+        <div>Load balancer</div>
+        <div>—</div>
+        <div class="added">+ ALB</div>
+        <div>ALB</div>
+
+        <div>Network mode</div>
+        <div class="mono">bridge</div>
+        <div class="mono">bridge</div>
+        <div class="mono added">awsvpc</div>
+
+        <div>Instância EC2</div>
+        <div class="mono">t3.micro · 1 AZ</div>
+        <div class="mono">t3.micro · AZ A + B</div>
+        <div class="mono">t3.small · AZ A + B</div>
+
+        <div>Cache</div>
+        <div>—</div>
+        <div>—</div>
+        <div class="added">+ service-bia-cache</div>
+
+        <div>SG do host ECS</div>
+        <div class="mono">bia-web</div>
+        <div class="mono">bia-ec2</div>
+        <div class="mono">bia-cluster (vazio)</div>
+
+        <div>SG por task</div>
+        <div>—</div>
+        <div>—</div>
+        <div class="added mono">bia-app · bia-cache</div>
+
+        <div>Target group</div>
+        <div>—</div>
+        <div class="mono">tg-bia-alb (instance)</div>
+        <div class="mono">tg-bia-app (ip)</div>
+
+        <div>Origem liberada no bia-db</div>
+        <div class="mono">bia-dev, bia-web</div>
+        <div class="mono">bia-dev, bia-ec2</div>
+        <div class="mono">bia-dev, bia-app</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PIPELINE ================= -->
+  <section id="pipeline">
+    <div class="section-kicker">Comum aos três cenários</div>
+    <h2>Pipeline: do <span class="mono">git push</span> ao rolling update</h2>
+    <p class="prose">
+      Independente do cenário, o deploy é o mesmo <span class="mono">buildspec.yml</span>:
+      CodePipeline dispara no push ao GitHub, CodeBuild builda e publica no ECR, e o
+      <span class="mono">imagedefinitions.json</span> gerado no final vira o gatilho do deploy
+      no serviço ECS correspondente.
+    </p>
+
+    <figure class="diagram">
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 980 190" role="img" aria-label="Diagrama do pipeline: GitHub aciona o CodePipeline por webhook, que chama o CodeBuild para buildar a imagem Docker e publicar no ECR, gerando o arquivo imagedefinitions.json que dispara o rolling update no serviço ECS ativo.">
+          <defs>
+            <marker id="arrowp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="'IBM Plex Sans', sans-serif" fill="currentColor">
+            <g transform="translate(20,60)">
+              <rect x="0" y="0" width="150" height="64" rx="8" fill="var(--accent-5-soft)" stroke="var(--accent-5)"/>
+              <text x="75" y="26" font-size="11.5" font-weight="600" text-anchor="middle">GitHub</text>
+              <text x="75" y="42" font-size="9" text-anchor="middle" opacity=".7">push na branch</text>
+              <text x="75" y="55" font-size="9" text-anchor="middle" opacity=".7">principal</text>
+            </g>
+
+            <g transform="translate(220,60)">
+              <rect x="0" y="0" width="170" height="64" rx="8" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".4"/>
+              <text x="85" y="26" font-size="11.5" font-weight="600" text-anchor="middle">CodePipeline</text>
+              <text x="85" y="42" font-size="9" text-anchor="middle" opacity=".7">webhook · orquestra</text>
+              <text x="85" y="55" font-size="9" text-anchor="middle" opacity=".7">source → build → deploy</text>
+            </g>
+
+            <g transform="translate(440,60)">
+              <rect x="0" y="0" width="190" height="64" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+              <text x="95" y="20" font-size="11.5" font-weight="600" text-anchor="middle">CodeBuild</text>
+              <text x="95" y="35" font-size="9" text-anchor="middle" opacity=".75" font-family="'IBM Plex Mono', monospace">docker build + push</text>
+              <text x="95" y="49" font-size="9" text-anchor="middle" opacity=".75" font-family="'IBM Plex Mono', monospace">ECR: bia:latest, :sha</text>
+            </g>
+
+            <g transform="translate(680,20)">
+              <rect x="0" y="0" width="130" height="48" rx="8" fill="var(--accent-2-soft)" stroke="var(--accent-2)"/>
+              <text x="65" y="20" font-size="10.5" font-weight="600" text-anchor="middle">Amazon ECR</text>
+              <text x="65" y="35" font-size="9" text-anchor="middle" opacity=".7">imagem publicada</text>
+            </g>
+
+            <g transform="translate(680,110)">
+              <rect x="0" y="0" width="130" height="48" rx="8" fill="var(--surface-alt)" stroke="currentColor" stroke-opacity=".4"/>
+              <text x="65" y="20" font-size="10.5" font-weight="600" text-anchor="middle" font-family="'IBM Plex Mono', monospace">imagedefinitions.json</text>
+              <text x="65" y="35" font-size="9" text-anchor="middle" opacity=".7">artefato do build</text>
+            </g>
+
+            <g transform="translate(850,60)">
+              <rect x="0" y="0" width="120" height="64" rx="8" fill="var(--accent-4-soft)" stroke="var(--accent-4)"/>
+              <text x="60" y="24" font-size="10.5" font-weight="600" text-anchor="middle">ECS Service</text>
+              <text x="60" y="40" font-size="9" text-anchor="middle" opacity=".75">rolling update</text>
+              <text x="60" y="53" font-size="9" text-anchor="middle" opacity=".75">50% / 100%</text>
+            </g>
+
+            <line x1="170" y1="92" x2="220" y2="92" stroke="currentColor" stroke-opacity=".6" stroke-width="1.5" marker-end="url(#arrowp)"/>
+            <line x1="390" y1="92" x2="440" y2="92" stroke="currentColor" stroke-opacity=".6" stroke-width="1.5" marker-end="url(#arrowp)"/>
+            <line x1="630" y1="80" x2="680" y2="50" stroke="var(--accent-2)" stroke-width="1.4" marker-end="url(#arrowp)"/>
+            <line x1="630" y1="100" x2="680" y2="130" stroke="currentColor" stroke-opacity=".55" stroke-width="1.4" marker-end="url(#arrowp)"/>
+            <line x1="810" y1="130" x2="850" y2="100" stroke="var(--accent-4)" stroke-width="1.4" marker-end="url(#arrowp)"/>
+          </g>
+        </svg>
+      </div>
+      <figcaption>
+        Figura 4 — o mesmo pipeline serve os três cenários; o que muda é só qual
+        <span class="mono">--cluster</span>/<span class="mono">--service</span> o deploy final
+        aponta.
+      </figcaption>
+    </figure>
+  </section>
+
+  <footer>
+    Fontes: <code>.kiro/rules/infraestrutura.md</code>, <code>.kiro/rules/pipeline.md</code>,
+    <code>buildspec.yml</code>. Onde uma regra não especifica um comportamento (ex.: inbound de
+    <span class="mono">bia-web</span> no Cenário 1), este documento sinaliza a lacuna em vez de
+    presumir um valor.
+  </footer>
+
+</div>

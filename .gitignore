@@ -35,3 +35,9 @@ yarn-error.log*
 
 # Kiro worktrees
 .kiro/worktrees/
+
+# Scripts de conexão temporários
+conect_bia_dev.sh
+
+# Pacotes de instalação
+*.deb

@@ -48,4 +48,17 @@ connect_bia_dev.sh
 
 # Config de deploy gerado automaticamente (extrair_config_deploy.sh)
 /deploy-config.md
+
+# ID da instância porteiro, gerado por scripts/lancar_porteiro_zona_b.sh
+.porteiro_instance_id
+
+# Log de execução do agendamento via crontab (scripts/agendar_ec2_crontab.sh)
+scripts/ec2_agendamento.log
+
+# Logs do orquestrador do Desafio 4 (scripts/orquestrar_desafio4.sh)
+/logs/
+
+# Metadado do Windows (NTFS zone identifier) que vem junto de arquivos
+# baixados pelo navegador e acaba aparecendo em pastas montadas do WSL
+*:Zone.Identifier
 deploy-*.log

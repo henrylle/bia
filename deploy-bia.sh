@@ -257,7 +257,12 @@ log_header "TESTANDO WEBSITE"
 log_info "Testando URL: $WEBSITE_URL"
 
 # Tentar acessar e verificar status HTTP
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$WEBSITE_URL" 2>/dev/null || echo "000")
+# Nota: o curl já imprime "000" sozinho quando não consegue conectar (via -w),
+# então NÃO usar "|| echo 000" aqui — isso concatenava dois "000" (virava
+# "000000"). --max-time evita que o script trave esperando uma conexão que
+# nunca vai completar (ex: tentar HTTPS num endpoint que só fala HTTP).
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$WEBSITE_URL" 2>/dev/null)
+HTTP_STATUS="${HTTP_STATUS:-000}"
 
 if [ "$HTTP_STATUS" = "200" ]; then
     log_success "Website respondendo! (HTTP $HTTP_STATUS)"

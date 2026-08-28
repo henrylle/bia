@@ -161,8 +161,11 @@ echo ""
 echo "7️⃣  EXTRAINDO URL DO WEBSITE S3..."
 echo ""
 
-# Fórmula: https://{bucket}.s3-website-{region}.amazonaws.com
-WEBSITE_URL="https://${BIA_BUCKET}.s3-website-${REGION}.amazonaws.com"
+# Fórmula: http://{bucket}.s3-website-{region}.amazonaws.com
+# ATENÇÃO: o endpoint de "website hosting" do S3 só serve em HTTP — não
+# existe certificado/HTTPS nesse formato (só teria com CloudFront na frente).
+# Usar https:// aqui faz o navegador/curl travar tentando handshake TLS.
+WEBSITE_URL="http://${BIA_BUCKET}.s3-website-${REGION}.amazonaws.com"
 
 echo "   🌐 URL do site: $WEBSITE_URL"
 echo ""

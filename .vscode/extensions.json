@@ -1,0 +1,27 @@
+{
+  // Extensões recomendadas para o projeto BIA (Node/Express + React/Vite + Postgres + AWS ECS).
+  // O VSCode sugere instalar isto automaticamente para quem abrir a pasta bia/.
+  "recommendations": [
+    // --- AWS ---
+    "amazonwebservices.aws-toolkit-vscode", // Explorer de ECS/ECR/CloudWatch Logs/Secrets Manager/S3 direto do editor
+
+    // --- Backend (Node/Express/Sequelize) ---
+    "dbaeumer.vscode-eslint",     // já há eslintConfig (react-app) no package.json
+    "esbenp.prettier-vscode",     // formatação consistente entre api/ e client/
+    "mikestead.dotenv",           // syntax highlight para client/.env e client/.env.local
+
+    // --- Frontend (React + Vite + Tailwind) ---
+    "bradlc.vscode-tailwindcss",      // autocomplete de classes (client/tailwind.config.js)
+    "dsznajder.es7-react-js-snippets", // snippets JSX/hooks
+
+    // --- Banco de dados (Postgres via compose.yml / RDS) ---
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",    // inspecionar tabelas/tarefas sem sair do editor
+
+    // --- Testar a API (/api/tarefas, /api/versao, /ping) ---
+    "rangav.vscode-thunder-client",
+
+    // --- Preview estático (docs/architecture/*.html) ---
+    "ritwickdey.liveserver"
+  ]
+}

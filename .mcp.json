@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "aws-mcp": {
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-east-1"
+      ],
+      "env": {"AWS_PROFILE": "formacaoaws"}
+    }, 
+    "shadcn":{
+      "command": "npx",
+      "args": ["-y", "shadcn@latest", "mcp"]
+    },
+    "playwright":{
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}

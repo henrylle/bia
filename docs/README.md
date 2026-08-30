@@ -8,3 +8,5 @@
 
 ## 🤖 Time de Agentes de IA
 - [Panorama: Agentes e Worktrees](./panorama-agentes-e-worktrees.md) - Visão geral de como o time de agentes (po, dev, devops, qa) trabalha e como funciona o fluxo de tasks com worktrees isolados
+- [Migrar Time de Agentes para Claude Code](./migrar-time-agentes-para-claude-code.md) - Como recriar os mesmos 4 agentes (po, dev, devops, qa) usando subagentes do Claude Code em vez do Kiro CLI
+- [Roteiro Prático: Construindo o Time de Agentes com Claude Code](./roteiro-pratico-agentes-claude-code.md) - Tutorial passo a passo com conceitos, checkpoints e exercícios de fixação, para praticar hands-on o que foi visto nas aulas do módulo (com Kiro CLI) agora usando Claude Code

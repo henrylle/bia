@@ -17,12 +17,12 @@ Esta task será implementada em worktree isolado em `.kiro/worktrees/013-botao-a
 
 Antes de começar a implementar, o agent deve:
 
-- [ ] **Verificar branch atual:** `git branch --show-current`
+- [x] **Verificar branch atual:** `git branch --show-current`
   - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
   - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
-- [ ] **Mover task para doing:**
+- [x] **Mover task para doing:**
   ```bash
   mv .kiro/tasks/013-botao-add-new-task-amarelo.md .kiro/tasks/doing/
   git add .kiro/tasks/
@@ -30,7 +30,7 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [ ] **Criar worktree:**
+- [x] **Criar worktree:**
   ```bash
   git worktree add .kiro/worktrees/013-botao-add-new-task-amarelo -b feature/013-botao-add-new-task-amarelo ia-main
   cd .kiro/worktrees/013-botao-add-new-task-amarelo
@@ -43,16 +43,16 @@ Antes de começar a implementar, o agent deve:
 Alterar a cor do botão "Add New Task" para amarelo com texto preto.
 
 ## 🎯 Critérios de Aceitação
-- [ ] O botão "Add New Task" deve ter fundo amarelo (`#FFD700`)
-- [ ] O texto do botão deve ser preto (`#000000`)
-- [ ] O hover do botão deve manter harmonia visual (ex: amarelo mais escuro)
-- [ ] Nenhum outro botão da aplicação deve ser afetado
+- [x] O botão "Add New Task" deve ter fundo amarelo (`#FFD700`)
+- [x] O texto do botão deve ser preto (`#000000`)
+- [x] O hover do botão deve manter harmonia visual (ex: amarelo mais escuro)
+- [x] Nenhum outro botão da aplicação deve ser afetado
 
 ## ✅ Definição de Pronto (DoD)
-- [ ] Código implementado no worktree isolado
-- [ ] Build do frontend realizado sem erros
+- [x] Código implementado no worktree isolado
+- [x] Build do frontend realizado sem erros
 - [ ] Teste visual confirmado no browser
-- [ ] Commit e push no branch `feature/013-botao-add-new-task-amarelo`
+- [x] Commit e push no branch `feature/013-botao-add-new-task-amarelo`
 
 ## 🔧 Observações Técnicas
 - **Componente:** `client/src/components/AddTask.jsx`

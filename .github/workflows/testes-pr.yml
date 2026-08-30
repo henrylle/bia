@@ -22,9 +22,9 @@ jobs:
         with:
           node-version: '24'
 
-      # 3. Instala dependências de forma limpa e reproduzível
-      - name: 📦 Instalar dependências (npm ci)
-        run: npm ci
+      # 3. Instala dependências
+      - name: 📦 Instalar dependências
+        run: npm install
 
       # 4. Executa os testes unitários do backend (tests/unit/controllers/)
       - name: 🧪 Executar testes unitários

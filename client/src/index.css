@@ -216,7 +216,8 @@ body {
 
 .task h3 {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
@@ -264,6 +265,17 @@ body {
   padding: 1.5rem;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
+}
+
+.add-form .btn.success {
+  background-color: #FFD700;
+  color: #000000;
+}
+
+.add-form .btn.success:hover {
+  background-color: #e6c200;
+  color: #000000;
+  opacity: 1;
 }
 
 .form-control {
@@ -592,7 +604,7 @@ footer {
 .version-tooltip {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: -8px;
   margin-top: 0.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -974,6 +986,7 @@ footer {
 .version-page {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .version-header {

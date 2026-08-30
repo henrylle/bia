@@ -15,28 +15,26 @@
         "AWS_PROFILE": "formacaoaws"
       }
     }
-},
+  },
   "tools": [
-    "*"
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob",
+    "use_aws"
+  ],
+  "allowedTools": [
+    "read",
+    "grep",
+    "glob"
   ],
   "toolAliases": {},
-  "allowedTools": [
-    "fs_read"
-  ],
+  "toolsSettings": {},
   "resources": [
     "file://README.md",
     "file://.kiro/rules/**/*.md"
   ],
-  "hooks": [],
-  "toolsSettings": {},
-  "includeMcpJson": true,
-  "model": "claude-sonnet-4.5",
-  "permissions": {
-    "rules": [
-      {
-        "capability": "fs_read",
-        "effect": "allow"
-      }
-    ]
-  }
+  "hooks": {},
+  "model": "claude-sonnet-4.5"
 }

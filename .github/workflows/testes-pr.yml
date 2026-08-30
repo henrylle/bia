@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'npm'
 
       # 3. Instala dependências de forma limpa e reproduzível
       - name: 📦 Instalar dependências (npm ci)

@@ -1,10 +1,10 @@
 name: 🧪 Testes Unitários — Pull Request
 
-# Dispara em Pull Requests com destino à branch main
+# Dispara em Pull Requests com destino à branch ia_main
 on:
   pull_request:
     branches:
-      - main
+      - ia_main
 
 jobs:
   testes:

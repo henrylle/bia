@@ -28,7 +28,11 @@ describe('Tarefas Controller', () => {
       update: jest.fn()
     };
 
-    initializeModels.mockResolvedValue({ Tarefas: mockTarefas });
+    const mockTarefaVersoes = {
+      create: jest.fn().mockResolvedValue({})
+    };
+
+    initializeModels.mockResolvedValue({ Tarefas: mockTarefas, TarefaVersoes: mockTarefaVersoes });
     jest.clearAllMocks();
   });
 

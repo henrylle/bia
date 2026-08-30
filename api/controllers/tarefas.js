@@ -22,7 +22,6 @@ module.exports = () => {
         versao: 1,
       });
 
-      await refreshCache();
       res.send(data);
     } catch (err) {
       res.status(500).send({

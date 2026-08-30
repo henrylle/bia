@@ -216,7 +216,8 @@ body {
 
 .task h3 {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }

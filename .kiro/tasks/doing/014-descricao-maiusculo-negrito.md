@@ -17,12 +17,12 @@ Esta task será implementada em worktree isolado em `.kiro/worktrees/014-descric
 
 Antes de começar a implementar, o agent deve:
 
-- [ ] **Verificar branch atual:** `git branch --show-current`
+- [x] **Verificar branch atual:** `git branch --show-current`
   - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
   - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
-- [ ] **Mover task para doing:**
+- [x] **Mover task para doing:**
   ```bash
   mv .kiro/tasks/014-descricao-maiusculo-negrito.md .kiro/tasks/doing/
   git add .kiro/tasks/
@@ -30,7 +30,7 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [ ] **Criar worktree:**
+- [x] **Criar worktree:**
   ```bash
   git worktree add .kiro/worktrees/014-descricao-maiusculo-negrito -b feature/014-descricao-maiusculo-negrito ia-main
   cd .kiro/worktrees/014-descricao-maiusculo-negrito
@@ -43,16 +43,16 @@ Antes de começar a implementar, o agent deve:
 Exibir o texto da descrição (título) de cada tarefa na listagem em letras maiúsculas e negrito.
 
 ## 🎯 Critérios de Aceitação
-- [ ] O título/descrição de cada tarefa deve aparecer em letras maiúsculas
-- [ ] O título/descrição de cada tarefa deve aparecer em negrito (bold)
-- [ ] A alteração deve ser apenas visual — o valor salvo no banco **não deve ser alterado**
-- [ ] Todas as tarefas existentes e novas devem seguir o novo estilo
+- [x] O título/descrição de cada tarefa deve aparecer em letras maiúsculas
+- [x] O título/descrição de cada tarefa deve aparecer em negrito (bold)
+- [x] A alteração deve ser apenas visual — o valor salvo no banco **não deve ser alterado**
+- [x] Todas as tarefas existentes e novas devem seguir o novo estilo
 
 ## ✅ Definição de Pronto (DoD)
-- [ ] Código implementado no worktree isolado
-- [ ] Build do frontend realizado sem erros
+- [x] Código implementado no worktree isolado
+- [x] Build do frontend realizado sem erros
 - [ ] Teste visual confirmado no browser
-- [ ] Commit e push no branch `feature/014-descricao-maiusculo-negrito`
+- [x] Commit e push no branch `feature/014-descricao-maiusculo-negrito`
 
 ## 🔧 Observações Técnicas
 - **Componente:** `client/src/components/Task.jsx`

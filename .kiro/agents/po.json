@@ -6,7 +6,8 @@
     "glob",
     "grep",
     "read",
-    "write"
+    "write",
+    "execute_bash"
   ],
   "allowedTools": [
     "read",
@@ -16,26 +17,15 @@
     "fs_write",
     "shell"
   ],
-  "subAgents": ["dev", "devops", "qa"],
+  "subAgents": [
+    "dev",
+    "devops",
+    "qa"
+  ],
   "toolsSettings": {
     "write": {
       "allowedPaths": [
         ".amazonq/tasks/**"
-      ],
-      "deniedPaths": [
-        "api/**",
-        "client/**",
-        "config/**",
-        "database/**",
-        "docs/**",
-        "lib/**",
-        "n8n/**",
-        "scripts/**",
-        "scripts_evento/**",
-        "tests/**",
-        ".kiro/agents/**",
-        ".kiro/rules/**",
-        ".kiro/settings/**"
       ],
       "shell": {
         "allowedCommands": [
@@ -47,25 +37,6 @@
           "git branch",
           "git log",
           "gh pr create"
-        ],
-        "deniedCommands": [
-          "cat",
-          "echo",
-          "tee",
-          "sed",
-          "mv",
-          "cp",
-          "rm",
-          "touch",
-          "mkdir",
-          "chmod",
-          "dd",
-          "awk",
-          "perl",
-          "python",
-          "node",
-          "curl",
-          "wget"
         ],
         "denyByDefault": true
       }
@@ -81,7 +52,7 @@
     "file://.amazonq/tasks/**/*.md"
   ],
   "includeMcpJson": true,
-  "model": "auto",
+  "model": "claude-sonnet-4.5",
   "permissions": {
     "rules": [
       {

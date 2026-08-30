@@ -266,6 +266,17 @@ body {
   border-bottom: 1px solid var(--border-color);
 }
 
+.add-form .btn.success {
+  background-color: #FFD700;
+  color: #000000;
+}
+
+.add-form .btn.success:hover {
+  background-color: #e6c200;
+  color: #000000;
+  opacity: 1;
+}
+
 .form-control {
   margin-bottom: 1rem;
 }

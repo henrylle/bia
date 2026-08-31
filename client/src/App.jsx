@@ -6,6 +6,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Tasks from "./components/Tasks.jsx";
 import AddTask from "./components/AddTask.jsx";
+import TaskCounter from "./components/TaskCounter.jsx";
 import About from "./components/About.jsx";
 import Version from "./components/Version.jsx";
 import DebugLogs from "./components/DebugLogs.jsx";
@@ -38,6 +39,13 @@ function AppContent() {
         setCacheTTL(response.cacheTTL || null);
         setCacheError(response.cacheError || false);
       }
+
+      // Campo "concluida" é client-only (não existe na API) — inicializa
+      // como false para toda tarefa carregada.
+      tarefas = tarefas.map((tarefa) => ({
+        ...tarefa,
+        concluida: tarefa.concluida ?? false,
+      }));
 
       setTasks(tarefas);
     } catch (error) {
@@ -134,6 +142,24 @@ function AppContent() {
     }
   };
 
+  //Alternar Concluída (estado client-only, sem persistência na API)
+  const toggleConcluida = (uuid) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.uuid === uuid ? { ...task, concluida: !task.concluida } : task
+      )
+    );
+
+    const task = tasks.find((task) => task.uuid === uuid);
+    if (task) {
+      addLog(
+        'INFO',
+        'Conclusão alternada',
+        `Tarefa ${uuid} - Concluída: ${!task.concluida}`
+      );
+    }
+  };
+
   //Adicionar Tarefa
   const addTask = async (task) => {
     const url = `${apiUrl}/api/tarefas`;
@@ -156,7 +182,7 @@ function AppContent() {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
 
-      setTasks([...tasks, data]);
+      setTasks([...tasks, { ...data, concluida: false }]);
       addLog('SUCCESS', 'Tarefa criada', `"${task.titulo}" adicionada com sucesso`);
     } catch (error) {
       logApiError('POST', url, error);
@@ -189,39 +215,48 @@ function AppContent() {
   };
 
   // Componente para página principal
-  const HomePage = () => (
-    <>
-      <AddTask onAdd={addTask} />
+  const HomePage = () => {
+    const pendentesCount = tasks.filter((task) => !task.concluida).length;
+    const concluidasCount = tasks.filter((task) => task.concluida).length;
 
-      {/* Card de acesso rápido ao Analytics */}
-      <div className="analytics-link-wrapper">
-        <a href="/analytics" className="analytics-link-card">
-          <span className="analytics-link-icon">📊</span>
-          <div className="analytics-link-text">
-            <strong>Ver Analytics</strong>
-            <span>Visualize suas tarefas por prioridade</span>
-          </div>
-          <span className="analytics-link-arrow">→</span>
-        </a>
-      </div>
+    return (
+      <>
+        <AddTask onAdd={addTask} />
 
-      {tasks.length > 0 ? (
-        <Tasks
-          tasks={tasks}
-          onDelete={deleteTask}
-          onToggle={toggleReminder}
-          fromCache={fromCache}
-          cacheTTL={cacheTTL}
-          cacheError={cacheError}
-        />
-      ) : (
-        <div className="empty-state">
-          <h3>Nenhuma tarefa por aqui 📝</h3>
-          <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+        {/* Card de acesso rápido ao Analytics */}
+        <div className="analytics-link-wrapper">
+          <a href="/analytics" className="analytics-link-card">
+            <span className="analytics-link-icon">📊</span>
+            <div className="analytics-link-text">
+              <strong>Ver Analytics</strong>
+              <span>Visualize suas tarefas por prioridade</span>
+            </div>
+            <span className="analytics-link-arrow">→</span>
+          </a>
         </div>
-      )}
-    </>
-  );
+
+        {tasks.length > 0 ? (
+          <>
+            <TaskCounter pendentes={pendentesCount} concluidas={concluidasCount} />
+            <Tasks
+              tasks={tasks}
+              onDelete={deleteTask}
+              onToggle={toggleReminder}
+              onToggleConcluida={toggleConcluida}
+              fromCache={fromCache}
+              cacheTTL={cacheTTL}
+              cacheError={cacheError}
+            />
+          </>
+        ) : (
+          <div className="empty-state">
+            <h3>Nenhuma tarefa por aqui 📝</h3>
+            <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="app">

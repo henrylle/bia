@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "./Task.jsx";
 
-const Tasks = ({ tasks, onDelete, onToggle }) => {
+const Tasks = ({ tasks, onDelete, onToggle, onToggleConcluida }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5; // Mostrar 5 tarefas por página
 
@@ -52,6 +52,7 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
             task={task}
             onDelete={onDelete}
             onToggle={onToggle}
+            onToggleConcluida={onToggleConcluida}
           />
         ))}
       </div>

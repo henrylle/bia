@@ -27,12 +27,12 @@ Esta task será implementada em worktree isolado em
 
 Antes de começar a implementar, o agent deve:
 
-- [ ] **Verificar branch atual:** `git branch --show-current`
+- [x] **Verificar branch atual:** `git branch --show-current`
   - Se não estiver em `ia-main`, **PERGUNTAR** ao usuário se pode trocar
   - Aguardar autorização
   - Após autorização: `git checkout ia-main && git pull origin ia-main`
 
-- [ ] **Mover task para doing:**
+- [x] **Mover task para doing:**
   ```bash
   mv .kiro/tasks/001-feat-contador-tasks-pendentes-concluidas.md .kiro/tasks/doing/
   git add .kiro/tasks/
@@ -40,7 +40,7 @@ Antes de começar a implementar, o agent deve:
   git push origin ia-main
   ```
 
-- [ ] **Criar worktree:**
+- [x] **Criar worktree:**
   ```bash
   git worktree add .kiro/worktrees/001-feat-contador-tasks-pendentes-concluidas -b feature/001-feat-contador-tasks-pendentes-concluidas ia-main
   cd .kiro/worktrees/001-feat-contador-tasks-pendentes-concluidas
@@ -67,39 +67,39 @@ lista.
 ## ✅ Critérios de Aceitação
 
 ### Funcionalidades Principais
-- [ ] Existe um indicador textual na Home, posicionado acima ou ao lado da
+- [x] Existe um indicador textual na Home, posicionado acima ou ao lado da
       lista de tasks (ex.: entre o formulário `AddTask` e a lista
       `Tasks`), exibindo a contagem no formato "X pendentes · Y
       concluídas" (separador e wording podem ser ajustados levemente,
       desde que a informação de pendentes e concluídas fique clara).
-- [ ] Cada task passa a ter uma forma de marcar/desmarcar como
+- [x] Cada task passa a ter uma forma de marcar/desmarcar como
       **concluída** na interface (ex.: um checkbox no componente `Task`,
       distinto da estrela de "importante" já existente).
-- [ ] O contador reflete corretamente o estado local das tasks: task nova
+- [x] O contador reflete corretamente o estado local das tasks: task nova
       entra como pendente; ao marcar/desmarcar como concluída, o contador
       atualiza; ao remover uma task, o contador também atualiza.
-- [ ] Quando não há tasks (lista vazia), o contador não é exibido — ou
+- [x] Quando não há tasks (lista vazia), o contador não é exibido — ou
       exibe "0 pendentes · 0 concluídas" —, mantendo consistência com o
       `empty-state` já existente na Home.
 
 ### Interface e UX
-- [ ] O indicador segue o padrão visual já existente no projeto
+- [x] O indicador segue o padrão visual já existente no projeto
       (`client/src/index.css`), sem introduzir bibliotecas novas de UI.
-- [ ] O checkbox/controle de "concluída" tem contraste e área de clique
+- [x] O checkbox/controle de "concluída" tem contraste e área de clique
       adequados, e não conflita visualmente com os botões já existentes
       de "importante" (estrela) e "excluir" (X) no componente `Task`.
-- [ ] Responsivo: o indicador continua legível em telas estreitas
+- [x] Responsivo: o indicador continua legível em telas estreitas
       (mobile), sem quebrar o layout da Home.
 
 ### Integração
-- [ ] Nenhum arquivo dentro de `api/` é alterado nesta task.
-- [ ] O estado de "concluída" é tratado no client (estado do React em
+- [x] Nenhum arquivo dentro de `api/` é alterado nesta task.
+- [x] O estado de "concluída" é tratado no client (estado do React em
       `App.jsx`/`Tasks.jsx`/`Task.jsx`, conforme decisão de implementação
       do dev) — **não é necessário persistir via API** (ver Notas
       Técnicas).
 
 ## 🧪 Testes
-- [ ] Testar funcionalidade localmente (build/dev do client)
+- [x] Testar funcionalidade localmente (build/dev do client)
 - [ ] Validar cenário: criar task nova → contador de pendentes incrementa
 - [ ] Validar cenário: marcar task como concluída → contador de
       concluídas incrementa e pendentes decrementa
@@ -127,39 +127,42 @@ lista.
 ## 🎯 CHECKLIST DE IMPLEMENTAÇÃO (MARCAR DURANTE O TRABALHO)
 
 ### Configuração
-- [ ] Worktree criado e branch correto confirmado
-- [ ] Ambiente de desenvolvimento configurado no worktree
-- [ ] Dependências instaladas (se necessário)
+- [x] Worktree criado e branch correto confirmado
+- [x] Ambiente de desenvolvimento configurado no worktree
+- [x] Dependências instaladas (se necessário)
 
 ### Desenvolvimento (dev)
-- [ ] Definir onde o estado de "concluída" será mantido (sugestão: junto
+- [x] Definir onde o estado de "concluída" será mantido (sugestão: junto
       ao array `tasks` em `App.jsx`, como campo client-only, ex.
       `concluida: false` por padrão ao criar a task)
-- [ ] Implementar handler de toggle de conclusão (ex. `toggleConcluida`),
+- [x] Implementar handler de toggle de conclusão (ex. `toggleConcluida`),
       análogo ao `toggleReminder` já existente, porém sem chamada à API
-- [ ] Adicionar controle visual (checkbox) no componente `Task.jsx` para
+- [x] Adicionar controle visual (checkbox) no componente `Task.jsx` para
       marcar/desmarcar conclusão
-- [ ] Criar componente (ou trecho) do indicador/contador na Home,
+- [x] Criar componente (ou trecho) do indicador/contador na Home,
       calculando pendentes/concluídas a partir do array `tasks`
-- [ ] Posicionar o indicador acima ou ao lado da lista (`Tasks.jsx`) na
+- [x] Posicionar o indicador acima ou ao lado da lista (`Tasks.jsx`) na
       `HomePage` de `App.jsx`
-- [ ] Estilizar o indicador em `client/src/index.css`, reaproveitando
+- [x] Estilizar o indicador em `client/src/index.css`, reaproveitando
       padrões visuais existentes (cores, espaçamento, cards)
-- [ ] Garantir que criar, concluir/desconcluir e remover tasks atualiza o
+- [x] Garantir que criar, concluir/desconcluir e remover tasks atualiza o
       contador dinamicamente (sem reload de página)
 
 ### Testes
-- [ ] Testes manuais realizados cobrindo os cenários da seção 🧪 Testes
-- [ ] Cenários de borda testados (lista vazia, todas pendentes, todas
-      concluídas)
+- [x] Testes manuais realizados cobrindo os cenários da seção 🧪 Testes
+      (validação de código/lógica + build/dev server pelo dev; validação
+      interativa completa via Playwright a cargo do qa)
+- [x] Cenários de borda testados (lista vazia, todas pendentes, todas
+      concluídas) — via revisão de código (`tasks.length === 0` oculta o
+      contador; contagens usam `filter` sobre o array completo)
 
 ### Finalização (dev)
-- [ ] Código revisado
-- [ ] Commits finalizados com mensagens descritivas
-- [ ] Push do branch realizado
-- [ ] Rebuild completo dos containers (`docker compose down` → `build` →
+- [x] Código revisado
+- [x] Commits finalizados com mensagens descritivas
+- [x] Push do branch realizado
+- [x] Rebuild completo dos containers (`docker compose down` → `build` →
       `up`) e confirmação de que `/api/versao` responde
-- [ ] Notificar o **qa** para validação via Playwright
+- [x] Notificar o **qa** para validação via Playwright
 
 ### Validação (qa)
 - [ ] Abrir a Home via Playwright e confirmar que o contador aparece com

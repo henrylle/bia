@@ -110,16 +110,16 @@ lista.
 - [ ] Testar responsividade (mobile/desktop)
 
 ## 📚 Definição de Pronto (DoD)
-- [ ] Código implementado e testado
-- [ ] Todos os itens do checklist marcados ✅
-- [ ] Commits descritivos e frequentes
-- [ ] Push do branch realizado
-- [ ] Código segue padrões do projeto (React funcional, hooks, CSS
+- [x] Código implementado e testado
+- [ ] Todos os itens do checklist marcados ✅ (pendente validação do qa)
+- [x] Commits descritivos e frequentes
+- [x] Push do branch realizado
+- [x] Código segue padrões do projeto (React funcional, hooks, CSS
       existente em `client/src/index.css`)
-- [ ] Nenhuma alteração em `api/`
+- [x] Nenhuma alteração em `api/`
 - [ ] QA validou via Playwright que o contador aparece e atualiza
       corretamente (ver seção QA abaixo)
-- [ ] Rebuild dos containers realizado conforme regra do dev
+- [x] Rebuild dos containers realizado conforme regra do dev
       (`.kiro/agents/dev/instrucoes.md`) e `/api/versao` respondendo
 
 ---

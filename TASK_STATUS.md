@@ -90,6 +90,86 @@
 - [x] Commit com mensagem descritiva completa
 - [x] Branch confirmado: feature/009-feat-github-actions-ci-melhorado
 
+## ⚠️ BLOQUEIO CRÍTICO - Permissões Insuficientes
+
+### Problema de Permissões no GitHub
+
+**Diagnóstico Completo:**
+```json
+{
+  "viewerCanAdminister": false,
+  "viewerPermission": "READ"
+}
+```
+
+**Usuário atual:** Rodrigo-Cloud1  
+**Repositório:** henrylle/bia  
+**Permissão:** READ (apenas leitura)  
+**Necessário:** WRITE ou ADMIN (para push de branches)
+
+**Impacto:**
+- ❌ Impossível fazer push do branch feature
+- ❌ Impossível fazer push do commit ia-main
+- ❌ Impossível criar Pull Request diretamente
+- ✅ Commit local criado com sucesso
+- ✅ Implementação completa no worktree
+
+### Soluções Possíveis
+
+#### Opção 1: Adicionar Permissão ao Usuário (RECOMENDADO)
+O proprietário do repositório (henrylle) precisa:
+1. Acessar: https://github.com/henrylle/bia/settings/access
+2. Adicionar `Rodrigo-Cloud1` como colaborador com permissão WRITE ou ADMIN
+3. Aguardar aceitação do convite
+4. Após aceitar, fazer push:
+   ```bash
+   cd .kiro/worktrees/009-feat-github-actions-ci-melhorado
+   git push -u origin feature/009-feat-github-actions-ci-melhorado
+   ```
+
+#### Opção 2: Usuário henrylle Fazer Push
+Se henrylle tiver acesso ao worktree:
+```bash
+cd .kiro/worktrees/009-feat-github-actions-ci-melhorado
+# Configurar credenciais do henrylle
+gh auth login
+# Fazer push
+git push -u origin feature/009-feat-github-actions-ci-melhorado
+```
+
+#### Opção 3: Fork e Pull Request
+Criar fork do repositório (mais complexo, não recomendado para colaboração):
+1. Fork do repositório henrylle/bia
+2. Adicionar fork como remote
+3. Push para fork
+4. Criar PR do fork para o repositório original
+
+### Status Atual dos Commits
+
+**Commit 1 (ia-main) - LOCAL:**
+```
+commit: daa4549
+branch: ia-main
+message: "move: task 009 para doing"
+status: Não enviado ao GitHub (sem permissão)
+```
+
+**Commit 2 (feature branch) - LOCAL:**
+```
+commit: 2d0a1dc
+branch: feature/009-feat-github-actions-ci-melhorado
+message: "feat: implementa CI melhorado com cache, matrix e coverage"
+status: Não enviado ao GitHub (sem permissão)
+```
+
+**Commit 3 (feature branch) - LOCAL:**
+```
+commit: 06b0495
+branch: feature/009-feat-github-actions-ci-melhorado
+message: "docs: adiciona status detalhado da implementação da task 009"
+status: Não enviado ao GitHub (sem permissão)
+```
+
 ## ⚠️ Pendências (Requerem Resolução)
 
 ### 1. Push para GitHub - BLOQUEADO

@@ -40,6 +40,32 @@
       "react-app"
     ]
   },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": false,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "collectCoverageFrom": [
+      "controllers/**/*.js",
+      "routes/**/*.js",
+      "models/**/*.js",
+      "config/**/*.js",
+      "!**/node_modules/**",
+      "!**/tests/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    }
+  },
   "devDependencies": {
     "jest": "^27.5.1",
     "sequelize-cli": "^6.2.0"

@@ -3,7 +3,7 @@
 ## Filosofia de Desenvolvimento
 - **Público-alvo:** Alunos em aprendizado
 - **Abordagem:** Simplicidade acima de complexidade
-- **Objetivo:** Facilitar compreensão de quem que está na etapa inicial da jornada
+- **Objetivo:** Facilitar compreensão de quem está na etapa inicial da jornada
 
 ## Regras Obrigatórias para Dockerfiles
 
@@ -53,7 +53,7 @@ docker build -t bia-app .
 docker run -p 3001:8080 bia-app
 
 # Teste do health check
-curl http://localhost:3000/api/versao
+curl http://localhost:3001/api/versao
 ```
 
 ## O que NÃO fazer

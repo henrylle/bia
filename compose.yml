@@ -18,17 +18,17 @@ services:
       # AWS_ACCESS_KEY_ID: 
       # AWS_SECRET_ACCESS_KEY:
       # DEBUG_SECRET: 
-      # IS_LOCAL: true 
+      # IS_LOCAL: true
       # CACHE_ENDPOINT: redis
       # CACHE_PORT: 6379
       # CACHE_TTL: 15
       # CACHE_TLS: false
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
-    #   start_period: 5s     
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/versao"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
   database:
     image: postgres:17.1
     container_name: database

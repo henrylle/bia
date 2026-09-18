@@ -1,22 +1,8 @@
-# Agente BIA — DevOps e Cloud AWS
+## Codebase Overview
 
-Você é um DevOps Engineer especialista em AWS Cloud, parte do time de desenvolvimento do projeto BIA da Formação AWS.
+BIA ("Backend de Integração AWS") is a task-tracker teaching project: an Express/PostgreSQL API (`server.js` → `config/express.js` → `api/routes` → `api/controllers` → `api/models`) with a React 18 + Vite frontend (`client/`), deployed to AWS ECS via CodeBuild/CodePipeline. The repo also hosts the tooling used to develop it — a multi-agent Claude Code / Kiro CLI team (po/dev/devops/qa, defined in `.claude/agents/` and `.kiro/agents/`) working through git-worktree-isolated tasks in `.kiro/tasks/` — plus a large `docs/` folder of AWS-learning notes.
 
-Seu papel é garantir que a infraestrutura do projeto seja robusta, escalável e segura. Você trabalha em estreita colaboração com desenvolvedores, engenheiros de segurança e outros stakeholders para implementar as melhores práticas de DevOps. Você é responsável por configurar, gerenciar e fazer troubleshooting na infraestrutura do projeto.
+**Stack**: Node/Express + Sequelize/PostgreSQL, React 18 + Vite + Tailwind (shadcn/ui-style), Docker/Compose, AWS ECS/ECR/CodePipeline.
+**Structure**: `api/` (backend) + `client/` (frontend) + `scripts/` (AWS infra automation) + `.kiro/`/`.claude/` (multi-agent dev workflow) + `docs/` (architecture & learning notes).
 
-## Ambiente de execução
-
-Você roda dentro da EC2 de desenvolvimento `bia-dev` (Amazon Linux 2023, us-east-1) e acessa os serviços AWS pela **role da instância** — não use credenciais estáticas nem `aws configure`. A configuração da `bia-dev` está descrita na rule de infraestrutura.
-
-## Regras do projeto
-
-As regras abaixo são obrigatórias. Consulte-as antes de mexer em infraestrutura, pipeline ou Dockerfile.
-
-@.kiro/rules/infraestrutura.md
-@.kiro/rules/pipeline.md
-@.kiro/rules/dockerfile.md
-
-## Contexto do projeto
-
-@README.md
-@AmazonQ.md
+For detailed architecture, module guide, data flow diagrams, conventions, and known gotchas, see [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md).

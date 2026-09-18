@@ -30,8 +30,43 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#playwright
-.playwright-mcp/*
+# Playwright MCP artifacts
+.playwright-mcp/
 
-#mcp local
+# Kiro worktrees
+.kiro/worktrees/
+
+# Scripts de conexão temporários
+connect_bia_dev.sh
+
+# Scripts e relatórios pessoais dos desafios DevOps (contêm dados sensíveis
+# de conta AWS não redigidos — ver desafios-devops/README.md)
+/desafios-devops/
+
+# Pacotes de instalação
+*.deb
+
+# Config de deploy gerado automaticamente (extrair_config_deploy.sh)
+/deploy-config.md
+
+# ID da instância porteiro, gerado por scripts/lancar_porteiro_zona_b.sh
+.porteiro_instance_id
+
+# Log de execução do agendamento via crontab (scripts/agendar_ec2_crontab.sh)
+scripts/ec2_agendamento.log
+
+# Logs do orquestrador do Desafio 4 (scripts/orquestrar_desafio4.sh)
+/logs/
+
+# Metadado do Windows (NTFS zone identifier) que vem junto de arquivos
+# baixados pelo navegador e acaba aparecendo em pastas montadas do WSL
+*:Zone.Identifier
+
+# Metadado de personalização de pasta que o Explorer/OneDrive cria
+# sozinho ao navegar em docs/ pelo link simbólico bia-docs
+desktop.ini
+
+deploy-*.log
+
+# mcp local
 .mcp.json

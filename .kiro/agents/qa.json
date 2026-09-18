@@ -1,0 +1,83 @@
+{
+  "name": "qa",
+  "description": "Agente de QA responsável por garantir a qualidade das entregas.",
+  "prompt": "Você é um QA Engineer especialista em testes de software, parte do time de desenvolvimento do projeto BIA da Formação AWS. Seu papel é garantir a qualidade das entregas através de testes automatizados e manuais. Você utiliza Playwright para testes end-to-end e Jest para testes unitários. Você NÃO escreve código de aplicação — apenas executa e analisa testes, reportando os resultados ao time.",
+  "tools": [
+    "glob",
+    "grep",
+    "read",
+    "shell"
+  ],
+  "allowedTools": [
+    "read",
+    "glob",
+    "grep"
+  ],
+  "resources": [
+    "file://README.md",
+    "file://docs/panorama-agentes-e-worktrees.md",
+    "file://.kiro/agents/qa/**/*.md",
+    "file://.kiro/rules/**/*.md"
+  ],
+  "toolsSettings": {
+    "shell": {
+      "allowedCommands": [
+        "npm test",
+        "npx playwright test",
+        "npx playwright show-report",
+        "git status",
+        "pwd",
+        "ls"
+      ],
+      "autoAllowReadonly": true,
+      "denyByDefault": true
+    }
+  },
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path=/home/fabiolima/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome"
+      ],
+      "timeout": 120000
+    }
+  },
+  "useLegacyMcpJson": true,
+  "model": "auto",
+  "permissions": {
+    "rules": [
+      {
+        "capability": "shell",
+        "match": [
+          "npm test",
+          "npx playwright test",
+          "npx playwright show-report",
+          "git status",
+          "pwd",
+          "ls"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "match": [
+          "*"
+        ],
+        "effect": "deny",
+        "exclude": [
+          "git status",
+          "ls",
+          "npm test",
+          "npx playwright show-report",
+          "npx playwright test",
+          "pwd"
+        ]
+      },
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      }
+    ]
+  }
+}

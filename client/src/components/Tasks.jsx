@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaBolt, FaDatabase, FaTrash, FaExclamationTriangle } from "react-icons/fa";
 import Task from "./Task.jsx";
 
-const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL, cacheError }) => {
+const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, onToggleConcluida, fromCache, cacheTTL, cacheError }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [countdown, setCountdown] = useState(cacheTTL);
   const tasksPerPage = 5; // Mostrar 5 tarefas por página
@@ -81,6 +81,7 @@ const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL, ca
             task={task}
             onDelete={onDelete}
             onToggle={onToggle}
+            onToggleConcluida={onToggleConcluida}
           />
         ))}
       </div>

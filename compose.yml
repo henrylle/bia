@@ -12,6 +12,7 @@ services:
       DB_PWD: postgres
       DB_HOST: database
       DB_PORT: 5432
+      # RUN_MIGRATIONS: true   # aplica as migrations ao subir (útil com banco privado)
       ## NAO PRECISA NA IMERSÃO DAQUI PRA BAIXO ## 
       # DB_SECRET_NAME: 
       # DB_REGION: 

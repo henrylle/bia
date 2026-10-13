@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest tests/unit",
-    "start": "node server",
+    "start": "node start.js",
     "start_db": "node config/database.js"
   },
   "repository": {

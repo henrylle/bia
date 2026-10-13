@@ -1,0 +1,91 @@
+<svg width="1200" height="1040" viewBox="0 0 1200 1040" xmlns="http://www.w3.org/2000/svg">
+<style>
+  text { font-family: 'Helvetica Neue', Arial, sans-serif; }
+</style>
+<rect width="1200" height="1040" fill="#ffffff"/>
+
+<!-- Header -->
+<text x="60" y="56" font-size="32" font-weight="700" fill="#1a1a1a">SSH vs SSM — dois modelos de acesso remoto</text>
+<text x="60" y="88" font-size="16" fill="#5f5e5a">Comparação prática feita numa instância EC2 real — Formação AWS 2026</text>
+<line x1="60" y1="108" x2="1140" y2="108" stroke="#e5e3da" stroke-width="1"/>
+
+<!-- Why box -->
+<rect x="60" y="128" width="1080" height="92" rx="12" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="1"/>
+<text x="84" y="158" font-size="15" font-weight="700" fill="#26215C">Por que essa comparação importa</text>
+<text x="84" y="182" font-size="14" fill="#3C3489">Não é sobre qual é "melhor" — é sobre onde fica o controle de acesso: um arquivo</text>
+<text x="84" y="202" font-size="14" fill="#3C3489">que alguém precisa guardar e revogar (SSH), ou uma identidade gerenciada pela AWS (SSM).</text>
+
+<!-- Table -->
+<rect x="60" y="258" width="250" height="50" fill="#F1EFE8"/>
+<rect x="320" y="258" width="390" height="50" fill="#F5C4B3"/>
+<rect x="720" y="258" width="390" height="50" fill="#9FE1CB"/>
+<text x="80" y="288" font-size="15" font-weight="700" fill="#2C2C2A">Aspecto</text>
+<text x="340" y="288" font-size="15" font-weight="700" fill="#4A1B0C">SSH (tradicional)</text>
+<text x="740" y="288" font-size="15" font-weight="700" fill="#04342C">SSM (usado no BIA-DEV)</text>
+
+<!-- Row 0 -->
+<rect x="60" y="308" width="1050" height="64" fill="#ffffff"/>
+<text x="80" y="346" font-size="15" font-weight="700" fill="#2C2C2A">O que precisa existir</text>
+<text x="340" y="346" font-size="14" fill="#712B13">Chave .pem + porta 22 aberta</text>
+<text x="740" y="346" font-size="14" fill="#085041">IAM Role anexada à instância</text>
+<line x1="60" y1="372" x2="1110" y2="372" stroke="#E5E3DA" stroke-width="1"/>
+
+<!-- Row 1 -->
+<rect x="60" y="372" width="1050" height="64" fill="#F9F8F6"/>
+<text x="80" y="410" font-size="15" font-weight="700" fill="#2C2C2A">Superfície exposta</text>
+<text x="340" y="410" font-size="14" fill="#712B13">Porta 22 real, sempre ouvindo</text>
+<text x="740" y="410" font-size="14" fill="#085041">Nenhuma porta aberta</text>
+<line x1="60" y1="436" x2="1110" y2="436" stroke="#E5E3DA" stroke-width="1"/>
+
+<!-- Row 2 -->
+<rect x="60" y="436" width="1050" height="64" fill="#ffffff"/>
+<text x="80" y="474" font-size="15" font-weight="700" fill="#2C2C2A">Se a credencial vazar</text>
+<text x="340" y="474" font-size="14" fill="#712B13">Acesso permanente até trocar a chave</text>
+<text x="740" y="474" font-size="14" fill="#085041">Revogável na hora, via IAM</text>
+<line x1="60" y1="500" x2="1110" y2="500" stroke="#E5E3DA" stroke-width="1"/>
+
+<!-- Row 3 -->
+<rect x="60" y="500" width="1050" height="64" fill="#F9F8F6"/>
+<text x="80" y="538" font-size="15" font-weight="700" fill="#2C2C2A">Quem acessou, e quando</text>
+<text x="340" y="538" font-size="14" fill="#712B13">Só no log local (auth.log)</text>
+<text x="740" y="538" font-size="14" fill="#085041">Registrado no CloudTrail</text>
+<line x1="60" y1="564" x2="1110" y2="564" stroke="#E5E3DA" stroke-width="1"/>
+
+<!-- Row 4 -->
+<rect x="60" y="564" width="1050" height="64" fill="#ffffff"/>
+<text x="80" y="602" font-size="15" font-weight="700" fill="#2C2C2A">Setup necessário</text>
+<text x="340" y="602" font-size="14" fill="#712B13">Simples — chave + regra de firewall</text>
+<text x="740" y="602" font-size="14" fill="#085041">Mais peças: Role, policy, agente</text>
+<line x1="60" y1="628" x2="1110" y2="628" stroke="#E5E3DA" stroke-width="1"/>
+
+<!-- Row 5 -->
+<rect x="60" y="628" width="1050" height="64" fill="#F9F8F6"/>
+<text x="80" y="666" font-size="15" font-weight="700" fill="#2C2C2A">Funciona sem AWS CLI</text>
+<text x="340" y="666" font-size="14" fill="#712B13">Sim, qualquer cliente SSH</text>
+<text x="740" y="666" font-size="14" fill="#085041">Não, depende do ecossistema AWS</text>
+
+<!-- Table borders -->
+<rect x="60" y="258" width="1050" height="434" fill="none" stroke="#D3D1C7" stroke-width="1"/>
+<line x1="320" y1="258" x2="320" y2="692" stroke="#D3D1C7" stroke-width="1"/>
+<line x1="720" y1="258" x2="720" y2="692" stroke="#D3D1C7" stroke-width="1"/>
+
+<!-- Scenario cards -->
+<rect x="60" y="722" width="510" height="232" rx="12" fill="#FAECE7" stroke="#F0997B" stroke-width="1"/>
+<text x="84" y="756" font-size="17" font-weight="700" fill="#4A1B0C">Quando usar SSH</text>
+<text x="84" y="792" font-size="14" fill="#712B13">•  MVP ou projeto pessoal</text>
+<text x="84" y="822" font-size="14" fill="#712B13">•  Instância descartável, uso pontual</text>
+<text x="84" y="852" font-size="14" fill="#712B13">•  Você é o único a acessar</text>
+<text x="84" y="882" font-size="14" fill="#712B13">•  Sem exigência formal de auditoria</text>
+<text x="84" y="922" font-size="13" font-weight="700" fill="#993C1D">Simples, rápido, suficiente pra um MVP.</text>
+
+<rect x="630" y="722" width="510" height="232" rx="12" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="1"/>
+<text x="654" y="756" font-size="17" font-weight="700" fill="#04342C">Quando usar SSM</text>
+<text x="654" y="792" font-size="14" fill="#085041">•  Time com várias pessoas acessando</text>
+<text x="654" y="822" font-size="14" fill="#085041">•  Produção, exigência de compliance</text>
+<text x="654" y="852" font-size="14" fill="#085041">•  Precisa revogar acesso central e rápido</text>
+<text x="654" y="882" font-size="14" fill="#085041">•  Zero porta aberta é requisito</text>
+<text x="654" y="922" font-size="13" font-weight="700" fill="#0F6E56">Mais peças, mais controle, mais auditável.</text>
+
+<!-- Footer -->
+<text x="600" y="1000" text-anchor="middle" font-size="12" fill="#888780">Comparação prática — Formação AWS 2026 · projeto BIA-DEV</text>
+</svg>

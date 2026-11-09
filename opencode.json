@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".kiro/rules/*.md",
+    "AmazonQ.md"
+  ],
+  "mcp": {
+    "aws-mcp": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-proxy-for-aws@latest",
+        "https://aws-mcp.us-east-1.api.aws/mcp",
+        "--metadata",
+        "AWS_REGION=us-east-1"
+      ],
+      "environment": {
+        "AWS_PROFILE": "formacaoaws",
+        "AWS_REGION": "us-east-1"
+      },
+      "enabled": true
+    }
+  }
+}

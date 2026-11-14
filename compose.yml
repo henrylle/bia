@@ -1,6 +1,9 @@
 services:
   server:
-    build: .
+    build:
+      context: .
+      args:
+        - VITE_LANG   # VITE_LANG=es docker compose up -d --build: tela em espanhol
     container_name: bia
     ports:
       - 3001:8080

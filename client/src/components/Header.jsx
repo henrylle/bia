@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "../i18n";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext.jsx";
 import VersionInfo from "./VersionInfo";
@@ -14,7 +15,7 @@ const Header = ({ title }) => {
         <button 
           className="theme-toggle" 
           onClick={toggleTheme}
-          title={isDarkMode ? "Tema claro" : "Tema escuro"}
+          title={isDarkMode ? t("temaClaro") : t("temaEscuro")}
         >
           {isDarkMode ? <FaSun /> : <FaMoon />}
         </button>

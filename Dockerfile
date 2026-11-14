@@ -18,7 +18,9 @@ RUN cd client && npm install --legacy-peer-deps --loglevel=error
 COPY . .
 
 # Build do front-end com Vite
-RUN cd client && VITE_API_URL=http://localhost:3001 npm run build
+# Idioma da tela: --build-arg VITE_LANG=es (ou VITE_LANG=es no docker compose) deixa em espanhol; sem ele, português.
+ARG VITE_LANG=pt
+RUN cd client && VITE_LANG=$VITE_LANG VITE_API_URL=http://localhost:3001 npm run build
 
 # Limpeza das dependências de desenvolvimento do client para reduzir tamanho
 RUN cd client && npm prune --production && rm -rf node_modules/.cache

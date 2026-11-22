@@ -1,4 +1,5 @@
 import React from 'react';
+import { t } from "../i18n";
 
 const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'info' }) => {
   if (!isOpen) return null;
@@ -34,7 +35,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'info' }) =>
       <div className={`modal-content ${getTypeClass()}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <span className="modal-icon">{getIcon()}</span>
-          <h3 className="modal-title">{title || 'Atenção'}</h3>
+          <h3 className="modal-title">{title || t("atencao")}</h3>
         </div>
         <div className="modal-body">
           <p>{message}</p>
@@ -43,10 +44,10 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message, type = 'info' }) =>
           {onConfirm ? (
             <>
               <button className="modal-btn modal-btn-cancel" onClick={onClose}>
-                Cancelar
+                {t("cancelar")}
               </button>
               <button className="modal-btn modal-btn-confirm" onClick={onConfirm}>
-                Confirmar
+                {t("confirmar")}
               </button>
             </>
           ) : (

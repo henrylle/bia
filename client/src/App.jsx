@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { t } from "./i18n";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 import { LogProvider, useLog } from "./contexts/LogContext.jsx";
@@ -221,16 +222,16 @@ function AppContent() {
         />
       ) : (
         <div className="empty-state">
-          <h3>Nenhuma tarefa por aqui 📝</h3>
-          <p>Adicione sua primeira tarefa usando o formulário acima!</p>
+          <h3>{t("vazioTitulo")}</h3>
+          <p>{t("vazioTexto")}</p>
         </div>
       )}
       <Modal
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
         onConfirm={deleteAllTasks}
-        title="Limpar tudo"
-        message="Tem certeza que deseja excluir todas as tarefas?"
+        title={t("limparTudo")}
+        message={t("limparTudoConfirma")}
         type="warning"
       />
     </>

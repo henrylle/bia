@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "../i18n";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
       <div className="footer-content">
         <p>Formação AWS</p>
         <Link to="/about" className="footer-link">
-          Sobre a BIA
+          {t("sobre")}
         </Link>
       </div>
     </footer>

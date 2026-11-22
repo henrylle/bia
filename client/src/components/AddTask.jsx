@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { t } from "../i18n";
 import Modal from "./Modal";
 
 const AddTask = ({ onAdd }) => {
@@ -29,20 +30,20 @@ const AddTask = ({ onAdd }) => {
   return (
     <form className="add-form" onSubmit={onSubmit}>
       <div className="form-control">
-        <label>Tarefa</label>
+        <label>{t("tarefa")}</label>
         <input
           type="text"
-          placeholder="O que você precisa fazer?"
+          placeholder={t("tarefaPlaceholder")}
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
         />
       </div>
       
       <div className="form-control">
-        <label>Data/Prazo</label>
+        <label>{t("prazo")}</label>
         <input
           type="text"
-          placeholder="Quando?"
+          placeholder={t("prazoPlaceholder")}
           value={dia}
           onChange={(e) => setDia(e.target.value)}
         />
@@ -55,18 +56,18 @@ const AddTask = ({ onAdd }) => {
           checked={importante}
           onChange={(e) => setImportante(e.target.checked)}
         />
-        <label htmlFor="importante">Importante</label>
+        <label htmlFor="importante">{t("importante")}</label>
       </div>
       
       <button type="submit" className="btn btn-block success">
-        Add New Task
+        {t("adicionar")}
       </button>
       
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Campo obrigatório"
-        message="Por favor, adicione uma descrição para a tarefa"
+        title={t("campoObrigatorio")}
+        message={t("descricaoObrigatoria")}
         type="warning"
       />
     </form>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { t } from "../i18n";
 import { FaBolt, FaDatabase, FaTrash, FaExclamationTriangle } from "react-icons/fa";
 import Task from "./Task.jsx";
 
@@ -99,7 +100,7 @@ const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL, ca
               className="pagination-btn"
               onClick={goToPrevious}
               disabled={currentPage === 1}
-              title="Página anterior"
+              title={t("paginaAnterior")}
             >
               ‹
             </button>
@@ -140,13 +141,13 @@ const Tasks = ({ tasks, onDelete, onDeleteAll, onToggle, fromCache, cacheTTL, ca
               className="pagination-btn"
               onClick={goToNext}
               disabled={currentPage === totalPages}
-              title="Próxima página"
+              title={t("proximaPagina")}
             >
               ›
             </button>
           </div>
 
-          <button className="btn-delete-all" onClick={onDeleteAll} title="Excluir todas as tarefas">
+          <button className="btn-delete-all" onClick={onDeleteAll} title={t("excluirTodas")}>
             <FaTrash /> Limpar tudo
           </button>
         </div>
